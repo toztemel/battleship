@@ -3,22 +3,19 @@ package app.game;
 import app.game.api.client.BattleshipClient;
 import app.game.api.firing.FiringRequest;
 import app.game.api.firing.FiringResponse;
-import app.game.api.firing.Game;
-import app.game.api.firing.Shots;
 import app.game.api.game.NewGame;
-import app.game.api.util.ResourcePath;
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import javax.ws.rs.core.Response;
 
+import static app.game.TestUtil.*;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
-public class BattleshipAPIEndToEndTest {
-
-    private static final String LOCALHOST_7000 = "http://localhost:7000";
+public class BattleshipGameE2ETest {
 
     private BattleshipGame game;
     private BattleshipClient client;
@@ -36,39 +33,51 @@ public class BattleshipAPIEndToEndTest {
         game.stop();
     }
 
+    @Ignore
     @Test
     public void game_sends_an_invitation_when_user_starts_a_new_game() {
-        FiringRequest fire = new FiringRequest();
-        fire.setShots(new String[]{"1xB", "0xA","5x1"});
+    }
 
-        Response response = client.put(ResourcePath.Protocol.FIRE, fire);
+    @Ignore
+    @Test
+    public void game_responds_with_error_to_firing_without_initialization() {
+    }
+
+    @Ignore
+    @Test
+    public void game_responds_with_error_to_firing_after_game_ends() {
+    }
+
+    @Test
+    public void game_responds_to_firing_after_initialization() {
+        String gameId = startNewGame(client)
+                .getGameId();
+
+        FiringRequest fire = getFiringRequest();
+        Response response = client.fireFriend(gameId, fire);
 
         assertEquals(200, response.getStatus());
 
         FiringResponse firingResponse = response.readEntity(FiringResponse.class);
-        Game game = firingResponse.getGame();
-        assertNotNull(game);
-        assertEquals("challanger-Y", game.getOwner());
-        assertEquals("player_turn", game.getStatus());
 
-        Shots shots = firingResponse.getShots();
-        assertNotNull(shots);
-        assertEquals("hit", shots.get("1xB"));
-        assertEquals("kill", shots.get("0xA"));
-        assertEquals("miss", shots.get("5x1"));
+        assertNotNull(firingResponse.getGame());
+        assertEquals("challanger-Y", firingResponse.getGame().getOwner());
+        assertEquals("player_turn", firingResponse.getGame().getStatus());
+
+        assertNotNull(firingResponse.getShots());
+        assertEquals("hit", firingResponse.getShots().get("1xB"));
+        assertEquals("kill", firingResponse.getShots().get("0xA"));
+        assertEquals("miss", firingResponse.getShots().get("5x1"));
     }
+
 
     @Test
     public void game_responds_to_a_new_game_invitation() {
-        NewGame newGameRequest = new NewGame();
-        newGameRequest.setUserId("challenger-X");
-        newGameRequest.setFullName("Lunatech NL Champion");
-        newGameRequest.setProtocol("192.168.0.10:8080");
-        newGameRequest.setRules("standard");
-
-        Response response = client.post(ResourcePath.Protocol.NEW_GAME, newGameRequest);
+        NewGame newGameRequest = newGameRequest();
+        Response response = client.challangeFriend(newGameRequest);
 
         assertEquals(201, response.getStatus());
+
         NewGame newGame = response.readEntity(NewGame.class);
         assertEquals("challenger-Y", newGame.getUserId());
         assertEquals("Lunatech FR Champion", newGame.getFullName());
@@ -76,4 +85,5 @@ public class BattleshipAPIEndToEndTest {
         assertEquals("challenger-X", newGame.getStarting());
         assertEquals("standard", newGame.getRules());
     }
+
 }

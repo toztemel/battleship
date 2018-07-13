@@ -1,6 +1,9 @@
 package app.game.api.client;
 
+import app.game.api.firing.FiringRequest;
+import app.game.api.game.NewGame;
 import app.game.api.mapper.BattleshipObjectMapper;
+import app.game.api.util.ResourcePath.Protocol;
 import org.glassfish.jersey.jackson.JacksonFeature;
 
 import javax.ws.rs.client.ClientBuilder;
@@ -24,14 +27,22 @@ public class BattleshipClient {
                 .target(uri);
     }
 
-    public Response post(String resource, Object request) {
+    public Response challangeFriend(NewGame newGame) {
+        return post(Protocol.NEW_GAME, newGame);
+    }
+
+    public Response fireFriend(String gameId, FiringRequest fire) {
+        return put("/protocol/game/" + gameId, fire);
+    }
+
+    private Response post(String resource, Object request) {
         return target.path(resource)
                 .request(JSON)
                 .header("some-header", "true")
                 .post(Entity.entity(request, JSON));
     }
 
-    public Response put(String resource, Object request) {
+    private Response put(String resource, Object request) {
         return target.path(resource)
                 .request(JSON)
                 .put(Entity.entity(request, JSON));

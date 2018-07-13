@@ -1,5 +1,6 @@
 package app.game.api.firing;
 
+import io.javalin.Context;
 import io.javalin.Handler;
 
 public class FireController {
@@ -11,6 +12,9 @@ public class FireController {
 
     private Handler createHandler() {
         return ctx -> {
+            String gameId = ctx.param("gameId");
+            System.out.println(gameId);
+
             FiringRequest firingRequest = ctx.bodyAsClass(FiringRequest.class);
             Shots shots = new Shots();
             shots.put(firingRequest.getShots()[0], "hit");
@@ -28,8 +32,11 @@ public class FireController {
         };
     }
 
+    public static Handler fire(Context context) {
+        return new FireController().createHandler();
+    }
+
     public Handler firingHandler() {
         return handler;
     }
-
 }
