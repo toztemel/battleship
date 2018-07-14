@@ -1,6 +1,6 @@
-package app.game.common;
+package app.game.fire;
 
-public class Coordinates {
+public final class Coordinates {
 
     private final int row;
     private final int column;
@@ -40,4 +40,5 @@ public class Coordinates {
         }
         return new Coordinates(row - offset.row, column - offset.column);
     }
+
 }

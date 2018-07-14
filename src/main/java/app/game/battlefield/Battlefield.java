@@ -1,29 +1,33 @@
 package app.game.battlefield;
 
-import app.game.common.Coordinates;
+import app.game.fire.Coordinates;
 import app.game.ship.Ship;
-import app.game.util.Utility;
+import app.game.util.DoubleArrays;
+
+import static app.game.battlefield.Constants.*;
 
 public class Battlefield {
-
-    private static final int SIZE = 16;
 
     private Ship[][] field;
 
     Battlefield() {
-        field = new Ship[SIZE][SIZE];
-        Utility.fillEmpty(field);
+        initializeField();
     }
 
-    int getLength() {
+    private void initializeField() {
+        field = new Ship[BATTLEFIELD_SIZE][BATTLEFIELD_SIZE];
+        DoubleArrays.fillEmpty(field);
+    }
+
+    int length() {
         return field.length;
     }
 
-    int getWidth() {
+    int width() {
         return field[0].length;
     }
 
-    void insert(Ship ship, Coordinates coordinates) {
+    void insertAt(Ship ship, Coordinates coordinates) {
         int row = coordinates.row();
         int column = coordinates.column();
         for (int i = 0; i < ship.length(); i++) {
@@ -32,10 +36,10 @@ public class Battlefield {
                 ship.insertedAt(coordinates);
             }
         }
-        Utility.print2DArray(field);
+        DoubleArrays.print2DArray(field);
     }
 
-    Ship getCell(Coordinates c) {
+    Ship shipAt(Coordinates c) {
         return field[c.row()][c.column()];
     }
 }

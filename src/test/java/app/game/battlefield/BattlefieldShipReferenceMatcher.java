@@ -1,6 +1,6 @@
 package app.game.battlefield;
 
-import app.game.common.Coordinates;
+import app.game.fire.Coordinates;
 import app.game.ship.Ship;
 import org.hamcrest.Description;
 import org.hamcrest.TypeSafeMatcher;
@@ -29,12 +29,20 @@ public class BattlefieldShipReferenceMatcher extends TypeSafeMatcher<Battlefield
 
     @Override
     public boolean matchesSafely(Battlefield battlefield) {
+        assertThatShipSpansTheArea(battlefield);
+        return true;
+    }
+
+    private void assertThatShipSpansTheArea(Battlefield battlefield) {
         for (int i = 0; i < ship.length(); i++) {
             for (int j = 0; j < ship.width(); j++) {
-                assertEquals(ship, battlefield.getCell(coordinates.incrementBy(i, j)));
+                assertEquals(ship, battlefield.shipAt(byOffset(i, j)));
             }
         }
-        return true;
+    }
+
+    private Coordinates byOffset(int i, int j) {
+        return coordinates.incrementBy(i, j);
     }
 
     @Override

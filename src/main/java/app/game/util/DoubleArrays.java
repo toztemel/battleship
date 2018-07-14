@@ -1,12 +1,15 @@
 package app.game.util;
 
-import app.game.common.Coordinates;
+import app.game.fire.Coordinates;
 import app.game.ship.Emptiness;
 import app.game.ship.Ship;
 
 import java.util.Arrays;
 
-public class Utility {
+public final class DoubleArrays {
+
+    private DoubleArrays() {
+    }
 
     public static void print2DArray(Ship[][] frame) {
         System.out.println();

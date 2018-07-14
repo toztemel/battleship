@@ -1,6 +1,6 @@
 package app.game.ship;
 
-import app.game.common.Coordinates;
+import app.game.fire.Coordinates;
 
 public interface Ship {
 

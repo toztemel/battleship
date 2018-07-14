@@ -1,7 +1,8 @@
 package app.game.ship;
 
-import app.game.common.Coordinates;
+import app.game.fire.Coordinates;
 import app.game.fire.Shot;
+import app.game.fire.Shot.Damage;
 import app.game.ship.frame.Frame;
 import app.game.ship.frame.FrameFactory;
 
@@ -18,7 +19,7 @@ abstract class Battleship implements Ship {
         return frame;
     }
 
-    public Shot.Damage hitBy(Shot shot) {
+    public Damage hitBy(Shot shot) {
         return frame.hitBy(shot);
     }
 
@@ -35,7 +36,11 @@ abstract class Battleship implements Ship {
     }
 
     public String toStringAt(Coordinates coordinates) {
-        return frame.toStringAt(coordinates.decrementBy(battlefieldCoordinates));
+        return frame.toStringAt(byOffset(coordinates));
+    }
+
+    private Coordinates byOffset(Coordinates coordinates) {
+        return coordinates.decrementBy(battlefieldCoordinates);
     }
 
     @Override

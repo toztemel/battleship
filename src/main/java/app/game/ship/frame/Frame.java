@@ -1,13 +1,13 @@
 package app.game.ship.frame;
 
-import app.game.common.Coordinates;
+import app.game.fire.Coordinates;
 import app.game.fire.Shot;
 import app.game.fire.Shot.Damage;
 import app.game.ship.DamagedShip;
 import app.game.ship.Emptiness;
 import app.game.ship.Ship;
 import app.game.ship.frame.rotation.Matrix;
-import app.game.util.Utility;
+import app.game.util.DoubleArrays;
 
 import java.util.Arrays;
 
@@ -17,14 +17,18 @@ public abstract class Frame {
     Ship ship;
 
     Frame(Ship owner, Ship[][] ships) {
-        Utility.fillEmpty(ships);
+        initializeFrame(owner, ships);
+    }
+
+    private void initializeFrame(Ship owner, Ship[][] ships) {
+        DoubleArrays.fillEmpty(ships);
         frame = ships;
         ship = owner;
     }
 
     public void rotate() {
-        frame = new Matrix().rotateRandomly(frame);
-        Utility.print2DArray(frame);
+        frame = Matrix.rotateRandomly(frame);
+        DoubleArrays.print2DArray(frame);
     }
 
     public Damage hitBy(Shot shot) {
@@ -40,7 +44,8 @@ public abstract class Frame {
     }
 
     private boolean outOfBoundaries(Shot shot) {
-        return frame.length <= shot.target().column() || frame[0].length <= shot.target().column();
+        return frame.length <= shot.row()
+                || frame[0].length <= shot.col();
     }
 
     private boolean allPartsHit() {
@@ -50,7 +55,7 @@ public abstract class Frame {
     }
 
     private void getHitBy(Shot shot) {
-        frame[shot.target().row()][shot.target().column()] = DamagedShip.getInstance();
+        frame[shot.row()][shot.col()] = DamagedShip.getInstance();
     }
 
     private boolean damaged(Ship ship) {
@@ -58,7 +63,7 @@ public abstract class Frame {
     }
 
     private boolean empty(Shot shot) {
-        return empty(frame[shot.target().row()][shot.target().column()]);
+        return empty(frame[shot.row()][shot.col()]);
     }
 
     private boolean empty(Ship ship) {

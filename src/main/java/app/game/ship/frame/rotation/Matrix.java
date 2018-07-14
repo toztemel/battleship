@@ -4,9 +4,16 @@ import app.game.ship.Ship;
 
 import java.util.Random;
 
-public class Matrix {
+public final class Matrix {
 
-    public Ship[][] rotateRandomly(Ship[][] array) {
+    private Matrix() {
+    }
+
+    public static Ship[][] rotateRandomly(Ship[][] array) {
+        return new Matrix().doRotateRandomly(array);
+    }
+
+    private Ship[][] doRotateRandomly(Ship[][] array) {
         int count = new Random().nextInt(4);
         return rotate(array, count);
     }

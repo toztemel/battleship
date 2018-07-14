@@ -1,6 +1,6 @@
 package app.game.battlefield;
 
-import app.game.common.Coordinates;
+import app.game.fire.Coordinates;
 import app.game.ship.*;
 import org.junit.Before;
 import org.junit.Test;
@@ -20,8 +20,8 @@ public class BattlefieldTest {
 
     @Test
     public void battlefield_size_is_16x16() {
-        assertEquals(16, battlefield.getLength());
-        assertEquals(16, battlefield.getWidth());
+        assertEquals(16, battlefield.length());
+        assertEquals(16, battlefield.width());
     }
 
     @Test
@@ -33,11 +33,11 @@ public class BattlefieldTest {
         Ship bWing = new BWing();
         Ship aWing = new AWing();
 
-        battlefield.insert(angle, Coordinates.of(0, 0));
-        battlefield.insert(aWing, Coordinates.of(0, 7));
-        battlefield.insert(bWing, Coordinates.of(7, 0));
-        battlefield.insert(sWing, Coordinates.of(5, 5));
-        battlefield.insert(xWing, Coordinates.of(10, 10));
+        battlefield.insertAt(angle, Coordinates.of(0, 0));
+        battlefield.insertAt(aWing, Coordinates.of(0, 7));
+        battlefield.insertAt(bWing, Coordinates.of(7, 0));
+        battlefield.insertAt(sWing, Coordinates.of(5, 5));
+        battlefield.insertAt(xWing, Coordinates.of(10, 10));
 
         assertThat(battlefield, contains().referenceTo(angle).at(Coordinates.of(0, 0)));
         assertThat(battlefield, contains().referenceTo(aWing).at(Coordinates.of(0,7)));

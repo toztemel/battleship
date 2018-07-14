@@ -1,6 +1,6 @@
 package app.game.ship.frame;
 
-import app.game.common.Coordinates;
+import app.game.fire.Coordinates;
 import app.game.ship.Ship;
 
 class XFrame extends Frame {

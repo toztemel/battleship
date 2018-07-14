@@ -1,12 +1,10 @@
 package app.game.fire;
 
-import app.game.common.Coordinates;
-
-public class Shot {
+public final class Shot {
 
     private Coordinates coordinates;
 
-    public Shot(Coordinates target) {
+    private Shot(Coordinates target) {
         coordinates = target;
     }
 
@@ -14,8 +12,12 @@ public class Shot {
         return new Shot(Coordinates.of(i, j));
     }
 
-    public Coordinates target() {
-        return coordinates;
+    public int row() {
+        return coordinates.row();
+    }
+
+    public int col() {
+        return coordinates.column();
     }
 
     public enum Damage {
