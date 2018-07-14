@@ -1,20 +1,42 @@
 package app.game.ship;
 
-import app.game.ship.shape.*;
+import app.game.fire.Shot;
+import app.game.ship.frame.Frame;
+import app.game.ship.frame.FrameFactory;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 
 public class BattleshipTest {
 
     @Test
-    public void ships_and_frames_are_associated() {
-        assertTrue(new Angle().getFrame() instanceof AngleFrame);
-        assertTrue(new AWing().getFrame() instanceof AFrame);
-        assertTrue(new BWing().getFrame() instanceof BFrame);
-        assertTrue(new SWing().getFrame() instanceof SFrame);
-        assertTrue(new XWing().getFrame() instanceof XFrame);
+    public void not_damaged_until_destroyed() {
+        Frame frame = FrameFactory.create(new AWing());
+
+        assertEquals(Shot.Damage.HIT, frame.hitBy(new Shot(0, 1)));
+        assertEquals(Shot.Damage.HIT, frame.hitBy(new Shot(1, 0)));
+        assertEquals(Shot.Damage.HIT, frame.hitBy(new Shot(1, 2)));
+        assertEquals(Shot.Damage.HIT, frame.hitBy(new Shot(2, 0)));
+        assertEquals(Shot.Damage.HIT, frame.hitBy(new Shot(2, 1)));
+        assertEquals(Shot.Damage.HIT, frame.hitBy(new Shot(2, 2)));
+        assertEquals(Shot.Damage.HIT, frame.hitBy(new Shot(3, 0)));
+        assertEquals(Shot.Damage.DESTROYED, frame.hitBy(new Shot(3, 2)));
     }
 
+    @Test
+    public void no_further_damage_for_the_same_shot() {
+        Frame frame = FrameFactory.create(new AWing());
+
+        assertEquals(Shot.Damage.HIT, frame.hitBy(new Shot(0, 1)));
+        assertEquals(Shot.Damage.HIT, frame.hitBy(new Shot(1, 0)));
+        assertEquals(Shot.Damage.HIT, frame.hitBy(new Shot(1, 2)));
+        assertEquals(Shot.Damage.HIT, frame.hitBy(new Shot(2, 0)));
+        assertEquals(Shot.Damage.HIT, frame.hitBy(new Shot(2, 1)));
+        assertEquals(Shot.Damage.HIT, frame.hitBy(new Shot(2, 2)));
+        assertEquals(Shot.Damage.HIT, frame.hitBy(new Shot(3, 0)));
+        assertEquals(Shot.Damage.HIT, frame.hitBy(new Shot(3, 0)));
+        assertEquals(Shot.Damage.HIT, frame.hitBy(new Shot(3, 0)));
+        assertEquals(Shot.Damage.HIT, frame.hitBy(new Shot(3, 0)));
+        assertEquals(Shot.Damage.DESTROYED, frame.hitBy(new Shot(3, 2)));
+    }
 }

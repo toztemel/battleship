@@ -1,4 +1,4 @@
-package app.game.ship.shape;
+package app.game.ship.frame;
 
 import app.game.ship.*;
 

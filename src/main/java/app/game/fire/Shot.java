@@ -1,4 +1,4 @@
-package app.game.ship.fire;
+package app.game.fire;
 
 public class Shot {
 
@@ -13,4 +13,5 @@ public class Shot {
     public enum Damage {
         MISS, HIT, DESTROYED;
     }
+
 }

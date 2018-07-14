@@ -1,8 +1,8 @@
-package app.game.ship.shape;
+package app.game.ship.frame;
 
 import app.game.ship.Ship;
 
-public class AngleFrame extends Frame {
+class AngleFrame extends Frame {
 
     AngleFrame(Ship ship) {
         frame = new Ship[4][3];

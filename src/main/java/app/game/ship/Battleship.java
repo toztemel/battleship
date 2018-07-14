@@ -1,8 +1,8 @@
 package app.game.ship;
 
-import app.game.ship.fire.Shot;
-import app.game.ship.shape.Frame;
-import app.game.ship.shape.FrameFactory;
+import app.game.fire.Shot;
+import app.game.ship.frame.Frame;
+import app.game.ship.frame.FrameFactory;
 
 abstract class Battleship implements Ship {
 

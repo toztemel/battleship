@@ -1,8 +1,8 @@
-package app.game.ship.shape;
+package app.game.ship.frame;
 
 import app.game.ship.Ship;
 
-public class SFrame extends Frame {
+class SFrame extends Frame {
 
     SFrame(Ship ship) {
         frame = new Ship[3][3];
