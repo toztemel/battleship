@@ -36,7 +36,7 @@ public class XWingTest {
         assertEquals(Damage.HIT, ship.hitBy(new Shot(3, 0)));
         assertEquals(Damage.HIT, ship.hitBy(new Shot(3, 2)));
         assertEquals(Damage.HIT, ship.hitBy(new Shot(4, 0)));
-        assertEquals(Damage.DESTROYED, ship.hitBy(new Shot(4, 2)));
+        assertEquals(Damage.KILL, ship.hitBy(new Shot(4, 2)));
     }
 
 }

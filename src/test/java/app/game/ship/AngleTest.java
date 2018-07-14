@@ -33,7 +33,7 @@ public class AngleTest {
         assertEquals(Damage.HIT, ship.hitBy(new Shot(2, 0)));
         assertEquals(Damage.HIT, ship.hitBy(new Shot(3, 0)));
         assertEquals(Damage.HIT, ship.hitBy(new Shot(3, 1)));
-        assertEquals(Damage.DESTROYED, ship.hitBy(new Shot(3, 2)));
+        assertEquals(Damage.KILL, ship.hitBy(new Shot(3, 2)));
     }
 
 }

@@ -20,7 +20,7 @@ public class BattleshipTest {
         assertEquals(Shot.Damage.HIT, frame.hitBy(new Shot(2, 1)));
         assertEquals(Shot.Damage.HIT, frame.hitBy(new Shot(2, 2)));
         assertEquals(Shot.Damage.HIT, frame.hitBy(new Shot(3, 0)));
-        assertEquals(Shot.Damage.DESTROYED, frame.hitBy(new Shot(3, 2)));
+        assertEquals(Shot.Damage.KILL, frame.hitBy(new Shot(3, 2)));
     }
 
     @Test
@@ -37,7 +37,7 @@ public class BattleshipTest {
         assertEquals(Shot.Damage.HIT, frame.hitBy(new Shot(3, 0)));
         assertEquals(Shot.Damage.HIT, frame.hitBy(new Shot(3, 0)));
         assertEquals(Shot.Damage.HIT, frame.hitBy(new Shot(3, 0)));
-        assertEquals(Shot.Damage.DESTROYED, frame.hitBy(new Shot(3, 2)));
+        assertEquals(Shot.Damage.KILL, frame.hitBy(new Shot(3, 2)));
     }
 
     @Test

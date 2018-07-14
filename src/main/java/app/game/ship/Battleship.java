@@ -34,6 +34,6 @@ abstract class Battleship implements Ship {
 
     @Override
     public String toString() {
-        return getClass().getSimpleName().substring(0, 1);
+        return "*";
     }
 }

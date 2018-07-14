@@ -1,7 +1,7 @@
 package app.game.ship.frame;
 
 import app.game.ship.*;
-import app.game.util.Printer;
+import app.game.util.Utility;
 import org.junit.Test;
 
 import static org.junit.Assert.assertTrue;
@@ -35,7 +35,7 @@ public class FrameTest {
 
     private void print(Frame bFrame) {
         System.out.println("Shape of " + bFrame.getClass().getSimpleName() + ":");
-        Printer.print2DArray(bFrame.frame);
+        Utility.print2DArray(bFrame.frame);
     }
 
     @Test

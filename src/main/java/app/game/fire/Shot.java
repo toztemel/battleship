@@ -11,7 +11,7 @@ public class Shot {
     }
 
     public enum Damage {
-        MISS, HIT, DESTROYED;
+        MISS, HIT, KILL;
     }
 
 }

@@ -11,17 +11,18 @@ public class DamagedShip implements Ship {
         return instance;
     }
 
-    public static void setInstance(Ship ship) {
-        instance = ship;
-    }
-
     @Override
     public int length() {
-        return 0;
+        return 1;
     }
 
     @Override
     public int width() {
-        return 0;
+        return 1;
+    }
+
+    @Override
+    public String toString() {
+        return "X";
     }
 }

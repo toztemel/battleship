@@ -3,9 +3,10 @@ package app.game.ship.frame;
 import app.game.fire.Shot;
 import app.game.fire.Shot.Damage;
 import app.game.ship.DamagedShip;
+import app.game.ship.Emptiness;
 import app.game.ship.Ship;
 import app.game.ship.frame.rotation.Matrix;
-import app.game.util.Printer;
+import app.game.util.Utility;
 
 import java.util.Arrays;
 
@@ -15,13 +16,14 @@ public abstract class Frame {
     Ship ship;
 
     Frame(Ship owner, Ship[][] ships) {
+        Utility.fillEmpty(ships);
         frame = ships;
         ship = owner;
     }
 
     public void rotate() {
         frame = new Matrix().rotateRandomly(frame);
-        Printer.print2DArray(frame);
+        Utility.print2DArray(frame);
     }
 
     public Damage hitBy(Shot shot) {
@@ -29,7 +31,7 @@ public abstract class Frame {
             return Damage.MISS;
         }
         getHitBy(shot);
-        return allPartsHit() ? Damage.DESTROYED : Damage.HIT;
+        return allPartsHit() ? Damage.KILL : Damage.HIT;
     }
 
     void fill(int row, int column) {
@@ -59,7 +61,7 @@ public abstract class Frame {
     }
 
     private boolean empty(Ship ship) {
-        return ship == null;
+        return ship instanceof Emptiness;
     }
 
 

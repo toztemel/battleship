@@ -1,8 +1,11 @@
 package app.game.util;
 
+import app.game.ship.Emptiness;
+import app.game.ship.Ship;
+
 import java.util.Arrays;
 
-public class Printer {
+public class Utility {
 
     public static void print2DArray(Object[][] frame) {
         System.out.println();
@@ -12,4 +15,9 @@ public class Printer {
         System.out.println();
     }
 
+    public static void fillEmpty(Ship[][] ships) {
+        for (int i = 0; i < ships.length; i++) {
+            Arrays.fill(ships[i], Emptiness.instance());
+        }
+    }
 }

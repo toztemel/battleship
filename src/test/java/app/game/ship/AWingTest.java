@@ -34,7 +34,7 @@ public class AWingTest {
         assertEquals(Damage.HIT, ship.hitBy(new Shot(2, 1)));
         assertEquals(Damage.HIT, ship.hitBy(new Shot(2, 2)));
         assertEquals(Damage.HIT, ship.hitBy(new Shot(3, 0)));
-        assertEquals(Damage.DESTROYED, ship.hitBy(new Shot(3, 2)));
+        assertEquals(Damage.KILL, ship.hitBy(new Shot(3, 2)));
     }
 
 }

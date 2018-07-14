@@ -1,7 +1,10 @@
 package app.game.battlefield;
 
+import app.game.ship.Emptiness;
 import app.game.ship.Ship;
-import app.game.util.Printer;
+import app.game.util.Utility;
+
+import java.util.Arrays;
 
 public class Battlefield {
 
@@ -11,6 +14,7 @@ public class Battlefield {
 
     Battlefield() {
         field = new Ship[SIZE][SIZE];
+        Utility.fillEmpty(field);
     }
 
     int getLength() {
@@ -27,7 +31,7 @@ public class Battlefield {
                 field[row+i][column+j] = ship;
             }
         }
-        Printer.print2DArray(field);
+        Utility.print2DArray(field);
     }
 
     Ship getCell(int i, int j) {
