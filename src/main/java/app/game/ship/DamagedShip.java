@@ -14,4 +14,14 @@ public class DamagedShip implements Ship {
     public static void setInstance(Ship ship) {
         instance = ship;
     }
+
+    @Override
+    public int length() {
+        return 0;
+    }
+
+    @Override
+    public int width() {
+        return 0;
+    }
 }

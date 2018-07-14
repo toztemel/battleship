@@ -1,6 +1,7 @@
 package app.game.ship.frame;
 
 import app.game.ship.*;
+import app.game.util.Printer;
 import org.junit.Test;
 
 import static org.junit.Assert.assertTrue;
@@ -10,6 +11,16 @@ public class FrameTest {
     @Test
     public void getFrame() {
         Ship s = new Ship() {
+            @Override
+            public int length() {
+                return 0;
+            }
+
+            @Override
+            public int width() {
+                return 0;
+            }
+
             @Override
             public String toString() {
                 return "*";
@@ -24,7 +35,7 @@ public class FrameTest {
 
     private void print(Frame bFrame) {
         System.out.println("Shape of " + bFrame.getClass().getSimpleName() + ":");
-        bFrame.printFrame();
+        Printer.print2DArray(bFrame.frame);
     }
 
     @Test

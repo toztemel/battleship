@@ -5,6 +5,7 @@ import app.game.fire.Shot.Damage;
 import app.game.ship.DamagedShip;
 import app.game.ship.Ship;
 import app.game.ship.frame.rotation.Matrix;
+import app.game.util.Printer;
 
 import java.util.Arrays;
 
@@ -20,7 +21,7 @@ public abstract class Frame {
 
     public void rotate() {
         frame = new Matrix().rotateRandomly(frame);
-        printFrame();
+        Printer.print2DArray(frame);
     }
 
     public Damage hitBy(Shot shot) {
@@ -61,12 +62,12 @@ public abstract class Frame {
         return ship == null;
     }
 
-    void printFrame() {
-        System.out.println();
-        for (int i = 0; i < frame.length; i++) {
-            System.out.println(Arrays.deepToString(frame[i]));
-        }
-        System.out.println();
+
+    public int length() {
+        return frame.length;
     }
 
+    public int width() {
+        return frame[0].length;
+    }
 }

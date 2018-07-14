@@ -23,4 +23,17 @@ abstract class Battleship implements Ship {
     public void rotate() {
         frame.rotate();
     }
+
+    public int length(){
+        return frame.length();
+    };
+
+    public int width(){
+        return frame.width();
+    };
+
+    @Override
+    public String toString() {
+        return getClass().getSimpleName().substring(0, 1);
+    }
 }
