@@ -61,6 +61,6 @@ public class NewGame {
     }
 
     public void generateGameId() {
-        gameId = new GameIdGenerator().generate();
+        gameId = new IDGenerator().generate();
     }
 }

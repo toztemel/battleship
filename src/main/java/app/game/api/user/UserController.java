@@ -6,10 +6,6 @@ import io.javalin.Handler;
 public class UserController {
 
 
-    public Handler getGameStatus = ctx -> {
-
-    };
-
     public static void getGameStatus(Context context) {
 
     }
@@ -22,5 +18,12 @@ public class UserController {
     }
 
     public static void auto(Context context) {
+    }
+
+    public Handler statusHandler() {
+        return ctx -> {
+            Status status = new Status();
+            ctx.status(200).json(status);
+        };
     }
 }

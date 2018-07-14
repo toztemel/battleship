@@ -36,7 +36,8 @@ public class BattleshipAPI {
 
         app.put(Protocol.FIRE, new FireController().firingHandler());
 
-        app.get(User.STATUS, UserController::getGameStatus);
+        UserController userController = new UserController();
+        app.get(User.STATUS, userController.statusHandler());
 
         app.post(User.NEW_GAME, UserController::newGame);
 

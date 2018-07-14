@@ -1,16 +1,10 @@
 package app.game.api.firing;
 
-import io.javalin.Context;
 import io.javalin.Handler;
 
 public class FireController {
-    private final Handler handler;
 
-    public FireController() {
-        handler = createHandler();
-    }
-
-    private Handler createHandler() {
+    public Handler firingHandler() {
         return ctx -> {
             String gameId = ctx.param("gameId");
             System.out.println(gameId);
@@ -32,11 +26,4 @@ public class FireController {
         };
     }
 
-    public static Handler fire(Context context) {
-        return new FireController().createHandler();
-    }
-
-    public Handler firingHandler() {
-        return handler;
-    }
 }

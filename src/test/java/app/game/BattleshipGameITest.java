@@ -15,7 +15,7 @@ import static app.game.TestUtil.*;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
-public class BattleshipGameE2ETest {
+public class BattleshipGameITest {
 
     private BattleshipGame game;
     private BattleshipClient client;
@@ -35,12 +35,12 @@ public class BattleshipGameE2ETest {
 
     @Ignore
     @Test
-    public void game_sends_an_invitation_when_user_starts_a_new_game() {
+    public void test_game_sends_an_invitation_when_user_starts_a_new_game() {
     }
 
     @Ignore
     @Test
-    public void game_responds_with_error_to_firing_without_initialization() {
+    public void test_game_responds_with_error_to_firing_without_initialization() {
     }
 
     @Ignore
@@ -49,7 +49,7 @@ public class BattleshipGameE2ETest {
     }
 
     @Test
-    public void game_responds_to_firing_after_initialization() {
+    public void test_game_responds_to_firing_after_initialization() {
         String gameId = startNewGame(client)
                 .getGameId();
 

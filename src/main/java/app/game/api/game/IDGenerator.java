@@ -2,7 +2,7 @@ package app.game.api.game;
 
 import java.util.UUID;
 
-class GameIdGenerator {
+class IDGenerator {
 
     String generate() {
         return UUID.randomUUID().toString();

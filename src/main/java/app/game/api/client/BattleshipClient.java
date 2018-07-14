@@ -32,7 +32,7 @@ public class BattleshipClient {
     }
 
     public Response fireFriend(String gameId, FiringRequest fire) {
-        return put("/protocol/game/" + gameId, fire);
+        return put("/protocol/app.game/" + gameId, fire);
     }
 
     private Response post(String resource, Object request) {
