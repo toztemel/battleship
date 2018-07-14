@@ -1,6 +1,5 @@
 package app.game.ship.frame;
 
-import app.game.TestUtil;
 import app.game.ship.*;
 import org.junit.Test;
 
@@ -25,7 +24,7 @@ public class FrameTest {
 
     private void print(Frame bFrame) {
         System.out.println("Shape of " + bFrame.getClass().getSimpleName() + ":");
-        TestUtil.print2DArray(bFrame.getFrame());
+        bFrame.printFrame();
     }
 
     @Test

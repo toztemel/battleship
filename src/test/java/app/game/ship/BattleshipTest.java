@@ -39,4 +39,10 @@ public class BattleshipTest {
         assertEquals(Shot.Damage.HIT, frame.hitBy(new Shot(3, 0)));
         assertEquals(Shot.Damage.DESTROYED, frame.hitBy(new Shot(3, 2)));
     }
+
+    @Test
+    public void rotate_a_ship() {
+        Battleship ship = new XWing();
+        ship.rotate();
+    }
 }

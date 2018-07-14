@@ -1,18 +1,26 @@
 package app.game.ship.frame;
 
-import app.game.ship.DamagedShip;
-import app.game.ship.Ship;
 import app.game.fire.Shot;
 import app.game.fire.Shot.Damage;
+import app.game.ship.DamagedShip;
+import app.game.ship.Ship;
+import app.game.ship.frame.rotation.Matrix;
 
 import java.util.Arrays;
 
 public abstract class Frame {
 
     Ship[][] frame;
+    Ship ship;
 
-    Ship[][] getFrame() {
-        return frame;
+    Frame(Ship owner, Ship[][] ships) {
+        frame = ships;
+        ship = owner;
+    }
+
+    public void rotate() {
+        frame = new Matrix().rotateRandomly(frame);
+        printFrame();
     }
 
     public Damage hitBy(Shot shot) {
@@ -21,6 +29,10 @@ public abstract class Frame {
         }
         getHitBy(shot);
         return allPartsHit() ? Damage.DESTROYED : Damage.HIT;
+    }
+
+    void fill(int row, int column) {
+        frame[row][column] = ship;
     }
 
     private boolean outOfBoundaries(Shot shot) {
@@ -49,5 +61,12 @@ public abstract class Frame {
         return ship == null;
     }
 
+    void printFrame() {
+        System.out.println();
+        for (int i = 0; i < frame.length; i++) {
+            System.out.println(Arrays.deepToString(frame[i]));
+        }
+        System.out.println();
+    }
 
 }

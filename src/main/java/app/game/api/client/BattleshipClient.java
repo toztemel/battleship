@@ -3,7 +3,7 @@ package app.game.api.client;
 import app.game.api.firing.FiringRequest;
 import app.game.api.game.NewGame;
 import app.game.api.mapper.BattleshipObjectMapper;
-import app.game.api.util.ResourcePath.Protocol;
+import app.game.api.ResourcePath.Protocol;
 import org.glassfish.jersey.jackson.JacksonFeature;
 
 import javax.ws.rs.client.ClientBuilder;

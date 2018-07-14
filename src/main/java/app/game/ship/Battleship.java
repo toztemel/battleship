@@ -20,4 +20,7 @@ abstract class Battleship implements Ship {
         return frame.hitBy(shot);
     }
 
+    public void rotate() {
+        frame.rotate();
+    }
 }

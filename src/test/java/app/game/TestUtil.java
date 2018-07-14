@@ -5,7 +5,6 @@ import app.game.api.firing.FiringRequest;
 import app.game.api.game.NewGame;
 
 import javax.ws.rs.core.Response;
-import java.util.Arrays;
 
 public class TestUtil {
 
@@ -33,11 +32,4 @@ public class TestUtil {
         return response.readEntity(NewGame.class);
     }
 
-    public static void print2DArray(Object[][] matrix) {
-        System.out.println();
-        for (int i = 0; i < matrix.length; i++) {
-            System.out.println(Arrays.deepToString(matrix[i]));
-        }
-        System.out.println();
-    }
 }

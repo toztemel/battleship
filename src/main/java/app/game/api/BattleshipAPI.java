@@ -4,8 +4,8 @@ import app.game.api.firing.FireController;
 import app.game.api.game.NewGameController;
 import app.game.api.mapper.BattleshipObjectMapper;
 import app.game.api.user.UserController;
-import app.game.api.util.ResourcePath.Protocol;
-import app.game.api.util.ResourcePath.User;
+import app.game.api.ResourcePath.Protocol;
+import app.game.api.ResourcePath.User;
 import io.javalin.Javalin;
 import io.javalin.translator.json.JavalinJacksonPlugin;
 

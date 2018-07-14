@@ -10,4 +10,8 @@ public class DamagedShip implements Ship {
     public static Ship getInstance() {
         return instance;
     }
+
+    public static void setInstance(Ship ship) {
+        instance = ship;
+    }
 }

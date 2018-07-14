@@ -1,4 +1,4 @@
-package app.game.api.util;
+package app.game.api;
 
 public class ResourcePath {
 

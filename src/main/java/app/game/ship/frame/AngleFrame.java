@@ -5,14 +5,12 @@ import app.game.ship.Ship;
 class AngleFrame extends Frame {
 
     AngleFrame(Ship ship) {
-        frame = new Ship[4][3];
-
-        frame[0][0] = ship;
-        frame[1][0] = ship;
-        frame[2][0] = ship;
-        frame[3][0] = ship;
-        frame[3][1] = ship;
-        frame[3][2] = ship;
+        super(ship, new Ship[4][3]);
+        fill(0, 0);
+        fill(1, 0);
+        fill(2, 0);
+        fill(3, 0);
+        fill(3, 1);
+        fill(3, 2);
     }
-
 }
