@@ -28,7 +28,7 @@ public class TestUtil {
     static NewGame startNewGame(BattleshipClient client) {
         NewGame newGameRequest = newGameRequest();
 
-        Response response = client.challangeFriend(newGameRequest);
+        Response response = client.challengeOpponent(newGameRequest);
         return response.readEntity(NewGame.class);
     }
 

@@ -9,8 +9,6 @@ import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 
-import javax.ws.rs.core.Response;
-
 import static app.game.TestUtil.*;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -18,14 +16,14 @@ import static org.junit.Assert.assertNotNull;
 public class BattleshipGameITest {
 
     private BattleshipGame game;
-    private BattleshipClient client;
+    private BattleshipClient opponent;
 
     @Before
     public void setUp() throws Exception {
         game = new BattleshipGame();
         game.start();
 
-        client = new BattleshipClient(LOCALHOST_7000);
+        opponent = new BattleshipClient(LOCALHOST_7000);
     }
 
     @After
@@ -50,15 +48,9 @@ public class BattleshipGameITest {
 
     @Test
     public void test_game_responds_to_firing_after_initialization() {
-        String gameId = startNewGame(client)
-                .getGameId();
-
+        String gameId = startNewGame(opponent).getGameId();
         FiringRequest fire = getFiringRequest();
-        Response response = client.fireFriend(gameId, fire);
-
-        assertEquals(200, response.getStatus());
-
-        FiringResponse firingResponse = response.readEntity(FiringResponse.class);
+        FiringResponse firingResponse = opponent.fire(gameId, fire);
 
         assertNotNull(firingResponse.getGame());
         assertEquals("challanger-Y", firingResponse.getGame().getOwner());
@@ -73,17 +65,18 @@ public class BattleshipGameITest {
 
     @Test
     public void game_responds_to_a_new_game_invitation() {
-        NewGame newGameRequest = newGameRequest();
-        Response response = client.challangeFriend(newGameRequest);
+        NewGame newGame = opponent.challengeOpponent(newGameRequest());
 
-        assertEquals(201, response.getStatus());
-
-        NewGame newGame = response.readEntity(NewGame.class);
         assertEquals("challenger-Y", newGame.getUserId());
         assertEquals("Lunatech FR Champion", newGame.getFullName());
         assertNotNull(newGame.getGameId());
         assertEquals("challenger-X", newGame.getStarting());
         assertEquals("standard", newGame.getRules());
+    }
+
+    @Test
+    public void returns_MISS_when_opponent_misses_single_shot() {
+
     }
 
 }

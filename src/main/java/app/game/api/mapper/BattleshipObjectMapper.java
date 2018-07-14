@@ -9,24 +9,20 @@ import javax.ws.rs.ext.Provider;
 @Provider
 public class BattleshipObjectMapper implements ContextResolver<ObjectMapper> {
 
-    private final ObjectMapper defaultObjectMapper;
+    private final ObjectMapper defaultObjectMapper = createDefaultMapper();
 
-    public BattleshipObjectMapper() {
-        defaultObjectMapper = createDefaultMapper();
+    private static ObjectMapper createDefaultMapper() {
+        final ObjectMapper result = new ObjectMapper();
+        result.enable(SerializationFeature.INDENT_OUTPUT);
+        return result;
     }
 
     @Override
     public ObjectMapper getContext(Class<?> type) {
-        return getDefaultObjectMapper();
+        return defaultObjectMapper;
     }
 
     public ObjectMapper getDefaultObjectMapper() {
         return defaultObjectMapper;
-    }
-
-    private ObjectMapper createDefaultMapper() {
-        final ObjectMapper result = new ObjectMapper();
-        result.enable(SerializationFeature.INDENT_OUTPUT);
-        return result;
     }
 }

@@ -1,18 +1,19 @@
 package app.game.api;
 
+import app.game.api.ResourcePath.Protocol;
+import app.game.api.ResourcePath.User;
 import app.game.api.firing.FireController;
 import app.game.api.game.NewGameController;
 import app.game.api.mapper.BattleshipObjectMapper;
 import app.game.api.user.UserController;
-import app.game.api.ResourcePath.Protocol;
-import app.game.api.ResourcePath.User;
 import io.javalin.Javalin;
 import io.javalin.translator.json.JavalinJacksonPlugin;
 
+import static app.game.conf.HTTPServerConf.HTTP_SERVER_PORT;
+
 public class BattleshipAPI {
 
-    private static final int HTTP_SERVER_PORT = 7000;
-    private static BattleshipAPI battleshipAPI = new BattleshipAPI();
+    private static BattleshipAPI instance = new BattleshipAPI();
 
     private Javalin app;
 
@@ -20,24 +21,27 @@ public class BattleshipAPI {
     }
 
     public static BattleshipAPI getInstance() {
-        return battleshipAPI;
+        return instance;
     }
 
     public void stop() {
         app.stop();
     }
 
+    public void start() {
+        start(HTTP_SERVER_PORT);
+    }
+
     private void start(int port) {
         app = Javalin.start(port);
 
-        JavalinJacksonPlugin.configure(new BattleshipObjectMapper().getDefaultObjectMapper());
+        configureJsonMapper();
 
-        app.post(Protocol.NEW_GAME, new NewGameController().newGameHandler());
+        app.post(Protocol.NEW_GAME, NewGameController::newGameHandler);
 
-        app.put(Protocol.FIRE, new FireController().firingHandler());
+        app.put(Protocol.FIRE, FireController::firingHandler);
 
-        UserController userController = new UserController();
-        app.get(User.STATUS, userController.statusHandler());
+        app.get(User.STATUS, UserController::statusHandler);
 
         app.post(User.NEW_GAME, UserController::newGame);
 
@@ -46,8 +50,9 @@ public class BattleshipAPI {
         app.put(User.AUTO, UserController::auto);
     }
 
-    public void start() {
-        start(HTTP_SERVER_PORT);
+    private void configureJsonMapper() {
+        JavalinJacksonPlugin.configure(new BattleshipObjectMapper().getDefaultObjectMapper());
     }
+
 
 }
