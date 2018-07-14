@@ -1,5 +1,6 @@
 package app.game.ship.frame;
 
+import app.game.common.Coordinates;
 import app.game.fire.Shot;
 import app.game.fire.Shot.Damage;
 import app.game.ship.DamagedShip;
@@ -34,12 +35,12 @@ public abstract class Frame {
         return allPartsHit() ? Damage.KILL : Damage.HIT;
     }
 
-    void fill(int row, int column) {
-        frame[row][column] = ship;
+    void fill(Coordinates coordinates) {
+        frame[coordinates.row()][coordinates.column()] = ship;
     }
 
     private boolean outOfBoundaries(Shot shot) {
-        return frame.length <= shot.row || frame[0].length <= shot.column;
+        return frame.length <= shot.target().column() || frame[0].length <= shot.target().column();
     }
 
     private boolean allPartsHit() {
@@ -49,7 +50,7 @@ public abstract class Frame {
     }
 
     private void getHitBy(Shot shot) {
-        frame[shot.row][shot.column] = DamagedShip.getInstance();
+        frame[shot.target().row()][shot.target().column()] = DamagedShip.getInstance();
     }
 
     private boolean damaged(Ship ship) {
@@ -57,13 +58,12 @@ public abstract class Frame {
     }
 
     private boolean empty(Shot shot) {
-        return empty(frame[shot.row][shot.column]);
+        return empty(frame[shot.target().row()][shot.target().column()]);
     }
 
     private boolean empty(Ship ship) {
         return ship instanceof Emptiness;
     }
-
 
     public int length() {
         return frame.length;
@@ -71,5 +71,15 @@ public abstract class Frame {
 
     public int width() {
         return frame[0].length;
+    }
+
+    public String toStringAt(Coordinates coordinates) {
+        Ship ship = frame[coordinates.row()][coordinates.column()];
+        if (ship instanceof DamagedShip) {
+            return "X";
+        } else if (ship instanceof Emptiness) {
+            return ".";
+        }
+        return "*";
     }
 }

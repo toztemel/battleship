@@ -1,13 +1,21 @@
 package app.game.fire;
 
+import app.game.common.Coordinates;
+
 public class Shot {
 
-    public final int row;
-    public final int column;
+    private Coordinates coordinates;
 
-    public Shot(int row, int column) {
-        this.row = row;
-        this.column = column;
+    public Shot(Coordinates target) {
+        coordinates = target;
+    }
+
+    public static Shot at(int i, int j) {
+        return new Shot(Coordinates.of(i, j));
+    }
+
+    public Coordinates target() {
+        return coordinates;
     }
 
     public enum Damage {

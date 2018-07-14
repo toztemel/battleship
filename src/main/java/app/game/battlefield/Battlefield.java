@@ -1,10 +1,8 @@
 package app.game.battlefield;
 
-import app.game.ship.Emptiness;
+import app.game.common.Coordinates;
 import app.game.ship.Ship;
 import app.game.util.Utility;
-
-import java.util.Arrays;
 
 public class Battlefield {
 
@@ -25,16 +23,19 @@ public class Battlefield {
         return field[0].length;
     }
 
-    void insert(Ship ship, int row, int column) {
+    void insert(Ship ship, Coordinates coordinates) {
+        int row = coordinates.row();
+        int column = coordinates.column();
         for (int i = 0; i < ship.length(); i++) {
             for (int j = 0; j < ship.width(); j++) {
-                field[row+i][column+j] = ship;
+                field[row + i][column + j] = ship;
+                ship.insertedAt(coordinates);
             }
         }
         Utility.print2DArray(field);
     }
 
-    Ship getCell(int i, int j) {
-        return field[i][j];
+    Ship getCell(Coordinates c) {
+        return field[c.row()][c.column()];
     }
 }

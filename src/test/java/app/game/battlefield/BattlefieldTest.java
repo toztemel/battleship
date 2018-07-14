@@ -1,5 +1,6 @@
 package app.game.battlefield;
 
+import app.game.common.Coordinates;
 import app.game.ship.*;
 import org.junit.Before;
 import org.junit.Test;
@@ -32,17 +33,17 @@ public class BattlefieldTest {
         Ship bWing = new BWing();
         Ship aWing = new AWing();
 
-        battlefield.insert(angle, 0, 0);
-        battlefield.insert(aWing, 0, 7);
-        battlefield.insert(bWing, 7, 0);
-        battlefield.insert(sWing, 5, 5);
-        battlefield.insert(xWing, 10, 10);
+        battlefield.insert(angle, Coordinates.of(0, 0));
+        battlefield.insert(aWing, Coordinates.of(0, 7));
+        battlefield.insert(bWing, Coordinates.of(7, 0));
+        battlefield.insert(sWing, Coordinates.of(5, 5));
+        battlefield.insert(xWing, Coordinates.of(10, 10));
 
-        assertThat(battlefield, contains().referenceTo(angle).at(0).by(0));
-        assertThat(battlefield, contains().referenceTo(aWing).at(0).by(7));
-        assertThat(battlefield, contains().referenceTo(bWing).at(7).by(0));
-        assertThat(battlefield, contains().referenceTo(sWing).at(5).by(5));
-        assertThat(battlefield, contains().referenceTo(xWing).at(10).by(10));
+        assertThat(battlefield, contains().referenceTo(angle).at(Coordinates.of(0, 0)));
+        assertThat(battlefield, contains().referenceTo(aWing).at(Coordinates.of(0,7)));
+        assertThat(battlefield, contains().referenceTo(bWing).at(Coordinates.of(7,0)));
+        assertThat(battlefield, contains().referenceTo(sWing).at(Coordinates.of(5,5)));
+        assertThat(battlefield, contains().referenceTo(xWing).at(Coordinates.of(10,10)));
     }
 
 }

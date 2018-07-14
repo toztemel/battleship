@@ -1,5 +1,6 @@
 package app.game.ship.frame;
 
+import app.game.common.Coordinates;
 import app.game.ship.*;
 import app.game.util.Utility;
 import org.junit.Test;
@@ -19,6 +20,16 @@ public class FrameTest {
             @Override
             public int width() {
                 return 0;
+            }
+
+            @Override
+            public String toStringAt(Coordinates n) {
+                return null;
+            }
+
+            @Override
+            public void insertedAt(Coordinates c) {
+
             }
 
             @Override

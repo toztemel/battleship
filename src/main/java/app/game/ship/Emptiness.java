@@ -1,5 +1,7 @@
 package app.game.ship;
 
+import app.game.common.Coordinates;
+
 public class Emptiness implements Ship {
 
     private static Ship instance = new Emptiness();
@@ -19,6 +21,16 @@ public class Emptiness implements Ship {
     @Override
     public int width() {
         return 0;
+    }
+
+    @Override
+    public String toStringAt(Coordinates c) {
+        return toString();
+    }
+
+    @Override
+    public void insertedAt(Coordinates c) {
+
     }
 
     @Override

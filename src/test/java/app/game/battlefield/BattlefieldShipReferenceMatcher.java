@@ -1,5 +1,6 @@
 package app.game.battlefield;
 
+import app.game.common.Coordinates;
 import app.game.ship.Ship;
 import org.hamcrest.Description;
 import org.hamcrest.TypeSafeMatcher;
@@ -10,8 +11,7 @@ public class BattlefieldShipReferenceMatcher extends TypeSafeMatcher<Battlefield
 
     private static BattlefieldShipReferenceMatcher instance = new BattlefieldShipReferenceMatcher();
     private Ship ship;
-    private int row;
-    private int column;
+    private Coordinates coordinates;
 
     static BattlefieldShipReferenceMatcher contains() {
         return instance;
@@ -22,13 +22,8 @@ public class BattlefieldShipReferenceMatcher extends TypeSafeMatcher<Battlefield
         return this;
     }
 
-    BattlefieldShipReferenceMatcher at(int row) {
-        this.row = row;
-        return this;
-    }
-
-    BattlefieldShipReferenceMatcher by(int column) {
-        this.column = column;
+    BattlefieldShipReferenceMatcher at(Coordinates c) {
+        coordinates = c;
         return this;
     }
 
@@ -36,7 +31,7 @@ public class BattlefieldShipReferenceMatcher extends TypeSafeMatcher<Battlefield
     public boolean matchesSafely(Battlefield battlefield) {
         for (int i = 0; i < ship.length(); i++) {
             for (int j = 0; j < ship.width(); j++) {
-                assertEquals(ship, battlefield.getCell(row + i, column + j));
+                assertEquals(ship, battlefield.getCell(coordinates.incrementBy(i, j)));
             }
         }
         return true;
@@ -46,8 +41,8 @@ public class BattlefieldShipReferenceMatcher extends TypeSafeMatcher<Battlefield
     public void describeTo(Description description) {
         description.appendText("Battlefield must keep reference to ")
                 .appendValue(ship.getClass().getSimpleName())
-                .appendText(" at row:").appendValue(row)
-                .appendValue(" by column:").appendValue(column);
+                .appendText(" at row:").appendValue(coordinates.row())
+                .appendValue(" by column:").appendValue(coordinates.column());
     }
 
 }
