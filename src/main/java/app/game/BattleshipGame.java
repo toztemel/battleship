@@ -18,8 +18,12 @@ class BattleshipGame {
     }
 
     void start() {
+        start(HTTP_SERVER_PORT);
+    }
+
+    void start(int port) {
         startBattlefield();
-        startApi();
+        startApi(port);
     }
 
     private void startBattlefield() {
@@ -27,13 +31,13 @@ class BattleshipGame {
                 .build();
     }
 
-    private void startApi() {
+    private void startApi(int httpServerPort) {
         FiringProtocolController fireController = new FiringProtocolController(battlefield);
         NewGameProtocolController newGameController = new NewGameProtocolController();
         UserController userController = new UserController(battlefield);
 
         BattleshipAPI.getInstance()
-                .listen(HTTP_SERVER_PORT)
+                .listen(httpServerPort)
                 .withMapper(() -> new BattleshipObjectMapper().getDefaultObjectMapper())
                 .onProtocolNewGame(newGameController::onNewGame)
                 .onProtocolFire(fireController::onFire)

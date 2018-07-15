@@ -22,4 +22,11 @@ public class UserTestClient {
         return response.readEntity(Status.class);
     }
 
+    public NewGame challangeOpponent(NewGame newGameRequest) {
+        Response response = client.post(ResourcePath.User.NEW_GAME, newGameRequest);
+        if(!RestClient.isCreated(response)){
+            // TODO process game start error
+        }
+        return response.readEntity(NewGame.class);
+    }
 }

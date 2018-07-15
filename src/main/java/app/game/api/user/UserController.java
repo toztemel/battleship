@@ -1,6 +1,8 @@
 package app.game.api.user;
 
+import app.game.api.client.BattleshipClient;
 import app.game.api.firing.Game;
+import app.game.api.game.NewGame;
 import app.game.battlefield.Battlefield;
 import io.javalin.Context;
 
@@ -12,8 +14,18 @@ public class UserController {
         this.battlefield = battlefield;
     }
 
-    public void onNewGame(Context context) {
+    public void onNewGame(Context ctx) {
+        NewGame userRequest = ctx.bodyAsClass(NewGame.class);
+        BattleshipClient client = new BattleshipClient("http://" + userRequest.getProtocol());
 
+        NewGame newRequest = new NewGame();
+        newRequest.setRules(userRequest.getRules());
+        newRequest.setUserId(userRequest.getUserId());
+        newRequest.setFullName(userRequest.getFullName());
+        newRequest.setProtocol(UserService.ownProtocol());
+
+        NewGame response = client.challengeOpponent(newRequest);
+        ctx.status(201).json(response);
     }
 
     public void onFire(Context context) {

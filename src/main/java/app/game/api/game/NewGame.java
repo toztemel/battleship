@@ -1,5 +1,6 @@
 package app.game.api.game;
 
+// TODO enumarate rules
 public class NewGame {
 
     private String userId;

@@ -1,6 +1,5 @@
 package app.game;
 
-import app.game.api.client.BattleshipClient;
 import app.game.api.firing.FiringRequest;
 import app.game.api.game.NewGame;
 import app.game.fire.Coordinates;
@@ -11,6 +10,7 @@ import java.util.Arrays;
 public class TestUtil {
 
     static final String LOCALHOST_7000 = "http://localhost:7000";
+    static final String LOCALHOST_7001 = "http://localhost:7001";
 
     static NewGame newGameRequest() {
         NewGame newGameRequest = new NewGame();
