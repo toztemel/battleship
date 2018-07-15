@@ -6,9 +6,6 @@ import app.game.api.game.NewGameProtocolController;
 import app.game.api.mapper.BattleshipObjectMapper;
 import app.game.api.user.UserController;
 import app.game.battlefield.Battlefield;
-import app.game.fire.Coordinates;
-import app.game.ship.SWing;
-import app.game.ship.XWing;
 
 import static app.game.conf.HTTPServerConf.HTTP_SERVER_PORT;
 
@@ -27,8 +24,8 @@ class BattleshipGame {
 
     private void startBattlefield() {
         battlefield = Battlefield.getInstance()
-                .build()
-                .print();
+                .build();
+//                .print();
     }
 
     private void startApi() {
@@ -52,4 +49,7 @@ class BattleshipGame {
         BattleshipAPI.getInstance().stop();
     }
 
+    Battlefield battlefield() {
+        return battlefield;
+    }
 }

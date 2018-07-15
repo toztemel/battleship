@@ -68,8 +68,8 @@ public class CoordinatesTest {
         assertEquals(10, c.column());
 
         c = CoordinatesFactory.fromProtocolString("FxF");
-        assertEquals(10, c.row());
-        assertEquals(10, c.column());
+        assertEquals(15, c.row());
+        assertEquals(15, c.column());
     }
 
     @Test(expected = InvalidCoordinatesException.class)

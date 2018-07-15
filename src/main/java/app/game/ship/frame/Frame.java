@@ -33,6 +33,7 @@ public abstract class Frame {
     public void hitBy(Shot shot) {
         if (outOfBoundaries(shot) || empty(shot)) {
             shot.missed();
+            return;
         }
         getHitBy(shot);
         if (allPartsHit()) {
@@ -40,6 +41,7 @@ public abstract class Frame {
         } else {
             shot.hit();
         }
+
     }
 
     void fill(Coordinates coordinates) {

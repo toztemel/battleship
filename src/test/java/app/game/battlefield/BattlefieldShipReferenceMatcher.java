@@ -5,8 +5,6 @@ import app.game.ship.Ship;
 import org.hamcrest.Description;
 import org.hamcrest.TypeSafeMatcher;
 
-import static org.junit.Assert.assertEquals;
-
 public class BattlefieldShipReferenceMatcher extends TypeSafeMatcher<Battlefield> {
 
     private static BattlefieldShipReferenceMatcher instance = new BattlefieldShipReferenceMatcher();
@@ -29,16 +27,18 @@ public class BattlefieldShipReferenceMatcher extends TypeSafeMatcher<Battlefield
 
     @Override
     public boolean matchesSafely(Battlefield battlefield) {
-        assertThatShipSpansTheArea(battlefield);
-        return true;
+        return assertThatShipSpansTheArea(battlefield);
     }
 
-    private void assertThatShipSpansTheArea(Battlefield battlefield) {
+    private boolean assertThatShipSpansTheArea(Battlefield battlefield) {
         for (int i = 0; i < ship.length(); i++) {
             for (int j = 0; j < ship.width(); j++) {
-                assertEquals(ship, battlefield.shipAt(byOffset(i, j)));
+                if (!ship.equals(battlefield.shipAt(byOffset(i, j)))) {
+                    return false;
+                }
             }
         }
+        return true;
     }
 
     private Coordinates byOffset(int i, int j) {

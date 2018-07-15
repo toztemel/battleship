@@ -21,7 +21,7 @@ public class TestUtil {
         return newGameRequest;
     }
 
-    static FiringRequest aimAt(Coordinates... coordinates) {
+    static FiringRequest aiming(Coordinates... coordinates) {
         String[] shots = Arrays.stream(coordinates)
                 .map(CoordinatesFactory::toProtocolString)
                 .toArray(String[]::new);

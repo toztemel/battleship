@@ -24,17 +24,12 @@ public class FrameTest {
 
             @Override
             public String toStringAt(Coordinates n) {
-                return null;
+                return "*";
             }
 
             @Override
             public void insertedAt(Coordinates c) {
 
-            }
-
-            @Override
-            public String toString() {
-                return "*";
             }
         };
         print(new AngleFrame(s));
