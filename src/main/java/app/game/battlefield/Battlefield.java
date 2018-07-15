@@ -27,7 +27,7 @@ public class Battlefield {
         return field[0].length;
     }
 
-    void insertAt(Ship ship, Coordinates coordinates) {
+    Battlefield insertAt(Ship ship, Coordinates coordinates) {
         int row = coordinates.row();
         int column = coordinates.column();
         for (int i = 0; i < ship.length(); i++) {
@@ -37,6 +37,7 @@ public class Battlefield {
             }
         }
         DoubleArrays.print2DArray(field);
+        return this;
     }
 
     Ship shipAt(Coordinates c) {

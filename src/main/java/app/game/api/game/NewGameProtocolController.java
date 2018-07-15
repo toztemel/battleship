@@ -2,7 +2,7 @@ package app.game.api.game;
 
 import io.javalin.Context;
 
-public class NewGameController {
+public class NewGameProtocolController {
 
     public void newGameProtocol(Context ctx) throws Exception {
         NewGame newGame = new NewGame();

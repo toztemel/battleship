@@ -1,14 +1,14 @@
 package app.game;
 
 import app.game.api.BattleshipAPI;
-import app.game.api.firing.FireController;
-import app.game.api.game.NewGameController;
+import app.game.api.firing.FireProtocolController;
+import app.game.api.game.NewGameProtocolController;
 import app.game.api.mapper.BattleshipObjectMapper;
 import app.game.api.user.UserController;
 
 import static app.game.conf.HTTPServerConf.HTTP_SERVER_PORT;
 
-public class BattleshipGame {
+class BattleshipGame {
 
     BattleshipGame() {
 
@@ -19,8 +19,8 @@ public class BattleshipGame {
     }
 
     private void startApi() {
-        FireController fireController = new FireController();
-        NewGameController newGameController = new NewGameController();
+        FireProtocolController fireController = new FireProtocolController();
+        NewGameProtocolController newGameController = new NewGameProtocolController();
         UserController userController = new UserController();
 
         BattleshipAPI.getInstance()

@@ -2,7 +2,7 @@ package app.game.api.firing;
 
 import io.javalin.Context;
 
-public class FireController {
+public class FireProtocolController {
 
     public void fireProtocol(Context ctx) {
         String gameId = ctx.param("gameId");
