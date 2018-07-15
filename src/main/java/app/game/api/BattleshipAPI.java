@@ -2,14 +2,12 @@ package app.game.api;
 
 import app.game.api.ResourcePath.Protocol;
 import app.game.api.ResourcePath.User;
-import app.game.api.firing.FireController;
-import app.game.api.game.NewGameController;
-import app.game.api.mapper.BattleshipObjectMapper;
-import app.game.api.user.UserController;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import io.javalin.Handler;
 import io.javalin.Javalin;
 import io.javalin.translator.json.JavalinJacksonPlugin;
 
-import static app.game.conf.HTTPServerConf.HTTP_SERVER_PORT;
+import java.util.function.Supplier;
 
 public class BattleshipAPI {
 
@@ -18,41 +16,59 @@ public class BattleshipAPI {
     private Javalin app;
 
     private BattleshipAPI() {
+        app = Javalin.create();
     }
 
     public static BattleshipAPI getInstance() {
         return instance;
     }
 
+    public void start() {
+        app.start();
+    }
+
     public void stop() {
         app.stop();
     }
 
-    public void start() {
-        start(HTTP_SERVER_PORT);
+    public BattleshipAPI listen(int httpPort) {
+        app.port(httpPort);
+        return this;
     }
 
-    private void start(int port) {
-        app = Javalin.start(port);
-
-        configureJsonMapper();
-
-        app.post(Protocol.NEW_GAME, NewGameController.newGameHandler);
-
-        app.put(Protocol.FIRE, FireController.firingHandler);
-
-        app.get(User.STATUS, UserController::statusHandler);
-
-        app.post(User.NEW_GAME, UserController::newGame);
-
-        app.put(User.FIRE, UserController::fire);
-
-        app.put(User.AUTO, UserController::auto);
+    public BattleshipAPI withMapper(Supplier<ObjectMapper> s) {
+        JavalinJacksonPlugin.configure(s.get());
+        return this;
     }
 
-    private void configureJsonMapper() {
-        JavalinJacksonPlugin.configure(new BattleshipObjectMapper().getDefaultObjectMapper());
+    public BattleshipAPI onProtocolNewGame(Handler handler) {
+        app.post(Protocol.NEW_GAME, handler);
+        return this;
     }
 
+    public BattleshipAPI onProtocolFire(Handler handler) {
+        app.put(Protocol.FIRE, handler);
+        return this;
+    }
+
+    public BattleshipAPI onUserStartNewGame(Handler newGame) {
+        app.post(User.NEW_GAME, newGame);
+        return this;
+    }
+
+    public BattleshipAPI onUserAsksStatus(Handler statusHandler) {
+        app.get(User.STATUS, statusHandler);
+        return this;
+    }
+
+    public BattleshipAPI onUserFires(Handler userFireHandler) {
+        app.put(User.FIRE, userFireHandler);
+        return this;
+    }
+
+    public BattleshipAPI onUserEnablesAutoPilot(Handler autoHandler) {
+        app.put(User.AUTO, autoHandler);
+        return this;
+    }
 
 }

@@ -1,12 +1,10 @@
 package app.game.api.firing;
 
-import io.javalin.Handler;
-
-import java.util.Arrays;
+import io.javalin.Context;
 
 public class FireController {
 
-    public static Handler firingHandler = ctx -> {
+    public void fireProtocol(Context ctx) {
         String gameId = ctx.param("gameId");
         System.out.println(gameId);
 
@@ -26,6 +24,5 @@ public class FireController {
         response.setGame(game);
 
         ctx.status(200).json(response);
-    };
-
+    }
 }
