@@ -11,4 +11,6 @@ public interface Ship {
     String toStringAt(Coordinates coordinates);
 
     void insertedAt(Coordinates coordinates);
+
+    boolean isAlive();
 }

@@ -38,7 +38,12 @@ public class FiringProtocolController {
         shotList.forEach(shot -> shots.put(shot.asHexString(), shot.result().toString()));
 
         Game game = new Game();
-        game.setStatus("player_turn");
+
+        if (battlefield.allShipsKilled()){
+            game.setStatus(Game.GameStatus.won);
+        } else {
+            game.setStatus(Game.GameStatus.player_turn);
+        }
         game.setOwner("challanger-Y");
 
         FiringResponse response = new FiringResponse();

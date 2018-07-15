@@ -2,6 +2,7 @@ package app.game.ship.frame;
 
 import app.game.fire.Coordinates;
 import app.game.fire.Shot;
+import app.game.ship.Battleship;
 import app.game.ship.DamagedShip;
 import app.game.ship.Emptiness;
 import app.game.ship.Ship;
@@ -9,6 +10,7 @@ import app.game.ship.frame.rotation.Matrix;
 import app.game.util.DoubleArrays;
 
 import java.util.Arrays;
+import java.util.stream.Stream;
 
 public abstract class Frame {
 
@@ -91,5 +93,11 @@ public abstract class Frame {
             return ".";
         }
         return "*";
+    }
+
+    public boolean isAlive() {
+        return Stream.of(frame)
+                .flatMap(Stream::of)
+                .anyMatch(s -> s instanceof Battleship);
     }
 }

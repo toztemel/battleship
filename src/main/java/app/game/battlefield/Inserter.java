@@ -4,7 +4,7 @@ import app.game.ship.Ship;
 
 public interface Inserter {
 
-    ShipHolder insert(Ship s);
+    ShipHolder with(Ship s);
 
     Battlefield build();
 }

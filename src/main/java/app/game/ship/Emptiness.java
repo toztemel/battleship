@@ -34,6 +34,11 @@ public class Emptiness implements Ship {
     }
 
     @Override
+    public boolean isAlive() {
+        return false;
+    }
+
+    @Override
     public String toString() {
         return ".";
     }

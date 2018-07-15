@@ -7,6 +7,9 @@ import app.game.ship.Emptiness;
 import app.game.ship.Ship;
 import app.game.util.DoubleArrays;
 
+import java.util.Arrays;
+import java.util.stream.Stream;
+
 import static app.game.battlefield.Constants.BATTLEFIELD_SIZE;
 
 public class Battlefield implements ShipHolder, Inserter {
@@ -40,7 +43,7 @@ public class Battlefield implements ShipHolder, Inserter {
     }
 
     @Override
-    public ShipHolder insert(Ship s) {
+    public ShipHolder with(Ship s) {
         aShip = s;
         return this;
     }
@@ -68,7 +71,6 @@ public class Battlefield implements ShipHolder, Inserter {
         return this;
     }
 
-
     public void fireAt(Shot shot) {
         Ship ship = field[shot.row()][shot.col()];
         if (ship == Emptiness.instance()) {
@@ -76,5 +78,11 @@ public class Battlefield implements ShipHolder, Inserter {
         } else {
             ((Battleship) ship).hitBy(shot);
         }
+    }
+
+    public boolean allShipsKilled() {
+        return Stream.of(field)
+                .flatMap(Arrays::stream)
+                .anyMatch(Ship::isAlive);
     }
 }

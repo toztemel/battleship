@@ -31,6 +31,11 @@ public class FrameTest {
             public void insertedAt(Coordinates c) {
 
             }
+
+            @Override
+            public boolean isAlive() {
+                return false;
+            }
         };
         print(new AngleFrame(s));
         print(new AFrame(s));

@@ -33,11 +33,11 @@ public class BattlefieldTest {
         Ship bWing = new BWing();
         Ship aWing = new AWing();
 
-        battlefield.insert(angle).at(Coordinates.of(0, 0));
-        battlefield.insert(aWing).at(Coordinates.of(0, 7));
-        battlefield.insert(bWing).at(Coordinates.of(7, 0));
-        battlefield.insert(sWing).at(Coordinates.of(5, 5));
-        battlefield.insert(xWing).at(Coordinates.of(10, 10));
+        battlefield.with(angle).at(Coordinates.of(0, 0));
+        battlefield.with(aWing).at(Coordinates.of(0, 7));
+        battlefield.with(bWing).at(Coordinates.of(7, 0));
+        battlefield.with(sWing).at(Coordinates.of(5, 5));
+        battlefield.with(xWing).at(Coordinates.of(10, 10));
 
         assertThat(battlefield, contains().referenceTo(angle).at(Coordinates.of(0, 0)));
         assertThat(battlefield, contains().referenceTo(aWing).at(Coordinates.of(0, 7)));

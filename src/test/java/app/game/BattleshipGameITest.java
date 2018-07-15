@@ -3,9 +3,11 @@ package app.game;
 import app.game.api.client.BattleshipClient;
 import app.game.api.firing.FiringRequest;
 import app.game.api.firing.FiringResponse;
+import app.game.api.firing.Game;
 import app.game.api.game.NewGame;
 import app.game.fire.Coordinates;
 import app.game.ship.Angle;
+import app.game.ship.SWing;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Ignore;
@@ -49,6 +51,16 @@ public class BattleshipGameITest {
     public void server_responds_with_error_to_firing_after_game_ends() {
     }
 
+    @Ignore
+    @Test
+    public void server_responds_with_error_to_firing_multiple_times_in_simple_mode() {
+    }
+
+    @Ignore
+    @Test
+    public void server_responds_with_error_to_consequtive_fires_in_simple_mode() {
+    }
+
     @Test
     public void server_responds_to_a_new_game_invitation() {
         NewGame newGame = opponent.challengeOpponent(newGameRequest());
@@ -86,7 +98,7 @@ public class BattleshipGameITest {
 
         assertNotNull(firingResponse.getGame());
         assertEquals("challanger-Y", firingResponse.getGame().getOwner());
-        assertEquals("player_turn", firingResponse.getGame().getStatus());
+        assertEquals(Game.GameStatus.player_turn, firingResponse.getGame().getStatus());
 
         assertNotNull(firingResponse.getShots());
         for (Coordinates coordinates : coordinateList) {
@@ -98,7 +110,7 @@ public class BattleshipGameITest {
     @Test
     public void server_returns_HIT_when_opponent_hits_single_shot() {
 
-        game.battlefield().insert(new Angle()).at(Coordinates.of(0, 0));
+        game.battlefield().with(new Angle()).at(Coordinates.of(0, 0));
 
         NewGame newGame = opponent.challengeOpponent(newGameRequest());
 
@@ -111,7 +123,8 @@ public class BattleshipGameITest {
     @Test
     public void server_returns_KILL_when_opponent_kills_a_single_ship() {
 
-        game.battlefield().insert(new Angle()).at(Coordinates.of(0, 0));
+        game.battlefield()
+                .with(new Angle()).at(Coordinates.of(0, 0));
 
         NewGame newGame = opponent.challengeOpponent(newGameRequest());
 
@@ -138,6 +151,35 @@ public class BattleshipGameITest {
         coordinates = Coordinates.of(3, 2);
         result = opponent.fire(newGame, aiming(coordinates));
         assertThat(result, at(coordinates).is(KILL));
+    }
+
+    @Test
+    public void server_returns_WIN_when_opponent_kills_all_ships() {
+
+        game.battlefield()
+                .with(new Angle()).at(Coordinates.of(0, 0))
+                .with(new SWing()).at(Coordinates.of(10, 10));
+
+        NewGame newGame = opponent.challengeOpponent(newGameRequest());
+
+        opponent.fire(newGame, aiming(Coordinates.of(0, 0)));
+        opponent.fire(newGame, aiming(Coordinates.of(1, 0)));
+        opponent.fire(newGame, aiming(Coordinates.of(2, 0)));
+        opponent.fire(newGame, aiming(Coordinates.of(3, 0)));
+        opponent.fire(newGame, aiming(Coordinates.of(3, 1)));
+        opponent.fire(newGame, aiming(Coordinates.of(3, 2)));
+
+        opponent.fire(newGame, aiming(Coordinates.of(10, 10)));
+        opponent.fire(newGame, aiming(Coordinates.of(10, 12)));
+        opponent.fire(newGame, aiming(Coordinates.of(11, 10)));
+        opponent.fire(newGame, aiming(Coordinates.of(11, 12)));
+        opponent.fire(newGame, aiming(Coordinates.of(12, 11)));
+        opponent.fire(newGame, aiming(Coordinates.of(13, 10)));
+        opponent.fire(newGame, aiming(Coordinates.of(13, 12)));
+        opponent.fire(newGame, aiming(Coordinates.of(14, 10)));
+        FiringResponse firingResponse = opponent.fire(newGame, aiming(Coordinates.of(14, 12)));
+
+        assertEquals(Game.GameStatus.won, firingResponse.getGame().getStatus());
     }
 
 }

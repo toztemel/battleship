@@ -47,4 +47,9 @@ abstract class AbstractBattleship implements Battleship {
     public void insertedAt(Coordinates coordinates) {
         battlefieldCoordinates = coordinates;
     }
+
+    @Override
+    public boolean isAlive() {
+        return frame.isAlive();
+    }
 }
