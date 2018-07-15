@@ -3,8 +3,9 @@ package app.game;
 import app.game.api.client.BattleshipClient;
 import app.game.api.firing.FiringRequest;
 import app.game.api.game.NewGame;
+import app.game.fire.Coordinates;
 
-import javax.ws.rs.core.Response;
+import java.util.Arrays;
 
 public class TestUtil {
 
@@ -19,17 +20,17 @@ public class TestUtil {
         return newGameRequest;
     }
 
-    static FiringRequest getFiringRequest() {
+    static FiringRequest getFiringRequest(Coordinates... coordinates) {
+        String[] shots = Arrays.stream(coordinates)
+                .map(Coordinates::toProtocolString)
+                .toArray(String[]::new);
         FiringRequest fire = new FiringRequest();
-        fire.setShots(new String[]{"1xB", "0xA", "5x1"});
+        fire.setShots(shots);
         return fire;
     }
 
     static NewGame startNewGame(BattleshipClient client) {
-        NewGame newGameRequest = newGameRequest();
-
-        Response response = client.challengeOpponent(newGameRequest);
-        return response.readEntity(NewGame.class);
+        return client.challengeOpponent(newGameRequest());
     }
 
 }

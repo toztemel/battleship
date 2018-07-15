@@ -12,6 +12,7 @@ import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.util.Arrays;
 
 import static javax.servlet.http.HttpServletResponse.SC_CREATED;
 import static javax.servlet.http.HttpServletResponse.SC_OK;
@@ -35,18 +36,17 @@ public class BattleshipClient {
         Response response = post(Protocol.NEW_GAME, newGame);
         NewGame newGameResponse = response.readEntity(NewGame.class);
         if (!isCreated(response)) {
-
+            System.err.println(response);
         }
         return newGameResponse;
     }
 
-    public FiringResponse fire(String gameId, FiringRequest fire) {
-        Response response = put("/protocol/app.game/" + gameId, fire);
-        FiringResponse firingResponse = response.readEntity(FiringResponse.class);
+    public FiringResponse fire(NewGame game, FiringRequest fire) {
+        Response response = put("/protocol/game/" + game.getGameId(), fire);
         if (!isSuccessful(response)) {
-
+            System.err.println(response);
         }
-        return firingResponse;
+        return response.readEntity(FiringResponse.class);
     }
 
     private boolean isSuccessful(Response response) {

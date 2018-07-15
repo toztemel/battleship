@@ -41,4 +41,9 @@ public final class Coordinates {
         return new Coordinates(row - offset.row, column - offset.column);
     }
 
+    public String toProtocolString() {
+        return Integer.toHexString(row).toUpperCase()
+                + "x"
+                + Integer.toHexString(column).toUpperCase();
+    }
 }

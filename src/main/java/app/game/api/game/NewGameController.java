@@ -1,11 +1,10 @@
 package app.game.api.game;
 
-import io.javalin.Context;
+import io.javalin.Handler;
 
 public class NewGameController {
 
-
-    public static void newGameHandler(Context ctx) {
+    public static Handler newGameHandler = ctx -> {
         NewGame newGame = new NewGame();
         newGame.setUserId("challenger-Y");
         newGame.setFullName("Lunatech FR Champion");
@@ -14,5 +13,5 @@ public class NewGameController {
         newGame.setStarting(request.getUserId());
         newGame.setRules(request.getRules());
         ctx.status(201).json(newGame);
-    }
+    };
 }

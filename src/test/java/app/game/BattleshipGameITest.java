@@ -4,6 +4,8 @@ import app.game.api.client.BattleshipClient;
 import app.game.api.firing.FiringRequest;
 import app.game.api.firing.FiringResponse;
 import app.game.api.game.NewGame;
+import app.game.fire.Coordinates;
+import app.game.fire.Shot;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Ignore;
@@ -48,9 +50,11 @@ public class BattleshipGameITest {
 
     @Test
     public void test_game_responds_to_firing_after_initialization() {
-        String gameId = startNewGame(opponent).getGameId();
-        FiringRequest fire = getFiringRequest();
-        FiringResponse firingResponse = opponent.fire(gameId, fire);
+        NewGame newGame = startNewGame(opponent);
+        FiringRequest fire = getFiringRequest(Coordinates.of(1, 11),
+                Coordinates.of(0, 10),
+                Coordinates.of(5, 1));
+        FiringResponse firingResponse = opponent.fire(newGame, fire);
 
         assertNotNull(firingResponse.getGame());
         assertEquals("challanger-Y", firingResponse.getGame().getOwner());
@@ -61,7 +65,6 @@ public class BattleshipGameITest {
         assertEquals("kill", firingResponse.getShots().get("0xA"));
         assertEquals("miss", firingResponse.getShots().get("5x1"));
     }
-
 
     @Test
     public void game_responds_to_a_new_game_invitation() {
@@ -76,7 +79,13 @@ public class BattleshipGameITest {
 
     @Test
     public void returns_MISS_when_opponent_misses_single_shot() {
+        NewGame newGame = startNewGame(opponent);
+        Coordinates c = Coordinates.of(0, 0);
+        Coordinates c2 = Coordinates.of(0, 1);
+        FiringRequest fire = getFiringRequest(c, c2);
+        FiringResponse response = opponent.fire(newGame, fire);
 
+        assertEquals(Shot.Damage.MISS.toString(), response.getShots().get(c.toProtocolString()));
     }
 
 }

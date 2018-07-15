@@ -1,15 +1,19 @@
 package app.game.api.firing;
 
-import io.javalin.Context;
+import io.javalin.Handler;
+
+import java.util.Arrays;
 
 public class FireController {
 
-    public static void firingHandler(Context ctx) {
+    public static Handler firingHandler = ctx -> {
         String gameId = ctx.param("gameId");
         System.out.println(gameId);
 
         FiringRequest firingRequest = ctx.bodyAsClass(FiringRequest.class);
         Shots shots = new Shots();
+//        Arrays.stream(firingRequest.getShots())
+//                .forEach(s -> {shots.put(s, )});
         shots.put(firingRequest.getShots()[0], "hit");
         shots.put(firingRequest.getShots()[1], "kill");
         shots.put(firingRequest.getShots()[2], "miss");
@@ -22,6 +26,6 @@ public class FireController {
         response.setGame(game);
 
         ctx.status(200).json(response);
-    }
+    };
 
 }

@@ -37,9 +37,9 @@ public class BattleshipAPI {
 
         configureJsonMapper();
 
-        app.post(Protocol.NEW_GAME, NewGameController::newGameHandler);
+        app.post(Protocol.NEW_GAME, NewGameController.newGameHandler);
 
-        app.put(Protocol.FIRE, FireController::firingHandler);
+        app.put(Protocol.FIRE, FireController.firingHandler);
 
         app.get(User.STATUS, UserController::statusHandler);
 
