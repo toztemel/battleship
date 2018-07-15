@@ -177,8 +177,8 @@ public class BattleshipGameITest {
         opponent.fire(newGame, aiming(Coordinates.of(13, 10)));
         opponent.fire(newGame, aiming(Coordinates.of(13, 12)));
         opponent.fire(newGame, aiming(Coordinates.of(14, 10)));
-        FiringResponse firingResponse = opponent.fire(newGame, aiming(Coordinates.of(14, 12)));
 
+        FiringResponse firingResponse = opponent.fire(newGame, aiming(Coordinates.of(14, 12)));
         assertEquals(Game.GameStatus.won, firingResponse.getGame().getStatus());
     }
 

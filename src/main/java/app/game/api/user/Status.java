@@ -6,7 +6,7 @@ public class Status {
 
     private Game game;
     private Self self;
-    private Oponent oponent;
+    private Opponent opponent;
 
     public Game getGame() {
         return game;
@@ -24,11 +24,11 @@ public class Status {
         this.self = self;
     }
 
-    public Oponent getOponent() {
-        return oponent;
+    public Opponent getOpponent() {
+        return opponent;
     }
 
-    public void setOponent(Oponent oponent) {
-        this.oponent = oponent;
+    public void setOpponent(Opponent opponent) {
+        this.opponent = opponent;
     }
 }

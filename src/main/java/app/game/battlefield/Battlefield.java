@@ -53,9 +53,8 @@ public class Battlefield implements ShipHolder, Inserter {
         return this;
     }
 
-    public Battlefield print() {
-        DoubleArrays.print2DArray(field);
-        return this;
+    public String[] asString() {
+        return DoubleArrays.asString(field);
     }
 
     @Override

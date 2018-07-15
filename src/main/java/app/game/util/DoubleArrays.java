@@ -26,6 +26,20 @@ public final class DoubleArrays {
         System.out.println();
     }
 
+    public static String[] asString(Ship[][] frame) {
+        String[] result = new String[frame.length];
+
+        StringBuilder sb;
+        for (int i = 0; i < frame.length; i++) {
+            sb = new StringBuilder();
+            for (int j = 0; j < frame[0].length; j++) {
+                sb.append(frame[i][j].toStringAt(Coordinates.of(i, j)));
+            }
+            result[i] = sb.toString();
+        }
+        return result;
+    }
+
     public static void fillEmpty(Ship[][] ships) {
         for (int i = 0; i < ships.length; i++) {
             Arrays.fill(ships[i], Emptiness.instance());

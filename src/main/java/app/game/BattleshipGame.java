@@ -25,13 +25,12 @@ class BattleshipGame {
     private void startBattlefield() {
         battlefield = Battlefield.getInstance()
                 .build();
-//                .print();
     }
 
     private void startApi() {
         FiringProtocolController fireController = new FiringProtocolController(battlefield);
         NewGameProtocolController newGameController = new NewGameProtocolController();
-        UserController userController = new UserController();
+        UserController userController = new UserController(battlefield);
 
         BattleshipAPI.getInstance()
                 .listen(HTTP_SERVER_PORT)
