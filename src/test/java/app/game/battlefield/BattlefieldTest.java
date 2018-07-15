@@ -33,17 +33,17 @@ public class BattlefieldTest {
         Ship bWing = new BWing();
         Ship aWing = new AWing();
 
-        battlefield.insertAt(angle, Coordinates.of(0, 0));
-        battlefield.insertAt(aWing, Coordinates.of(0, 7));
-        battlefield.insertAt(bWing, Coordinates.of(7, 0));
-        battlefield.insertAt(sWing, Coordinates.of(5, 5));
-        battlefield.insertAt(xWing, Coordinates.of(10, 10));
+        battlefield.insert(angle).at(Coordinates.of(0, 0));
+        battlefield.insert(aWing).at(Coordinates.of(0, 7));
+        battlefield.insert(bWing).at(Coordinates.of(7, 0));
+        battlefield.insert(sWing).at(Coordinates.of(5, 5));
+        battlefield.insert(xWing).at(Coordinates.of(10, 10));
 
         assertThat(battlefield, contains().referenceTo(angle).at(Coordinates.of(0, 0)));
-        assertThat(battlefield, contains().referenceTo(aWing).at(Coordinates.of(0,7)));
-        assertThat(battlefield, contains().referenceTo(bWing).at(Coordinates.of(7,0)));
-        assertThat(battlefield, contains().referenceTo(sWing).at(Coordinates.of(5,5)));
-        assertThat(battlefield, contains().referenceTo(xWing).at(Coordinates.of(10,10)));
+        assertThat(battlefield, contains().referenceTo(aWing).at(Coordinates.of(0, 7)));
+        assertThat(battlefield, contains().referenceTo(bWing).at(Coordinates.of(7, 0)));
+        assertThat(battlefield, contains().referenceTo(sWing).at(Coordinates.of(5, 5)));
+        assertThat(battlefield, contains().referenceTo(xWing).at(Coordinates.of(10, 10)));
     }
 
 }

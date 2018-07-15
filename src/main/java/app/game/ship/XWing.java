@@ -1,5 +1,5 @@
 package app.game.ship;
 
-public class XWing extends Battleship {
+public class XWing extends AbstractBattleship {
 
 }

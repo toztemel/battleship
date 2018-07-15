@@ -1,5 +1,5 @@
 package app.game.ship;
 
-public class Angle extends Battleship {
+public class Angle extends AbstractBattleship {
 
 }

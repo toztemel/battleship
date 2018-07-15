@@ -4,6 +4,7 @@ import app.game.api.client.BattleshipClient;
 import app.game.api.firing.FiringRequest;
 import app.game.api.game.NewGame;
 import app.game.fire.Coordinates;
+import app.game.fire.CoordinatesFactory;
 
 import java.util.Arrays;
 
@@ -20,17 +21,13 @@ public class TestUtil {
         return newGameRequest;
     }
 
-    static FiringRequest getFiringRequest(Coordinates... coordinates) {
+    static FiringRequest aimAt(Coordinates... coordinates) {
         String[] shots = Arrays.stream(coordinates)
-                .map(Coordinates::toProtocolString)
+                .map(CoordinatesFactory::toProtocolString)
                 .toArray(String[]::new);
         FiringRequest fire = new FiringRequest();
         fire.setShots(shots);
         return fire;
-    }
-
-    static NewGame startNewGame(BattleshipClient client) {
-        return client.challengeOpponent(newGameRequest());
     }
 
 }

@@ -4,7 +4,7 @@ import io.javalin.Context;
 
 public class NewGameProtocolController {
 
-    public void newGameProtocol(Context ctx) throws Exception {
+    public void onNewGame(Context ctx) throws Exception {
         NewGame newGame = new NewGame();
         newGame.setUserId("challenger-Y");
         newGame.setFullName("Lunatech FR Champion");

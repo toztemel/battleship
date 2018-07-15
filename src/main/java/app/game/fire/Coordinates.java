@@ -2,6 +2,9 @@ package app.game.fire;
 
 public final class Coordinates {
 
+    private static final int HEX = 16;
+
+    private String hexRepresentation;
     private final int row;
     private final int column;
 
@@ -41,9 +44,15 @@ public final class Coordinates {
         return new Coordinates(row - offset.row, column - offset.column);
     }
 
-    public String toProtocolString() {
-        return Integer.toHexString(row).toUpperCase()
-                + "x"
-                + Integer.toHexString(column).toUpperCase();
+    public Coordinates withStringRepresentation(String s) {
+        hexRepresentation = s;
+        return this;
+    }
+
+    public String toHexString() {
+        if(null == hexRepresentation) {
+            hexRepresentation = CoordinatesFactory.toProtocolString(this);
+        }
+        return hexRepresentation;
     }
 }

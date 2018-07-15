@@ -2,7 +2,6 @@ package app.game.ship.frame;
 
 import app.game.fire.Coordinates;
 import app.game.fire.Shot;
-import app.game.fire.Shot.Damage;
 import app.game.ship.DamagedShip;
 import app.game.ship.Emptiness;
 import app.game.ship.Ship;
@@ -31,12 +30,16 @@ public abstract class Frame {
         DoubleArrays.print2DArray(frame);
     }
 
-    public Damage hitBy(Shot shot) {
+    public void hitBy(Shot shot) {
         if (outOfBoundaries(shot) || empty(shot)) {
-            return Damage.MISS;
+            shot.missed();
         }
         getHitBy(shot);
-        return allPartsHit() ? Damage.KILL : Damage.HIT;
+        if (allPartsHit()) {
+            shot.killed();
+        } else {
+            shot.hit();
+        }
     }
 
     void fill(Coordinates coordinates) {

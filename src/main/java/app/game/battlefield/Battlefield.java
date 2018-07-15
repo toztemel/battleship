@@ -1,17 +1,25 @@
 package app.game.battlefield;
 
 import app.game.fire.Coordinates;
+import app.game.fire.Shot;
+import app.game.ship.Battleship;
+import app.game.ship.Emptiness;
 import app.game.ship.Ship;
 import app.game.util.DoubleArrays;
 
-import static app.game.battlefield.Constants.*;
+import static app.game.battlefield.Constants.BATTLEFIELD_SIZE;
 
-public class Battlefield {
+public class Battlefield implements ShipHolder, Inserter {
 
     private Ship[][] field;
+    private Ship aShip;
 
     Battlefield() {
         initializeField();
+    }
+
+    public static Inserter getInstance() {
+        return new Battlefield();
     }
 
     private void initializeField() {
@@ -27,20 +35,46 @@ public class Battlefield {
         return field[0].length;
     }
 
-    Battlefield insertAt(Ship ship, Coordinates coordinates) {
-        int row = coordinates.row();
-        int column = coordinates.column();
-        for (int i = 0; i < ship.length(); i++) {
-            for (int j = 0; j < ship.width(); j++) {
-                field[row + i][column + j] = ship;
-                ship.insertedAt(coordinates);
-            }
-        }
+    Ship shipAt(Coordinates c) {
+        return field[c.row()][c.column()];
+    }
+
+    @Override
+    public ShipHolder insert(Ship s) {
+        aShip = s;
+        return this;
+    }
+
+    @Override
+    public Battlefield build() {
+        return this;
+    }
+
+    public Battlefield print() {
         DoubleArrays.print2DArray(field);
         return this;
     }
 
-    Ship shipAt(Coordinates c) {
-        return field[c.row()][c.column()];
+    @Override
+    public Battlefield at(Coordinates coordinates) {
+        int row = coordinates.row();
+        int column = coordinates.column();
+        for (int i = 0; i < aShip.length(); i++) {
+            for (int j = 0; j < aShip.width(); j++) {
+                field[row + i][column + j] = aShip;
+                aShip.insertedAt(coordinates);
+            }
+        }
+        return this;
+    }
+
+
+    public void fireAt(Shot shot) {
+        Ship ship = field[shot.row()][shot.col()];
+        if (ship == Emptiness.instance()) {
+            shot.missed();
+        } else {
+            ((Battleship) ship).hitBy(shot);
+        }
     }
 }
