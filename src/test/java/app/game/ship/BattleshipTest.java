@@ -14,36 +14,28 @@ public class BattleshipTest {
         Frame frame = FrameFactory.create(new AWing());
 
         Shot shot = Shot.at(0, 1);
-        frame.hitBy(shot);
-        assertEquals(Shot.Damage.HIT, shot.result());
+        assertEquals(Shot.Damage.HIT,frame.hitBy(shot));
 
         shot = Shot.at(1,0);
-        frame.hitBy(shot);
-        assertEquals(Shot.Damage.HIT, shot.result());
+        assertEquals(Shot.Damage.HIT,frame.hitBy(shot));
 
         shot = Shot.at(1, 2);
-        frame.hitBy(shot);
-        assertEquals(Shot.Damage.HIT, shot.result());
+        assertEquals(Shot.Damage.HIT,frame.hitBy(shot));
 
         shot = Shot.at(2,0);
-        frame.hitBy(shot);
-        assertEquals(Shot.Damage.HIT, shot.result());
+        assertEquals(Shot.Damage.HIT,frame.hitBy(shot));
 
         shot = Shot.at(2, 1);
-        frame.hitBy(shot);
-        assertEquals(Shot.Damage.HIT, shot.result());
+        assertEquals(Shot.Damage.HIT,frame.hitBy(shot));
 
         shot = Shot.at(2, 2);
-        frame.hitBy(shot);
-        assertEquals(Shot.Damage.HIT, shot.result());
+        assertEquals(Shot.Damage.HIT,frame.hitBy(shot));
 
         shot = Shot.at(3, 0);
-        frame.hitBy(shot);
-        assertEquals(Shot.Damage.HIT, shot.result());
+        assertEquals(Shot.Damage.HIT,frame.hitBy(shot));
 
         shot = Shot.at(3, 2);
-        frame.hitBy(shot);
-        assertEquals(Shot.Damage.KILL, shot.result());
+        assertEquals(Shot.Damage.KILL,frame.hitBy(shot));
     }
 
     @Test
@@ -51,45 +43,37 @@ public class BattleshipTest {
         Frame frame = FrameFactory.create(new AWing());
 
         Shot shot = Shot.at(0, 1);
-        frame.hitBy(shot);
-        assertEquals(Shot.Damage.HIT, shot.result());
+        assertEquals(Shot.Damage.HIT,frame.hitBy(shot));
 
         shot = Shot.at(1,0);
-        frame.hitBy(shot);
-        assertEquals(Shot.Damage.HIT, shot.result());
+        assertEquals(Shot.Damage.HIT,frame.hitBy(shot));
 
         shot = Shot.at(1,2);
-        frame.hitBy(shot);
-        assertEquals(Shot.Damage.HIT, shot.result());
+        assertEquals(Shot.Damage.HIT,frame.hitBy(shot));
 
         shot = Shot.at(2, 0);
-        frame.hitBy(shot);
-        assertEquals(Shot.Damage.HIT, shot.result());
+        assertEquals(Shot.Damage.HIT,frame.hitBy(shot));
 
         shot = Shot.at(2, 1);
-        frame.hitBy(shot);
-        assertEquals(Shot.Damage.HIT, shot.result());
+        assertEquals(Shot.Damage.HIT,frame.hitBy(shot));
 
         shot = Shot.at(2, 2);
-        frame.hitBy(shot);
-        assertEquals(Shot.Damage.HIT, shot.result());
+        assertEquals(Shot.Damage.HIT,frame.hitBy(shot));
 
         shot = Shot.at(3, 0);
-        frame.hitBy(shot);
-        assertEquals(Shot.Damage.HIT, shot.result());
+        assertEquals(Shot.Damage.HIT,frame.hitBy(shot));
+
         shot = Shot.at(3, 0);
-        frame.hitBy(shot);
-        assertEquals(Shot.Damage.HIT, shot.result());
+        assertEquals(Shot.Damage.HIT,frame.hitBy(shot));
+
         shot = Shot.at(3, 0);
-        frame.hitBy(shot);
-        assertEquals(Shot.Damage.HIT, shot.result());
+        assertEquals(Shot.Damage.HIT,frame.hitBy(shot));
+
         shot = Shot.at(3, 0);
-        frame.hitBy(shot);
-        assertEquals(Shot.Damage.HIT, shot.result());
+        assertEquals(Shot.Damage.HIT,frame.hitBy(shot));
 
         shot = Shot.at(3, 2);
-        frame.hitBy(shot);
-        assertEquals(Shot.Damage.KILL, shot.result());
+        assertEquals(Shot.Damage.KILL,frame.hitBy(shot));
 
     }
 

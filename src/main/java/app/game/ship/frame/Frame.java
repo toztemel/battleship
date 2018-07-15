@@ -29,21 +29,17 @@ public abstract class Frame {
 
     public void rotate() {
         frame = Matrix.rotateRandomly(frame);
-        DoubleArrays.print2DArray(frame);
     }
 
-    public void hitBy(Shot shot) {
+    public Shot.Damage hitBy(Shot shot) {
         if (outOfBoundaries(shot) || empty(shot)) {
-            shot.missed();
-            return;
+            return Shot.Damage.MISS;
         }
         getHitBy(shot);
         if (allPartsHit()) {
-            shot.killed();
-        } else {
-            shot.hit();
+            return Shot.Damage.KILL;
         }
-
+        return Shot.Damage.HIT;
     }
 
     void fill(Coordinates coordinates) {

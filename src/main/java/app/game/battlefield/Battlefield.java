@@ -1,10 +1,9 @@
 package app.game.battlefield;
 
+import app.game.api.game.NewGame;
 import app.game.fire.Coordinates;
 import app.game.fire.Shot;
-import app.game.ship.Battleship;
-import app.game.ship.Emptiness;
-import app.game.ship.Ship;
+import app.game.ship.*;
 import app.game.util.DoubleArrays;
 
 import java.util.Arrays;
@@ -21,7 +20,7 @@ public class Battlefield implements ShipHolder, Inserter {
         initializeField();
     }
 
-    public static Inserter getInstance() {
+    public static Inserter getNewInstance() {
         return new Battlefield();
     }
 
@@ -70,18 +69,22 @@ public class Battlefield implements ShipHolder, Inserter {
         return this;
     }
 
-    public void fireAt(Shot shot) {
+    public Shot.Damage fireAt(Shot shot) {
         Ship ship = field[shot.row()][shot.col()];
         if (ship == Emptiness.instance()) {
-            shot.missed();
+            return Shot.Damage.MISS;
         } else {
-            ((Battleship) ship).hitBy(shot);
+            return ((Battleship) ship).hitBy(shot);
         }
     }
 
     public boolean allShipsKilled() {
         return Stream.of(field)
                 .flatMap(Arrays::stream)
-                .anyMatch(Ship::isAlive);
+                .noneMatch(Ship::isAlive);
+    }
+
+    public void reset(NewGame newRequest) {
+        initializeField();
     }
 }

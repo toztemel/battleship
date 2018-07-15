@@ -7,6 +7,7 @@ import io.javalin.Context;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 public class FiringProtocolController {
@@ -20,37 +21,42 @@ public class FiringProtocolController {
 
     // TODO refactor
     public void onFire(Context ctx) {
-        String gameId = ctx.param("gameId");
-        checkGameId(gameId);
+        try {
+            String gameId = ctx.param("gameId");
+            checkGameId(gameId);
 
-        FiringRequest firingRequest = ctx.bodyAsClass(FiringRequest.class);
-        String[] incomingShots = firingRequest.getShots();
-        checkGameRules(gameId, incomingShots);
+            FiringRequest firingRequest = ctx.bodyAsClass(FiringRequest.class);
+            String[] incomingShots = firingRequest.getShots();
+            checkGameRules(gameId, incomingShots);
 
-        List<Shot> shotList = Arrays.stream(incomingShots)
-                .map(CoordinatesFactory::fromProtocolString)
-                .map(Shot::new)
-                .collect(Collectors.toList());
+            List<Shot> shotList = Arrays.stream(incomingShots)
+                    .map(CoordinatesFactory::fromProtocolString)
+                    .map(Shot::new)
+                    .collect(Collectors.toList());
 
-        shotList.forEach(s -> battlefield.fireAt(s));
+            Shots shots = new Shots();
+            for(Shot shot : shotList) {
+                Shot.Damage d = battlefield.fireAt(shot);
+                shots.put(shot.asHexString(), d.toString());
+            }
 
-        Shots shots = new Shots();
-        shotList.forEach(shot -> shots.put(shot.asHexString(), shot.result().toString()));
+            Game game = new Game();
 
-        Game game = new Game();
+            if (battlefield.allShipsKilled()) {
+                game.setStatus(Game.GameStatus.won);
+            } else {
+                game.setStatus(Game.GameStatus.player_turn);
+            }
+            game.setOwner("challenger-Y");
 
-        if (battlefield.allShipsKilled()){
-            game.setStatus(Game.GameStatus.won);
-        } else {
-            game.setStatus(Game.GameStatus.player_turn);
+            FiringResponse response = new FiringResponse();
+            response.setShots(shots);
+            response.setGame(game);
+
+            ctx.status(200).json(response);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        game.setOwner("challanger-Y");
-
-        FiringResponse response = new FiringResponse();
-        response.setShots(shots);
-        response.setGame(game);
-
-        ctx.status(200).json(response);
     }
 
     // TODO

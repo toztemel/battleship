@@ -10,6 +10,7 @@ import app.game.api.user.Status;
 import app.game.fire.Coordinates;
 import app.game.ship.Angle;
 import app.game.ship.SWing;
+import app.game.util.DoubleArrays;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Ignore;
@@ -42,6 +43,7 @@ public class UserStatusITest {
     @After
     public void tearDown() throws Exception {
         game.stop();
+        System.out.println("Stopped");
     }
 
     @Ignore

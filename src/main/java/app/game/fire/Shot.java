@@ -10,7 +10,7 @@ public final class Shot {
     }
 
     public static Shot at(int i, int j) {
-        return new Shot(CoordinatesFactory.of(i, j));
+        return new Shot(Coordinates.of(i, j));
     }
 
     public int row() {
@@ -21,7 +21,7 @@ public final class Shot {
         return coordinates.column();
     }
 
-    public Damage result(){
+    public Damage result() {
         return result;
     }
 

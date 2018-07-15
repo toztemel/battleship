@@ -19,67 +19,52 @@ public class XWingTest {
     @Test
     public void miss_ship_when_frame_is_intact() {
         Shot shot = Shot.at(0, 1);
-        ship.hitBy(shot);
-        assertEquals(Damage.MISS, shot.result());
+        assertEquals(Damage.MISS, ship.hitBy(shot));
 
         shot = Shot.at(1, 1);
-        ship.hitBy(shot);
-        assertEquals(Damage.MISS, shot.result());
+        assertEquals(Damage.MISS, ship.hitBy(shot));
 
         shot = Shot.at(2, 0);
-        ship.hitBy(shot);
-        assertEquals(Damage.MISS, shot.result());
+        assertEquals(Damage.MISS, ship.hitBy(shot));
 
         shot = Shot.at(2, 2);
-        ship.hitBy(shot);
-        assertEquals(Damage.MISS, shot.result());
+        assertEquals(Damage.MISS, ship.hitBy(shot));
 
         shot = Shot.at(3, 1);
-        ship.hitBy(shot);
-        assertEquals(Damage.MISS, shot.result());
+        assertEquals(Damage.MISS, ship.hitBy(shot));
 
         shot = Shot.at(4, 1);
-        ship.hitBy(shot);
-        assertEquals(Damage.MISS, shot.result());
+        assertEquals(Damage.MISS, ship.hitBy(shot));
     }
 
     @Test
     public void hit_ship_until_destroyed() {
         Shot shot = Shot.at(0, 0);
-        ship.hitBy(shot);
-        assertEquals(Damage.HIT, shot.result());
+        assertEquals(Damage.HIT, ship.hitBy(shot));
 
         shot = Shot.at(0, 2);
-        ship.hitBy(shot);
-        assertEquals(Damage.HIT, shot.result());
+        assertEquals(Damage.HIT, ship.hitBy(shot));
 
         shot = Shot.at(1, 0);
-        ship.hitBy(shot);
-        assertEquals(Damage.HIT, shot.result());
+        assertEquals(Damage.HIT, ship.hitBy(shot));
 
         shot = Shot.at(1, 2);
-        ship.hitBy(shot);
-        assertEquals(Damage.HIT, shot.result());
+        assertEquals(Damage.HIT, ship.hitBy(shot));
 
         shot = Shot.at(2, 1);
-        ship.hitBy(shot);
-        assertEquals(Damage.HIT, shot.result());
+        assertEquals(Damage.HIT, ship.hitBy(shot));
 
         shot = Shot.at(3, 0);
-        ship.hitBy(shot);
-        assertEquals(Damage.HIT, shot.result());
+        assertEquals(Damage.HIT, ship.hitBy(shot));
 
         shot = Shot.at(3, 2);
-        ship.hitBy(shot);
-        assertEquals(Damage.HIT, shot.result());
+        assertEquals(Damage.HIT, ship.hitBy(shot));
 
         shot = Shot.at(4, 0);
-        ship.hitBy(shot);
-        assertEquals(Damage.HIT, shot.result());
+        assertEquals(Damage.HIT, ship.hitBy(shot));
 
         shot = Shot.at(4, 2);
-        ship.hitBy(shot);
-        assertEquals(Damage.KILL, shot.result());
+        assertEquals(Damage.KILL, ship.hitBy(shot));
     }
 
 }

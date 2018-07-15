@@ -4,6 +4,6 @@ import app.game.fire.Shot;
 
 public interface Battleship extends Ship {
 
-    void hitBy(Shot shot);
+    Shot.Damage hitBy(Shot shot);
 
 }

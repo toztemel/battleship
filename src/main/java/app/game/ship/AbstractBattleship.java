@@ -19,12 +19,17 @@ abstract class AbstractBattleship implements Battleship {
     }
 
     @Override
-    public void hitBy(Shot shot) {
-        frame.hitBy(shot);
+    public Shot.Damage hitBy(Shot shot) {
+        return frame.hitBy(byOffset(shot));
     }
 
-    public void rotate() {
+    private Shot byOffset(Shot shot) {
+        return new Shot(byOffset(Coordinates.of(shot.row(), shot.col())));
+    }
+
+    public Battleship rotate() {
         frame.rotate();
+        return this;
     }
 
     public int length() {

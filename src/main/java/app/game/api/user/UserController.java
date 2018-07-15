@@ -24,6 +24,7 @@ public class UserController {
         newRequest.setFullName(userRequest.getFullName());
         newRequest.setProtocol(UserService.ownProtocol());
 
+        battlefield.reset(newRequest);
         NewGame response = client.challengeOpponent(newRequest);
         ctx.status(201).json(response);
     }

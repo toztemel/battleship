@@ -46,4 +46,43 @@ public class BattlefieldTest {
         assertThat(battlefield, contains().referenceTo(xWing).at(Coordinates.of(10, 10)));
     }
 
+    @Test
+    public void length() {
+    }
+
+    @Test
+    public void width() {
+    }
+
+    @Test
+    public void shipAt() {
+    }
+
+    @Test
+    public void with() {
+    }
+
+    @Test
+    public void build() {
+    }
+
+    @Test
+    public void asString() {
+    }
+
+    @Test
+    public void at() {
+    }
+
+    @Test
+    public void fireAt() {
+    }
+
+    @Test
+    public void allShipsKilled() {
+    }
+
+    @Test
+    public void reset() {
+    }
 }

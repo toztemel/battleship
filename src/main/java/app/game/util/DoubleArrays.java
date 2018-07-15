@@ -5,6 +5,7 @@ import app.game.ship.Emptiness;
 import app.game.ship.Ship;
 
 import java.util.Arrays;
+import java.util.stream.Stream;
 
 public final class DoubleArrays {
 
@@ -44,5 +45,10 @@ public final class DoubleArrays {
         for (int i = 0; i < ships.length; i++) {
             Arrays.fill(ships[i], Emptiness.instance());
         }
+    }
+
+    public static void print2DArray(String[] strings) {
+        Stream.of(strings)
+                .forEach(System.out::println);
     }
 }

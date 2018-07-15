@@ -7,10 +7,6 @@ public final class CoordinatesFactory {
     private CoordinatesFactory() {
     }
 
-    public static Coordinates of(int row, int column) {
-        return Coordinates.of(row, column);
-    }
-
     public static Coordinates fromProtocolString(String hexString) throws InvalidCoordinatesException {
         int xIndex = hexString.indexOf("x");
         if (xIndex < 0) {

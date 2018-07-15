@@ -27,7 +27,7 @@ class BattleshipGame {
     }
 
     private void startBattlefield() {
-        battlefield = Battlefield.getInstance()
+        battlefield = Battlefield.getNewInstance()
                 .build();
     }
 
@@ -50,6 +50,7 @@ class BattleshipGame {
 
     void stop() {
         BattleshipAPI.getInstance().stop();
+        battlefield = Battlefield.getNewInstance().build();
     }
 
     Battlefield battlefield() {

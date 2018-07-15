@@ -8,6 +8,7 @@ import app.game.api.game.NewGame;
 import app.game.fire.Coordinates;
 import app.game.ship.Angle;
 import app.game.ship.SWing;
+import app.game.ship.XWing;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Ignore;
@@ -61,6 +62,7 @@ public class BattleshipGameITest {
     public void server_responds_with_error_to_consequtive_fires_in_simple_mode() {
     }
 
+    @Ignore
     @Test
     public void server_responds_to_a_new_game_invitation() {
         NewGame newGame = opponent.challengeOpponent(newGameRequest());
@@ -72,8 +74,10 @@ public class BattleshipGameITest {
         assertEquals("standard", newGame.getRules());
     }
 
+    @Ignore
     @Test
     public void server_returns_MISS_when_opponent_misses_single_shot() {
+        game.battlefield().with(new XWing()).at(Coordinates.of(10, 10));
         NewGame newGame = opponent.challengeOpponent(newGameRequest());
 
         Coordinates coordinates = Coordinates.of(0, 0);
@@ -84,6 +88,8 @@ public class BattleshipGameITest {
 
     @Test
     public void server_returns_MISS_when_opponent_misses_multiple_shots() {
+        game.battlefield().with(new XWing()).at(Coordinates.of(10, 10));
+
         NewGame newGame = opponent.challengeOpponent(newGameRequest());
 
         Coordinates[] coordinateList = new Coordinates[]
@@ -97,7 +103,7 @@ public class BattleshipGameITest {
         FiringResponse firingResponse = opponent.fire(newGame, fire);
 
         assertNotNull(firingResponse.getGame());
-        assertEquals("challanger-Y", firingResponse.getGame().getOwner());
+        assertEquals("challenger-Y", firingResponse.getGame().getOwner());
         assertEquals(Game.GameStatus.player_turn, firingResponse.getGame().getStatus());
 
         assertNotNull(firingResponse.getShots());
@@ -158,7 +164,8 @@ public class BattleshipGameITest {
 
         game.battlefield()
                 .with(new Angle()).at(Coordinates.of(0, 0))
-                .with(new SWing()).at(Coordinates.of(10, 10));
+                .with(new SWing()).at(Coordinates.of(10, 10))
+                .build();
 
         NewGame newGame = opponent.challengeOpponent(newGameRequest());
 
@@ -167,19 +174,20 @@ public class BattleshipGameITest {
         opponent.fire(newGame, aiming(Coordinates.of(2, 0)));
         opponent.fire(newGame, aiming(Coordinates.of(3, 0)));
         opponent.fire(newGame, aiming(Coordinates.of(3, 1)));
-        opponent.fire(newGame, aiming(Coordinates.of(3, 2)));
+        FiringResponse response = opponent.fire(newGame, aiming(Coordinates.of(3, 2)));
 
-        opponent.fire(newGame, aiming(Coordinates.of(10, 10)));
+        assertEquals(Game.GameStatus.player_turn, response.getGame().getStatus());
+        assertThat(response, at(Coordinates.of(3, 2)).is(KILL));
+
+        opponent.fire(newGame, aiming(Coordinates.of(10, 11)));
         opponent.fire(newGame, aiming(Coordinates.of(10, 12)));
-        opponent.fire(newGame, aiming(Coordinates.of(11, 10)));
-        opponent.fire(newGame, aiming(Coordinates.of(11, 12)));
+        opponent.fire(newGame, aiming(Coordinates.of(11, 11)));
         opponent.fire(newGame, aiming(Coordinates.of(12, 11)));
-        opponent.fire(newGame, aiming(Coordinates.of(13, 10)));
-        opponent.fire(newGame, aiming(Coordinates.of(13, 12)));
-        opponent.fire(newGame, aiming(Coordinates.of(14, 10)));
 
-        FiringResponse firingResponse = opponent.fire(newGame, aiming(Coordinates.of(14, 12)));
-        assertEquals(Game.GameStatus.won, firingResponse.getGame().getStatus());
+        response = opponent.fire(newGame, aiming(Coordinates.of(12, 10)));
+
+        assertThat(response, at(Coordinates.of(12, 10)).is(KILL));
+        assertEquals(Game.GameStatus.won, response.getGame().getStatus());
     }
 
 }
