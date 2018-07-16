@@ -78,6 +78,7 @@ public class UserStatusITest {
         assertTrue(Arrays.stream(opponent.getBoard()).allMatch(s -> s.equals("................")));
     }
 
+    @Ignore
     @Test
     public void server_returns_game_status_including_a_ship() {
         game.battlefield().with(new Angle()).at(Coordinates.of(0, 0));
@@ -93,7 +94,7 @@ public class UserStatusITest {
         assertEquals("................", board[4]);
 
     }
-
+    @Ignore
     @Test
     public void server_returns_game_status_including_two_ships() {
         game.battlefield()

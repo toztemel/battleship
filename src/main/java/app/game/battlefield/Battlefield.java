@@ -3,7 +3,9 @@ package app.game.battlefield;
 import app.game.api.game.NewGame;
 import app.game.fire.Coordinates;
 import app.game.fire.Shot;
-import app.game.ship.*;
+import app.game.ship.Battleship;
+import app.game.ship.Emptiness;
+import app.game.ship.Ship;
 import app.game.util.DoubleArrays;
 
 import java.util.Arrays;
@@ -11,7 +13,7 @@ import java.util.stream.Stream;
 
 import static app.game.battlefield.Constants.BATTLEFIELD_SIZE;
 
-public class Battlefield implements ShipHolder, Inserter {
+public class Battlefield {
 
     private Ship[][] field;
     private Ship aShip;
@@ -20,7 +22,7 @@ public class Battlefield implements ShipHolder, Inserter {
         initializeField();
     }
 
-    public static Inserter getNewInstance() {
+    public static Battlefield getNewInstance() {
         return new Battlefield();
     }
 
@@ -41,13 +43,11 @@ public class Battlefield implements ShipHolder, Inserter {
         return field[c.row()][c.column()];
     }
 
-    @Override
-    public ShipHolder with(Ship s) {
+    public Battlefield with(Ship s) {
         aShip = s;
         return this;
     }
 
-    @Override
     public Battlefield build() {
         return this;
     }
@@ -56,7 +56,6 @@ public class Battlefield implements ShipHolder, Inserter {
         return DoubleArrays.asString(field);
     }
 
-    @Override
     public Battlefield at(Coordinates coordinates) {
         int row = coordinates.row();
         int column = coordinates.column();
