@@ -27,19 +27,7 @@ public class BattlefieldShipReferenceMatcher extends TypeSafeMatcher<Battlefield
 
     @Override
     public boolean matchesSafely(Battlefield battlefield) {
-//        return assertThatShipSpansTheArea(battlefield);
         return ship.equals(battlefield.shipAt(coordinates));
-    }
-
-    private boolean assertThatShipSpansTheArea(Battlefield battlefield) {
-        for (int i = 0; i < ship.length(); i++) {
-            for (int j = 0; j < ship.width(); j++) {
-                if (!ship.equals(battlefield.shipAt(byOffset(i, j)))) {
-                    return false;
-                }
-            }
-        }
-        return true;
     }
 
     private Coordinates byOffset(int i, int j) {

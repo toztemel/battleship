@@ -14,16 +14,6 @@ public class NullShipObject implements Ship {
     }
 
     @Override
-    public int length() {
-        return 0;
-    }
-
-    @Override
-    public int width() {
-        return 0;
-    }
-
-    @Override
     public String toStringAt(Coordinates c) {
         return toString();
     }

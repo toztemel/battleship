@@ -13,16 +13,6 @@ public class FrameTest {
     public void getFrame() {
         Ship s = new Ship() {
             @Override
-            public int length() {
-                return 0;
-            }
-
-            @Override
-            public int width() {
-                return 0;
-            }
-
-            @Override
             public String toStringAt(Coordinates n) {
                 return "*";
             }

@@ -85,8 +85,6 @@ public abstract class Frame {
         Ship ship = frame[coordinates.row()][coordinates.column()];
         if (ship instanceof DamagedShip) {
             return "X";
-        } else if (ship instanceof NullShipObject) {
-            return ".";
         }
         return "*";
     }

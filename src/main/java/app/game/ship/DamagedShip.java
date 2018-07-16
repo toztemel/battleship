@@ -14,16 +14,6 @@ public class DamagedShip implements Ship {
     }
 
     @Override
-    public int length() {
-        return 1;
-    }
-
-    @Override
-    public int width() {
-        return 1;
-    }
-
-    @Override
     public String toStringAt(Coordinates c) {
         return toString();
     }
