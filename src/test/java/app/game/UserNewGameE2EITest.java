@@ -8,8 +8,8 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import static app.game.TestUtil.LOCALHOST_7000;
-import static app.game.TestUtil.LOCALHOST_7001;
+import static app.game.util.TestUtil.LOCALHOST_7000;
+import static app.game.util.TestUtil.LOCALHOST_7001;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 

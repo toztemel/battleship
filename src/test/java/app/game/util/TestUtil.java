@@ -1,4 +1,4 @@
-package app.game;
+package app.game.util;
 
 import app.game.api.dto.firing.FiringRequest;
 import app.game.api.dto.game.NewGame;
@@ -9,10 +9,10 @@ import java.util.Arrays;
 
 public class TestUtil {
 
-    static final String LOCALHOST_7000 = "http://localhost:7000";
-    static final String LOCALHOST_7001 = "http://localhost:7001";
+    public static final String LOCALHOST_7000 = "http://localhost:7000";
+    public static final String LOCALHOST_7001 = "http://localhost:7001";
 
-    static NewGame newGameRequest() {
+    public static NewGame newGameRequest() {
         NewGame newGameRequest = new NewGame();
         newGameRequest.setUserId("challenger-X");
         newGameRequest.setFullName("Lunatech NL Champion");
@@ -21,7 +21,7 @@ public class TestUtil {
         return newGameRequest;
     }
 
-    static FiringRequest aiming(Coordinates... coordinates) {
+    public static FiringRequest aiming(Coordinates... coordinates) {
         String[] shots = Arrays.stream(coordinates)
                 .map(CoordinatesFormatter::toProtocolString)
                 .toArray(String[]::new);

@@ -16,6 +16,7 @@ public class BattleshipClient {
     private BattleshipClient() {
     }
 
+    // TODO there can be more than one opponent => multiple BattleshipClient is needed
     public static BattleshipClient getInstance() {
         return instance;
     }

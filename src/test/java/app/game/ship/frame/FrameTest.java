@@ -2,7 +2,7 @@ package app.game.ship.frame;
 
 import app.game.fire.Coordinates;
 import app.game.ship.*;
-import app.game.util.DoubleArrays;
+import app.game.test.util.DoubleArrays;
 import org.junit.Test;
 
 import static org.junit.Assert.assertTrue;

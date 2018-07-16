@@ -16,7 +16,7 @@ import org.junit.Ignore;
 import org.junit.Test;
 
 import static app.game.ShotDamageMatcher.at;
-import static app.game.TestUtil.*;
+import static app.game.util.TestUtil.*;
 import static app.game.fire.Shot.Damage.*;
 import static org.junit.Assert.*;
 

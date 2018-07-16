@@ -10,8 +10,8 @@ import org.junit.Test;
 
 import java.util.Arrays;
 
-import static app.game.TestUtil.LOCALHOST_7000;
-import static app.game.TestUtil.newGameRequest;
+import static app.game.util.TestUtil.LOCALHOST_7000;
+import static app.game.util.TestUtil.newGameRequest;
 import static org.junit.Assert.assertNotNull;
 
 public class BattlefieldITest {

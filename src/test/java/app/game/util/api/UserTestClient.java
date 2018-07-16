@@ -1,4 +1,4 @@
-package app.game.api.client;
+package app.game.util.api;
 
 import app.game.api.ResourcePath;
 import app.game.api.client.rest.RestClient;
