@@ -1,6 +1,7 @@
-package app.game.api.game;
+package app.game.api.dto.game;
 
 // TODO enumarate rules
+
 public class NewGame {
 
     private String userId;
@@ -61,7 +62,4 @@ public class NewGame {
         this.starting = starting;
     }
 
-    public void generateGameId() {
-        gameId = new IDGenerator().generate();
-    }
 }

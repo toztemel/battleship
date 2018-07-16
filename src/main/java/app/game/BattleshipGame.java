@@ -1,10 +1,10 @@
 package app.game;
 
 import app.game.api.BattleshipAPI;
-import app.game.api.firing.FiringProtocolController;
-import app.game.api.game.NewGameProtocolController;
+import app.game.api.controller.FiringProtocolController;
+import app.game.api.controller.NewGameProtocolController;
 import app.game.api.mapper.BattleshipObjectMapper;
-import app.game.api.user.UserController;
+import app.game.api.controller.UserController;
 import app.game.battlefield.Battlefield;
 import app.game.battlefield.BattlefieldFactory;
 import org.slf4j.LoggerFactory;

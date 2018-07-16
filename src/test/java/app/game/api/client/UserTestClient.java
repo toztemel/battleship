@@ -1,8 +1,9 @@
 package app.game.api.client;
 
 import app.game.api.ResourcePath;
-import app.game.api.game.NewGame;
-import app.game.api.user.Status;
+import app.game.api.client.rest.RestClient;
+import app.game.api.dto.game.NewGame;
+import app.game.api.dto.status.Status;
 
 import javax.ws.rs.core.Response;
 

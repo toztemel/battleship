@@ -1,4 +1,4 @@
-package app.game.api.user;
+package app.game.api.dto.status;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 

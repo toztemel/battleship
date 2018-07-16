@@ -1,4 +1,4 @@
-package app.game.api.user;
+package app.game.service;
 
 public class UserService {
     public static String ownUser() {

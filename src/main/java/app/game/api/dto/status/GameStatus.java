@@ -1,10 +1,10 @@
-package app.game.api.firing;
+package app.game.api.dto.status;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
-public class Game {
+public class GameStatus {
 
-    private GameStatus status;
+    private Mode status;
     private String owner;
 
     public String getOwner() {
@@ -15,16 +15,16 @@ public class Game {
         this.owner = owner;
     }
 
-    public GameStatus getStatus() {
+    public Mode getStatus() {
         return status;
     }
 
-    public void setStatus(GameStatus status) {
+    public void setStatus(Mode status) {
         this.status = status;
     }
 
     @JsonFormat(shape = JsonFormat.Shape.STRING)
-    public enum GameStatus {
+    public enum Mode {
         player_turn, won
     }
 }

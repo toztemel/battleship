@@ -1,5 +1,9 @@
-package app.game.api.firing;
+package app.game.api.controller;
 
+import app.game.api.dto.firing.FiringRequest;
+import app.game.api.dto.firing.FiringResponse;
+import app.game.api.dto.status.GameStatus;
+import app.game.api.dto.firing.FiringResults;
 import app.game.battlefield.Battlefield;
 import app.game.fire.CoordinatesFormatter;
 import app.game.fire.Shot;
@@ -33,18 +37,18 @@ public class FiringProtocolController {
                     .map(Shot::new)
                     .collect(Collectors.toList());
 
-            Shots shots = new Shots();
+            FiringResults shots = new FiringResults();
             for(Shot shot : shotList) {
                 Shot.Damage d = battlefield.fireAt(shot);
                 shots.put(shot.asHexString(), d.toString());
             }
 
-            Game game = new Game();
+            GameStatus game = new GameStatus();
 
             if (battlefield.allShipsKilled()) {
-                game.setStatus(Game.GameStatus.won);
+                game.setStatus(GameStatus.Mode.won);
             } else {
-                game.setStatus(Game.GameStatus.player_turn);
+                game.setStatus(GameStatus.Mode.player_turn);
             }
             game.setOwner("challenger-Y");
 

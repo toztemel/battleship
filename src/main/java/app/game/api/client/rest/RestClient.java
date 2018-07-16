@@ -1,4 +1,4 @@
-package app.game.api.client;
+package app.game.api.client.rest;
 
 import app.game.api.mapper.BattleshipObjectMapper;
 import org.glassfish.jersey.jackson.JacksonFeature;
@@ -25,27 +25,27 @@ public class RestClient {
                 .target(uri);
     }
 
-    static boolean isSuccessful(Response response) {
+    public static boolean isSuccessful(Response response) {
         return response.getStatus() == SC_OK;
     }
 
-    static boolean isCreated(Response response) {
+    public static boolean isCreated(Response response) {
         return response.getStatus() == SC_CREATED;
     }
 
-    Response post(String resource, Object request) {
+    public Response post(String resource, Object request) {
         return target.path(resource)
                 .request(JSON)
                 .post(Entity.entity(request, JSON));
     }
 
-    Response get(String resource) {
+    public Response get(String resource) {
         return target.path(resource)
                 .request(JSON)
                 .get();
     }
 
-    Response put(String resource, Object request) {
+    public Response put(String resource, Object request) {
         return target.path(resource)
                 .request(JSON)
                 .put(Entity.entity(request, JSON));

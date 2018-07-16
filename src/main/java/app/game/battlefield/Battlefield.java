@@ -1,6 +1,6 @@
 package app.game.battlefield;
 
-import app.game.api.game.NewGame;
+import app.game.api.dto.game.NewGame;
 import app.game.fire.Coordinates;
 import app.game.fire.Shot;
 import app.game.ship.Battleship;

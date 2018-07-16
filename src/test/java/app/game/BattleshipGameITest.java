@@ -1,10 +1,10 @@
 package app.game;
 
 import app.game.api.client.BattleshipClient;
-import app.game.api.firing.FiringRequest;
-import app.game.api.firing.FiringResponse;
-import app.game.api.firing.Game;
-import app.game.api.game.NewGame;
+import app.game.api.dto.firing.FiringRequest;
+import app.game.api.dto.firing.FiringResponse;
+import app.game.api.dto.status.GameStatus;
+import app.game.api.dto.game.NewGame;
 import app.game.fire.Coordinates;
 import app.game.ship.Angle;
 import app.game.ship.SWing;
@@ -104,7 +104,7 @@ public class BattleshipGameITest {
 
         assertNotNull(firingResponse.getGame());
         assertEquals("challenger-Y", firingResponse.getGame().getOwner());
-        assertEquals(Game.GameStatus.player_turn, firingResponse.getGame().getStatus());
+        assertEquals(GameStatus.Mode.player_turn, firingResponse.getGame().getStatus());
 
         assertNotNull(firingResponse.getShots());
         for (Coordinates coordinates : coordinateList) {
@@ -175,7 +175,7 @@ public class BattleshipGameITest {
         opponent.fire(newGame, aiming(Coordinates.of(3, 1)));
         FiringResponse response = opponent.fire(newGame, aiming(Coordinates.of(3, 2)));
 
-        assertEquals(Game.GameStatus.player_turn, response.getGame().getStatus());
+        assertEquals(GameStatus.Mode.player_turn, response.getGame().getStatus());
         assertThat(response, at(Coordinates.of(3, 2)).is(KILL));
 
         opponent.fire(newGame, aiming(Coordinates.of(10, 11)));
@@ -186,7 +186,7 @@ public class BattleshipGameITest {
         response = opponent.fire(newGame, aiming(Coordinates.of(12, 10)));
 
         assertThat(response, at(Coordinates.of(12, 10)).is(KILL));
-        assertEquals(Game.GameStatus.won, response.getGame().getStatus());
+        assertEquals(GameStatus.Mode.won, response.getGame().getStatus());
     }
 
 }

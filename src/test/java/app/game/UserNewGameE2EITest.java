@@ -1,14 +1,11 @@
 package app.game;
 
 import app.game.api.client.UserTestClient;
-import app.game.api.game.NewGame;
+import app.game.api.dto.game.NewGame;
 import app.game.battlefield.Battlefield;
-import app.game.util.DoubleArrays;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-
-import java.util.Arrays;
 
 import static app.game.TestUtil.LOCALHOST_7000;
 import static app.game.TestUtil.LOCALHOST_7001;

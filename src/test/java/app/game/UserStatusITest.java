@@ -2,21 +2,19 @@ package app.game;
 
 import app.game.api.client.BattleshipClient;
 import app.game.api.client.UserTestClient;
-import app.game.api.firing.Game;
-import app.game.api.game.NewGame;
-import app.game.api.user.Opponent;
-import app.game.api.user.Self;
-import app.game.api.user.Status;
+import app.game.api.dto.status.GameStatus;
+import app.game.api.dto.game.NewGame;
+import app.game.api.dto.status.OpponentStatus;
+import app.game.api.dto.status.SelfStatus;
+import app.game.api.dto.status.Status;
 import app.game.fire.Coordinates;
 import app.game.ship.Angle;
 import app.game.ship.SWing;
-import app.game.util.DoubleArrays;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 
 import static app.game.TestUtil.LOCALHOST_7000;
@@ -64,14 +62,14 @@ public class UserStatusITest {
         Status gameStatus = ownUser.queryGameStatus(newGame);
 
         assertNotNull(gameStatus.getGame());
-        assertEquals(Game.GameStatus.player_turn, gameStatus.getGame().getStatus());
+        assertEquals(GameStatus.Mode.player_turn, gameStatus.getGame().getStatus());
         assertEquals("challenger-Y", gameStatus.getGame().getOwner());
 
-        Self self = gameStatus.getSelf();
+        SelfStatus self = gameStatus.getSelf();
         assertNotNull(self);
         assertEquals("challenger-Y", self.getUserId());
 
-        Opponent opponent = gameStatus.getOpponent();
+        OpponentStatus opponent = gameStatus.getOpponent();
         assertNotNull(opponent);
         assertEquals("challenger-X", opponent.getUserId());
         assertTrue(emptyOrUnknownBattlefield(opponent));
@@ -83,7 +81,7 @@ public class UserStatusITest {
 
         Status gameStatus = ownUser.queryGameStatus(newGame);
 
-        Self self = gameStatus.getSelf();
+        SelfStatus self = gameStatus.getSelf();
         String[] board = self.getBoard();
 
         assertEquals("*...............", board[0]);
@@ -102,7 +100,7 @@ public class UserStatusITest {
 
         Status gameStatus = ownUser.queryGameStatus(newGame);
 
-        Self self = gameStatus.getSelf();
+        SelfStatus self = gameStatus.getSelf();
         String[] board = self.getBoard();
         assertEquals("*...............", board[0]);
         assertEquals("*...............", board[1]);
@@ -119,7 +117,7 @@ public class UserStatusITest {
     public void server_returns_empty_opponent_board() {
         Status gameStatus = ownUser.queryGameStatus(newGame);
 
-        Opponent opponent = gameStatus.getOpponent();
+        OpponentStatus opponent = gameStatus.getOpponent();
         assertTrue(emptyOrUnknownBattlefield(opponent));
     }
 
@@ -128,7 +126,7 @@ public class UserStatusITest {
     public void server_returns_opponent_board_with_misses() {
         Status gameStatus = ownUser.queryGameStatus(newGame);
 
-        Opponent opponent = gameStatus.getOpponent();
+        OpponentStatus opponent = gameStatus.getOpponent();
     }
 
     @Ignore
@@ -136,10 +134,10 @@ public class UserStatusITest {
     public void server_returns_opponent_board_with_hits() {
         Status gameStatus = ownUser.queryGameStatus(newGame);
 
-        Opponent opponent = gameStatus.getOpponent();
+        OpponentStatus opponent = gameStatus.getOpponent();
     }
 
-    private boolean emptyOrUnknownBattlefield(Opponent opponent) {
+    private boolean emptyOrUnknownBattlefield(OpponentStatus opponent) {
         return Arrays.stream(opponent.getBoard()).allMatch(s -> s.equals("................"));
     }
 

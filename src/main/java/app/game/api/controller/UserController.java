@@ -1,9 +1,13 @@
-package app.game.api.user;
+package app.game.api.controller;
 
 import app.game.api.client.BattleshipClient;
-import app.game.api.firing.Game;
-import app.game.api.game.NewGame;
+import app.game.api.dto.status.GameStatus;
+import app.game.api.dto.game.NewGame;
+import app.game.api.dto.status.OpponentStatus;
+import app.game.api.dto.status.SelfStatus;
+import app.game.api.dto.status.Status;
 import app.game.battlefield.Battlefield;
+import app.game.service.UserService;
 import io.javalin.Context;
 
 public class UserController {
@@ -36,15 +40,15 @@ public class UserController {
     }
 
     public void onStatus(Context ctx) {
-        Game game = new Game();
+        GameStatus game = new GameStatus();
         game.setOwner(getOwnerId());
         game.setStatus(getGameStatus());
 
-        Self self = new Self();
+        SelfStatus self = new SelfStatus();
         self.setUserId(getSelfId());
         self.setBoard(boardToString());
 
-        Opponent opponent = new Opponent();
+        OpponentStatus opponent = new OpponentStatus();
         opponent.setUserId(getOpponentId());
         opponent.setBoard(boardToString());
 
@@ -56,8 +60,8 @@ public class UserController {
         ctx.status(200).json(status);
     }
 
-    private Game.GameStatus getGameStatus() {
-        return Game.GameStatus.player_turn;
+    private GameStatus.Mode getGameStatus() {
+        return GameStatus.Mode.player_turn;
     }
 
     private String getSelfId() {

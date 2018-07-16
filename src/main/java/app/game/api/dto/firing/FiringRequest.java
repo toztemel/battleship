@@ -1,4 +1,4 @@
-package app.game.api.firing;
+package app.game.api.dto.firing;
 
 public class FiringRequest {
 
