@@ -30,10 +30,6 @@ public class BattlefieldShipReferenceMatcher extends TypeSafeMatcher<Battlefield
         return ship.equals(battlefield.shipAt(coordinates));
     }
 
-    private Coordinates byOffset(int i, int j) {
-        return coordinates.incrementBy(i, j);
-    }
-
     @Override
     public void describeTo(Description description) {
         description.appendText("Battlefield must keep reference to ")

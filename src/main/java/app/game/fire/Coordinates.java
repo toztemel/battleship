@@ -23,10 +23,6 @@ public final class Coordinates {
         return column;
     }
 
-    public Coordinates incrementBy(int i, int j) {
-        return new Coordinates(row + i, column + j);
-    }
-
     public Coordinates decrementBy(Coordinates offset) {
         if (offset == null) {
             return this;
