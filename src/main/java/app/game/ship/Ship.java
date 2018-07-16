@@ -10,8 +10,6 @@ public interface Ship {
 
     String toStringAt(Coordinates coordinates);
 
-    void insertedAt(Coordinates coordinates);
-
     boolean isAlive();
 
     void goTo(Ship[][] field, Coordinates coordinates);

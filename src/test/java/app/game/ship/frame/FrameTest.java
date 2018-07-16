@@ -28,11 +28,6 @@ public class FrameTest {
             }
 
             @Override
-            public void insertedAt(Coordinates c) {
-
-            }
-
-            @Override
             public boolean isAlive() {
                 return false;
             }

@@ -1,7 +1,7 @@
 package app.game.util;
 
 import app.game.fire.Coordinates;
-import app.game.ship.Emptiness;
+import app.game.ship.NullShipObject;
 import app.game.ship.Ship;
 
 import java.util.Arrays;
@@ -43,7 +43,7 @@ public final class DoubleArrays {
 
     public static void fillEmpty(Ship[][] ships) {
         for (int i = 0; i < ships.length; i++) {
-            Arrays.fill(ships[i], Emptiness.instance());
+            Arrays.fill(ships[i], NullShipObject.instance());
         }
     }
 

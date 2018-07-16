@@ -4,7 +4,7 @@ import app.game.conf.BattlefieldConf;
 import app.game.fire.Coordinates;
 import app.game.fire.Shot;
 import app.game.ship.Battleship;
-import app.game.ship.Emptiness;
+import app.game.ship.NullShipObject;
 import app.game.ship.Ship;
 import app.game.util.DoubleArrays;
 
@@ -48,7 +48,7 @@ public class Battlefield {
 
     public Shot.Damage fireAt(Shot shot) {
         Ship ship = field[shot.row()][shot.col()];
-        if (ship == Emptiness.instance()) {
+        if (ship == NullShipObject.instance()) {
             return Shot.Damage.MISS;
         } else {
             return ((Battleship) ship).hitBy(shot);

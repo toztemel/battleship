@@ -8,21 +8,15 @@ import app.game.api.controller.UserController;
 import app.game.api.mapper.BattleshipObjectMapper;
 import app.game.battlefield.BattlefieldFactory;
 import app.game.conf.HTTPServerConf;
+import app.game.conf.UserConf;
 import app.game.service.ActiveGames;
 import app.game.service.IDGenerator;
 import app.game.service.UserService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 class BattleshipGame {
 
-    private static final Logger log = LoggerFactory.getLogger(BattleshipGame.class);
-
     private BattleshipAPI api;
-
-    {
-        System.setProperty(org.slf4j.impl.SimpleLogger.DEFAULT_LOG_LEVEL_KEY, "WARN");
-    }
 
     BattleshipGame() {
     }
@@ -32,14 +26,19 @@ class BattleshipGame {
     }
 
     void start(int port) {
+        configureServices();
         startApi(port);
     }
 
-    private void startApi(int httpServerPort) {
-        api = new BattleshipAPI();
-
+    private void configureServices() {
         ActiveGames.getInstance()
                 .setBattlefieldFactory(new BattlefieldFactory());
+
+        UserService.getInstance()
+                .setUserConf(new UserConf());
+    }
+
+    private void startApi(int httpServerPort) {
 
         NewGameProtocolController newGameController = new NewGameProtocolController()
                 .setUserService(UserService.getInstance())
@@ -54,8 +53,9 @@ class BattleshipGame {
                 .setActiveGames(ActiveGames.getInstance())
                 .setClient(BattleshipClient.getInstance());
 
-        api.listen(httpServerPort)
-                .withMapper(() -> new BattleshipObjectMapper().getDefaultObjectMapper())
+        api = BattleshipAPI.getInstance()
+                .listen(httpServerPort)
+                .withMapper(this::defaultObjectMapper)
                 .onProtocolNewGame(newGameController::onNewGame)
                 .onProtocolFire(fireController::onFire)
                 .onUserStartNewGame(userController::onNewGame)
@@ -63,6 +63,10 @@ class BattleshipGame {
                 .onUserFires(userController::onFire)
                 .onUserEnablesAutoPilot(userController::auto)
                 .start();
+    }
+
+    private ObjectMapper defaultObjectMapper() {
+        return new BattleshipObjectMapper().getDefaultObjectMapper();
     }
 
     void stop() {

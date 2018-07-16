@@ -26,7 +26,7 @@ public final class CoordinatesFormatter {
             throw new InvalidCoordinatesException();
         }
 
-        return Coordinates.of(row, column).withStringRepresentation(hexString);
+        return Coordinates.of(row, column).withHexString(hexString);
     }
 
     public static String toProtocolString(Coordinates c) {

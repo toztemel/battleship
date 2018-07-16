@@ -4,7 +4,7 @@ import app.game.fire.Coordinates;
 import app.game.fire.Shot;
 import app.game.ship.Battleship;
 import app.game.ship.DamagedShip;
-import app.game.ship.Emptiness;
+import app.game.ship.NullShipObject;
 import app.game.ship.Ship;
 import app.game.ship.frame.rotation.Matrix;
 import app.game.util.DoubleArrays;
@@ -70,7 +70,7 @@ public abstract class Frame {
     }
 
     private boolean empty(Ship ship) {
-        return ship instanceof Emptiness;
+        return ship instanceof NullShipObject;
     }
 
     public int length() {
@@ -85,7 +85,7 @@ public abstract class Frame {
         Ship ship = frame[coordinates.row()][coordinates.column()];
         if (ship instanceof DamagedShip) {
             return "X";
-        } else if (ship instanceof Emptiness) {
+        } else if (ship instanceof NullShipObject) {
             return ".";
         }
         return "*";

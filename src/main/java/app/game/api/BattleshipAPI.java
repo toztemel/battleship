@@ -15,18 +15,19 @@ public class BattleshipAPI {
 
     private Javalin app;
 
-    public BattleshipAPI() {
+    private BattleshipAPI() {
     }
 
     public static BattleshipAPI getInstance() {
         return instance;
     }
 
-    public void start() {
+    public BattleshipAPI start() {
         app.disableStartupBanner()
                 .disableRequestCache()
                 .enableStandardRequestLogging()
                 .start();
+        return this;
     }
 
     public void stop() {
@@ -34,8 +35,7 @@ public class BattleshipAPI {
     }
 
     public BattleshipAPI listen(int httpPort) {
-        app = Javalin.create()
-                .port(httpPort);
+        app = Javalin.create().port(httpPort);
         return this;
     }
 

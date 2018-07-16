@@ -2,11 +2,11 @@ package app.game.ship;
 
 import app.game.fire.Coordinates;
 
-public class Emptiness implements Ship {
+public class NullShipObject implements Ship {
 
-    private static Ship instance = new Emptiness();
+    private static Ship instance = new NullShipObject();
 
-    private Emptiness() {
+    private NullShipObject() {
     }
 
     public static Ship instance() {
@@ -26,11 +26,6 @@ public class Emptiness implements Ship {
     @Override
     public String toStringAt(Coordinates c) {
         return toString();
-    }
-
-    @Override
-    public void insertedAt(Coordinates c) {
-
     }
 
     @Override

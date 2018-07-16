@@ -12,7 +12,7 @@ public class UserService {
     }
 
     public static UserService getInstance() {
-        return instance.setUserConf(new UserConf());
+        return instance;
     }
 
     public String ownUserId() {

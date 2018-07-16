@@ -49,11 +49,6 @@ abstract class AbstractBattleship implements Battleship {
     }
 
     @Override
-    public void insertedAt(Coordinates coordinates) {
-        battlefieldCoordinates = coordinates;
-    }
-
-    @Override
     public boolean isAlive() {
         return frame.isAlive();
     }
@@ -67,6 +62,6 @@ abstract class AbstractBattleship implements Battleship {
                 field[row + i][column + j] = frame.shipAt(i, j);
             }
         }
-        insertedAt(coordinates);
+        battlefieldCoordinates = coordinates;
     }
 }

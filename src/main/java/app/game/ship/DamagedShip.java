@@ -29,11 +29,6 @@ public class DamagedShip implements Ship {
     }
 
     @Override
-    public void insertedAt(Coordinates c) {
-
-    }
-
-    @Override
     public boolean isAlive() {
         return false;
     }
