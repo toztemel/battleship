@@ -164,8 +164,7 @@ public class BattleshipGameITest {
 
         game.battlefield()
                 .with(new Angle()).at(Coordinates.of(0, 0))
-                .with(new SWing()).at(Coordinates.of(10, 10))
-                .build();
+                .with(new SWing()).at(Coordinates.of(10, 10));
 
         NewGame newGame = opponent.challengeOpponent(newGameRequest());
 

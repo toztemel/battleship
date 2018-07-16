@@ -16,6 +16,7 @@ import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 
 import static app.game.TestUtil.LOCALHOST_7000;
@@ -24,36 +25,35 @@ import static org.junit.Assert.*;
 
 public class UserStatusITest {
 
-    private BattleshipGame game;
-    private UserTestClient user;
-    private BattleshipClient opponent;
+    private BattleshipGame ownServer;
+    private UserTestClient ownUser;
+    private BattleshipClient opponentServer;
     private NewGame newGame;
 
     @Before
     public void setUp() throws Exception {
-        game = new BattleshipGame();
-        game.start();
+        ownServer = new BattleshipGame();
+        ownServer.start();
 
-        user = new UserTestClient(LOCALHOST_7000);
+        ownUser = new UserTestClient(LOCALHOST_7000);
 
-        opponent = new BattleshipClient(LOCALHOST_7000);
-        newGame = opponent.challengeOpponent(newGameRequest());
+        opponentServer = new BattleshipClient(LOCALHOST_7000);
+        newGame = opponentServer.challengeOpponent(newGameRequest());
     }
 
     @After
     public void tearDown() throws Exception {
-        game.stop();
-        System.out.println("Stopped");
+        ownServer.stop();
     }
 
     @Ignore
     @Test
     public void server_returns_new_game_owner_when_game_status_changes() {
-        Status gameStatus = user.queryGameStatus(newGame);
+        Status gameStatus = ownUser.queryGameStatus(newGame);
         String owner = gameStatus.getGame().getOwner();
-        // game proceeds
+        // ownServer proceeds
 
-        Status gameStatus2 = user.queryGameStatus(newGame);
+        Status gameStatus2 = ownUser.queryGameStatus(newGame);
         String newOwner = gameStatus2.getGame().getOwner();
 
     }
@@ -61,7 +61,7 @@ public class UserStatusITest {
     @Test
     public void server_returns_game_status_by_gameId() {
 
-        Status gameStatus = user.queryGameStatus(newGame);
+        Status gameStatus = ownUser.queryGameStatus(newGame);
 
         assertNotNull(gameStatus.getGame());
         assertEquals(Game.GameStatus.player_turn, gameStatus.getGame().getStatus());
@@ -70,23 +70,22 @@ public class UserStatusITest {
         Self self = gameStatus.getSelf();
         assertNotNull(self);
         assertEquals("challenger-Y", self.getUserId());
-        assertTrue(Arrays.stream(self.getBoard()).allMatch(s -> s.equals("................")));
 
         Opponent opponent = gameStatus.getOpponent();
         assertNotNull(opponent);
         assertEquals("challenger-X", opponent.getUserId());
-        assertTrue(Arrays.stream(opponent.getBoard()).allMatch(s -> s.equals("................")));
+        assertTrue(emptyOrUnknownBattlefield(opponent));
     }
 
-    @Ignore
     @Test
     public void server_returns_game_status_including_a_ship() {
-        game.battlefield().with(new Angle()).at(Coordinates.of(0, 0));
+        ownServer.battlefield().with(new Angle()).at(Coordinates.of(0, 0));
 
-        Status gameStatus = user.queryGameStatus(newGame);
+        Status gameStatus = ownUser.queryGameStatus(newGame);
 
         Self self = gameStatus.getSelf();
         String[] board = self.getBoard();
+
         assertEquals("*...............", board[0]);
         assertEquals("*...............", board[1]);
         assertEquals("*...............", board[2]);
@@ -94,14 +93,14 @@ public class UserStatusITest {
         assertEquals("................", board[4]);
 
     }
-    @Ignore
+
     @Test
     public void server_returns_game_status_including_two_ships() {
-        game.battlefield()
+        ownServer.battlefield()
                 .with(new Angle()).at(Coordinates.of(0, 0))
                 .with(new SWing()).at(Coordinates.of(10, 10));
 
-        Status gameStatus = user.queryGameStatus(newGame);
+        Status gameStatus = ownUser.queryGameStatus(newGame);
 
         Self self = gameStatus.getSelf();
         String[] board = self.getBoard();
@@ -118,16 +117,16 @@ public class UserStatusITest {
 
     @Test
     public void server_returns_empty_opponent_board() {
-        Status gameStatus = user.queryGameStatus(newGame);
+        Status gameStatus = ownUser.queryGameStatus(newGame);
 
         Opponent opponent = gameStatus.getOpponent();
-        assertTrue(Arrays.stream(opponent.getBoard()).allMatch(s -> s.equals("................")));
+        assertTrue(emptyOrUnknownBattlefield(opponent));
     }
 
     @Ignore
     @Test
     public void server_returns_opponent_board_with_misses() {
-        Status gameStatus = user.queryGameStatus(newGame);
+        Status gameStatus = ownUser.queryGameStatus(newGame);
 
         Opponent opponent = gameStatus.getOpponent();
     }
@@ -135,10 +134,13 @@ public class UserStatusITest {
     @Ignore
     @Test
     public void server_returns_opponent_board_with_hits() {
-        Status gameStatus = user.queryGameStatus(newGame);
+        Status gameStatus = ownUser.queryGameStatus(newGame);
 
         Opponent opponent = gameStatus.getOpponent();
     }
 
+    private boolean emptyOrUnknownBattlefield(Opponent opponent) {
+        return Arrays.stream(opponent.getBoard()).allMatch(s -> s.equals("................"));
+    }
 
 }

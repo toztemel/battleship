@@ -22,10 +22,6 @@ public class Battlefield {
         initializeField();
     }
 
-    public static Battlefield getNewInstance() {
-        return new Battlefield();
-    }
-
     private void initializeField() {
         field = new Ship[BATTLEFIELD_SIZE][BATTLEFIELD_SIZE];
         DoubleArrays.fillEmpty(field);
@@ -45,10 +41,6 @@ public class Battlefield {
 
     public Battlefield with(Ship s) {
         aShip = s;
-        return this;
-    }
-
-    public Battlefield build() {
         return this;
     }
 

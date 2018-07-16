@@ -49,7 +49,6 @@ public class UserNewGameE2EITest {
         user.challangeOpponent(newGameRequest);
 
         Battlefield ownBattlefield = ownServer.battlefield();
-        DoubleArrays.print2DArray(ownBattlefield.asString());
     }
 
     @Test

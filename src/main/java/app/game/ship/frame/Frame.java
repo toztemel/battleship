@@ -83,13 +83,12 @@ public abstract class Frame {
 
     public String toStringAt(Coordinates coordinates) {
         Ship ship = frame[coordinates.row()][coordinates.column()];
-        return ship.toString();
-//        if (ship instanceof DamagedShip) {
-//            return "X";
-//        } else if (ship instanceof Emptiness) {
-//            return ".";
-//        }
-//        return "*";
+        if (ship instanceof DamagedShip) {
+            return "X";
+        } else if (ship instanceof Emptiness) {
+            return ".";
+        }
+        return "*";
     }
 
     public boolean isAlive() {

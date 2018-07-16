@@ -6,15 +6,28 @@ import app.game.api.game.NewGameProtocolController;
 import app.game.api.mapper.BattleshipObjectMapper;
 import app.game.api.user.UserController;
 import app.game.battlefield.Battlefield;
+import app.game.battlefield.BattlefieldFactory;
+import org.slf4j.LoggerFactory;
 
 import static app.game.conf.HTTPServerConf.HTTP_SERVER_PORT;
 
 class BattleshipGame {
 
+    final org.slf4j.Logger log = LoggerFactory.getLogger(BattleshipGame.class);
     private Battlefield battlefield;
+    private BattleshipAPI api;
+
+    {
+        System.setProperty(org.slf4j.impl.SimpleLogger.DEFAULT_LOG_LEVEL_KEY, "WARN");
+    }
+
 
     BattleshipGame() {
-
+//        log.trace("trace");
+//        log.debug("debug");
+//        log.info("info");
+//        log.warn("warning");
+//        log.error("error");
     }
 
     void start() {
@@ -27,17 +40,16 @@ class BattleshipGame {
     }
 
     private void startBattlefield() {
-        battlefield = Battlefield.getNewInstance()
-                .build();
+        battlefield = new BattlefieldFactory().createNew();
     }
 
     private void startApi(int httpServerPort) {
+        api = new BattleshipAPI();
         FiringProtocolController fireController = new FiringProtocolController(battlefield);
         NewGameProtocolController newGameController = new NewGameProtocolController();
         UserController userController = new UserController(battlefield);
 
-        BattleshipAPI.getInstance()
-                .listen(httpServerPort)
+        api.listen(httpServerPort)
                 .withMapper(() -> new BattleshipObjectMapper().getDefaultObjectMapper())
                 .onProtocolNewGame(newGameController::onNewGame)
                 .onProtocolFire(fireController::onFire)
@@ -49,8 +61,7 @@ class BattleshipGame {
     }
 
     void stop() {
-        BattleshipAPI.getInstance().stop();
-        battlefield = Battlefield.getNewInstance().build();
+        api.stop();
     }
 
     Battlefield battlefield() {
