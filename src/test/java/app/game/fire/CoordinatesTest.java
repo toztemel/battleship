@@ -22,7 +22,7 @@ public class CoordinatesTest {
     }
 
     private String hexEncoding(int row, int column) {
-        return CoordinatesFactory.toProtocolString(Coordinates.of(row, column));
+        return CoordinatesFormatter.toProtocolString(Coordinates.of(row, column));
     }
 
     @Test
@@ -55,36 +55,36 @@ public class CoordinatesTest {
 
     @Test
     public void new_coordinates_can_be_constructed_from_Hex_ProtocolString() {
-        Coordinates c = CoordinatesFactory.fromProtocolString("0x0");
+        Coordinates c = CoordinatesFormatter.fromProtocolString("0x0");
         assertEquals(0, c.row());
         assertEquals(0, c.column());
 
-        c = CoordinatesFactory.fromProtocolString("Ax0");
+        c = CoordinatesFormatter.fromProtocolString("Ax0");
         assertEquals(10, c.row());
         assertEquals(0, c.column());
 
-        c = CoordinatesFactory.fromProtocolString("AxA");
+        c = CoordinatesFormatter.fromProtocolString("AxA");
         assertEquals(10, c.row());
         assertEquals(10, c.column());
 
-        c = CoordinatesFactory.fromProtocolString("FxF");
+        c = CoordinatesFormatter.fromProtocolString("FxF");
         assertEquals(15, c.row());
         assertEquals(15, c.column());
     }
 
     @Test(expected = InvalidCoordinatesException.class)
     public void throws_Exception_when_parsing_wrong_format() {
-        CoordinatesFactory.fromProtocolString("0xG");
+        CoordinatesFormatter.fromProtocolString("0xG");
     }
 
     @Test(expected = InvalidCoordinatesException.class)
     public void throws_Exception_when_parsing_invalid_coordinates() {
-        CoordinatesFactory.fromProtocolString("-1x0");
+        CoordinatesFormatter.fromProtocolString("-1x0");
     }
 
     @Test(expected = InvalidCoordinatesException.class)
     public void throws_Exception_when_parsing_invalid_coordinates_format() {
-        CoordinatesFactory.fromProtocolString("00");
+        CoordinatesFormatter.fromProtocolString("00");
     }
 
     @Test

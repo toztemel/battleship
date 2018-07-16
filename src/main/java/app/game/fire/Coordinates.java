@@ -51,7 +51,7 @@ public final class Coordinates {
 
     public String toHexString() {
         if(null == hexRepresentation) {
-            hexRepresentation = CoordinatesFactory.toProtocolString(this);
+            hexRepresentation = CoordinatesFormatter.toProtocolString(this);
         }
         return hexRepresentation;
     }

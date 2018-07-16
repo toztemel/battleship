@@ -1,13 +1,12 @@
 package app.game.api.firing;
 
 import app.game.battlefield.Battlefield;
-import app.game.fire.CoordinatesFactory;
+import app.game.fire.CoordinatesFormatter;
 import app.game.fire.Shot;
 import io.javalin.Context;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 public class FiringProtocolController {
@@ -30,7 +29,7 @@ public class FiringProtocolController {
             checkGameRules(gameId, incomingShots);
 
             List<Shot> shotList = Arrays.stream(incomingShots)
-                    .map(CoordinatesFactory::fromProtocolString)
+                    .map(CoordinatesFormatter::fromProtocolString)
                     .map(Shot::new)
                     .collect(Collectors.toList());
 

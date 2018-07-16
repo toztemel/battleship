@@ -3,7 +3,7 @@ package app.game;
 import app.game.api.firing.FiringRequest;
 import app.game.api.game.NewGame;
 import app.game.fire.Coordinates;
-import app.game.fire.CoordinatesFactory;
+import app.game.fire.CoordinatesFormatter;
 
 import java.util.Arrays;
 
@@ -23,7 +23,7 @@ public class TestUtil {
 
     static FiringRequest aiming(Coordinates... coordinates) {
         String[] shots = Arrays.stream(coordinates)
-                .map(CoordinatesFactory::toProtocolString)
+                .map(CoordinatesFormatter::toProtocolString)
                 .toArray(String[]::new);
         FiringRequest fire = new FiringRequest();
         fire.setShots(shots);

@@ -1,10 +1,10 @@
 package app.game.fire;
 
-public final class CoordinatesFactory {
+public final class CoordinatesFormatter {
 
     private static final int HEX = 16;
 
-    private CoordinatesFactory() {
+    private CoordinatesFormatter() {
     }
 
     public static Coordinates fromProtocolString(String hexString) throws InvalidCoordinatesException {

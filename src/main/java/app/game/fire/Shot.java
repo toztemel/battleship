@@ -3,7 +3,6 @@ package app.game.fire;
 public final class Shot {
 
     private Coordinates coordinates;
-    private Damage result;
 
     public Shot(Coordinates target) {
         coordinates = target;
@@ -21,24 +20,8 @@ public final class Shot {
         return coordinates.column();
     }
 
-    public Damage result() {
-        return result;
-    }
-
     public String asHexString() {
         return coordinates.toHexString();
-    }
-
-    public void missed() {
-        this.result = Damage.MISS;
-    }
-
-    public void killed() {
-        this.result = Damage.KILL;
-    }
-
-    public void hit() {
-        this.result = Damage.HIT;
     }
 
     public enum Damage {

@@ -15,7 +15,7 @@ import java.util.stream.Stream;
 public abstract class Frame {
 
     Ship[][] frame;
-    Ship ship;
+    private Ship ship;
 
     Frame(Ship owner, Ship[][] ships) {
         initializeFrame(owner, ships);
@@ -83,12 +83,13 @@ public abstract class Frame {
 
     public String toStringAt(Coordinates coordinates) {
         Ship ship = frame[coordinates.row()][coordinates.column()];
-        if (ship instanceof DamagedShip) {
-            return "X";
-        } else if (ship instanceof Emptiness) {
-            return ".";
-        }
-        return "*";
+        return ship.toString();
+//        if (ship instanceof DamagedShip) {
+//            return "X";
+//        } else if (ship instanceof Emptiness) {
+//            return ".";
+//        }
+//        return "*";
     }
 
     public boolean isAlive() {
