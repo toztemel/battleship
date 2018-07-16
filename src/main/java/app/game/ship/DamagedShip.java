@@ -39,6 +39,11 @@ public class DamagedShip implements Ship {
     }
 
     @Override
+    public void goTo(Ship[][] field, Coordinates coordinates) {
+
+    }
+
+    @Override
     public String toString() {
         return "X";
     }

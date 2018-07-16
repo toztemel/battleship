@@ -49,14 +49,7 @@ public class Battlefield {
     }
 
     public Battlefield at(Coordinates coordinates) {
-        int row = coordinates.row();
-        int column = coordinates.column();
-        for (int i = 0; i < aShip.length(); i++) {
-            for (int j = 0; j < aShip.width(); j++) {
-                field[row + i][column + j] = aShip;
-                aShip.insertedAt(coordinates);
-            }
-        }
+        aShip.goTo(field, coordinates);
         return this;
     }
 

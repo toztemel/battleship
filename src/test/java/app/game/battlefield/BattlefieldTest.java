@@ -40,9 +40,9 @@ public class BattlefieldTest {
         battlefield.with(xWing).at(Coordinates.of(10, 10));
 
         assertThat(battlefield, contains().referenceTo(angle).at(Coordinates.of(0, 0)));
-        assertThat(battlefield, contains().referenceTo(aWing).at(Coordinates.of(0, 7)));
+        assertThat(battlefield, contains().referenceTo(aWing).at(Coordinates.of(0, 8)));
         assertThat(battlefield, contains().referenceTo(bWing).at(Coordinates.of(7, 0)));
-        assertThat(battlefield, contains().referenceTo(sWing).at(Coordinates.of(5, 5)));
+        assertThat(battlefield, contains().referenceTo(sWing).at(Coordinates.of(6, 6)));
         assertThat(battlefield, contains().referenceTo(xWing).at(Coordinates.of(10, 10)));
     }
 

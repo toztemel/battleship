@@ -13,4 +13,6 @@ public interface Ship {
     void insertedAt(Coordinates coordinates);
 
     boolean isAlive();
+
+    void goTo(Ship[][] field, Coordinates coordinates);
 }

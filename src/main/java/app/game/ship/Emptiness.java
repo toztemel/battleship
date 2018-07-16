@@ -39,6 +39,13 @@ public class Emptiness implements Ship {
     }
 
     @Override
+    public void goTo(Ship[][] field, Coordinates coordinates) {
+        int row = coordinates.row();
+        int column = coordinates.column();
+        field[row][column] = instance();
+    }
+
+    @Override
     public String toString() {
         return ".";
     }

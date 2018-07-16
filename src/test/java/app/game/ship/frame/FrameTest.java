@@ -36,6 +36,11 @@ public class FrameTest {
             public boolean isAlive() {
                 return false;
             }
+
+            @Override
+            public void goTo(Ship[][] field, Coordinates coordinates) {
+
+            }
         };
         print(new AngleFrame(s));
         print(new AFrame(s));

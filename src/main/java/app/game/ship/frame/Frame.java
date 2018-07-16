@@ -96,4 +96,8 @@ public abstract class Frame {
                 .flatMap(Stream::of)
                 .anyMatch(s -> s instanceof Battleship);
     }
+
+    public Ship shipAt(int i, int j) {
+        return frame[i][j];
+    }
 }

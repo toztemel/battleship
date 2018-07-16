@@ -57,4 +57,16 @@ abstract class AbstractBattleship implements Battleship {
     public boolean isAlive() {
         return frame.isAlive();
     }
+
+    @Override
+    public void goTo(Ship[][] field, Coordinates coordinates) {
+        int row = coordinates.row();
+        int column = coordinates.column();
+        for (int i = 0; i < length(); i++) {
+            for (int j = 0; j < width(); j++) {
+                field[row + i][column + j] = frame.shipAt(i, j);
+            }
+        }
+        insertedAt(coordinates);
+    }
 }
