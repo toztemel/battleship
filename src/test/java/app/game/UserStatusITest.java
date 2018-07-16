@@ -77,7 +77,9 @@ public class UserStatusITest {
 
     @Test
     public void server_returns_game_status_including_a_ship() {
-        ownServer.battlefield().with(new Angle()).at(Coordinates.of(0, 0));
+        ActiveGames.getInstance()
+                .getBattlefield(newGame.getGameId())
+                .with(new Angle()).at(Coordinates.of(0, 0));
 
         Status gameStatus = ownUser.queryGameStatus(newGame);
 
@@ -94,7 +96,8 @@ public class UserStatusITest {
 
     @Test
     public void server_returns_game_status_including_two_ships() {
-        ownServer.battlefield()
+        ActiveGames.getInstance()
+                .getBattlefield(newGame.getGameId())
                 .with(new Angle()).at(Coordinates.of(0, 0))
                 .with(new SWing()).at(Coordinates.of(10, 10));
 

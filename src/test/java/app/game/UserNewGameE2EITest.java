@@ -43,9 +43,9 @@ public class UserNewGameE2EITest {
         newGameRequest.setFullName("Lunatech NL Champion");
         newGameRequest.setRules("standard");
         newGameRequest.setProtocol("localhost:7001");
-        user.challangeOpponent(newGameRequest);
+        NewGame newGame = user.challangeOpponent(newGameRequest);
 
-        Battlefield ownBattlefield = ownServer.battlefield();
+        Battlefield ownBattlefield = ActiveGames.getInstance().getBattlefield(newGame.getGameId());
     }
 
     @Test

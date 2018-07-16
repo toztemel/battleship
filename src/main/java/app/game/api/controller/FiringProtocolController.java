@@ -1,5 +1,6 @@
 package app.game.api.controller;
 
+import app.game.ActiveGames;
 import app.game.api.dto.firing.FiringRequest;
 import app.game.api.dto.firing.FiringResponse;
 import app.game.api.dto.status.GameStatus;
@@ -15,14 +16,6 @@ import java.util.stream.Collectors;
 
 public class FiringProtocolController {
 
-    private Battlefield battlefield;
-
-    public FiringProtocolController(Battlefield battlefield) {
-
-        this.battlefield = battlefield;
-    }
-
-    // TODO refactor
     public void onFire(Context ctx) {
         try {
             String gameId = ctx.param("gameId");
@@ -38,6 +31,9 @@ public class FiringProtocolController {
                     .collect(Collectors.toList());
 
             FiringResults shots = new FiringResults();
+
+            Battlefield battlefield = ActiveGames.getInstance().getBattlefield(gameId);
+
             for(Shot shot : shotList) {
                 Shot.Damage d = battlefield.fireAt(shot);
                 shots.put(shot.asHexString(), d.toString());

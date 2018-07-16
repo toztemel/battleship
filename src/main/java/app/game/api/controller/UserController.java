@@ -1,5 +1,6 @@
 package app.game.api.controller;
 
+import app.game.ActiveGames;
 import app.game.api.client.BattleshipClient;
 import app.game.api.dto.status.GameStatus;
 import app.game.api.dto.game.NewGame;
@@ -12,12 +13,6 @@ import io.javalin.Context;
 
 public class UserController {
 
-    private Battlefield battlefield;
-
-    public UserController(Battlefield battlefield) {
-        this.battlefield = battlefield;
-    }
-
     public void onNewGame(Context ctx) {
         NewGame userRequest = ctx.bodyAsClass(NewGame.class);
         BattleshipClient client = new BattleshipClient("http://" + userRequest.getProtocol());
@@ -28,8 +23,11 @@ public class UserController {
         newRequest.setFullName(userRequest.getFullName());
         newRequest.setProtocol(UserService.ownProtocol());
 
-        battlefield.reset(newRequest);
         NewGame response = client.challengeOpponent(newRequest);
+
+        ActiveGames.getInstance().newGame(userRequest, response);
+        ActiveGames.getInstance().putBattlefield(newRequest.getGameId(), Battlefield.newBattlefield());
+
         ctx.status(201).json(response);
     }
 
@@ -40,17 +38,19 @@ public class UserController {
     }
 
     public void onStatus(Context ctx) {
+        String gameId = ctx.param("gameId");
+
         GameStatus game = new GameStatus();
         game.setOwner(getOwnerId());
         game.setStatus(getGameStatus());
 
         SelfStatus self = new SelfStatus();
         self.setUserId(getSelfId());
-        self.setBoard(boardToString());
+        self.setBoard(boardToString(gameId));
 
         OpponentStatus opponent = new OpponentStatus();
         opponent.setUserId(getOpponentId());
-        opponent.setBoard(boardToString());
+        opponent.setBoard(boardToString(gameId));
 
         Status status = new Status();
         status.setGame(game);
@@ -76,8 +76,8 @@ public class UserController {
         return "challenger-X";
     }
 
-    private String[] boardToString() {
-        return battlefield.asString();
+    private String[] boardToString(String gameId) {
+        return ActiveGames.getInstance().getBattlefield(gameId).asString();
     }
 
 }

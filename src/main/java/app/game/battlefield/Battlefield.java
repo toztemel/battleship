@@ -22,6 +22,10 @@ public class Battlefield {
         initializeField();
     }
 
+    public static Battlefield newBattlefield() {
+        return new Battlefield();
+    }
+
     private void initializeField() {
         field = new Ship[BATTLEFIELD_SIZE][BATTLEFIELD_SIZE];
         DoubleArrays.fillEmpty(field);

@@ -2,7 +2,7 @@ package app.game.battlefield;
 
 public class BattlefieldFactory {
 
-    public Battlefield createNew(){
+    public static Battlefield createNew(){
         return new Battlefield();
     }
 }
