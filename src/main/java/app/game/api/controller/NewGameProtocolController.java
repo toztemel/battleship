@@ -1,35 +1,44 @@
 package app.game.api.controller;
 
-import app.game.ActiveGames;
 import app.game.api.dto.game.NewGame;
-import app.game.battlefield.BattlefieldFactory;
+import app.game.service.ActiveGames;
 import app.game.service.IDGenerator;
+import app.game.service.UserService;
 import io.javalin.Context;
 
 public class NewGameProtocolController {
 
+    private UserService userService;
+    private ActiveGames activeGamesService;
+    private IDGenerator idGeneratorService;
+
     public void onNewGame(Context ctx) {
         NewGame request = ctx.bodyAsClass(NewGame.class);
+
         NewGame newGame = new NewGame();
-        newGame.setUserId(getOwnUserId());
-        newGame.setFullName(getOwnUserName());
-        newGame.setGameId(IDGenerator.generate());
+        newGame.setUserId(userService.ownUserId());
+        newGame.setFullName(userService.ownFullName());
+        newGame.setGameId(idGeneratorService.generate());
         newGame.setStarting(request.getUserId());
         newGame.setRules(request.getRules());
 
-        ActiveGames.getInstance().newGame(request, newGame);
-        ActiveGames.getInstance().putBattlefield(newGame.getGameId(), BattlefieldFactory.createNew());
+        activeGamesService.newGameInvitation(request, newGame);
 
         ctx.status(201).json(newGame);
     }
 
-    private String getOwnUserName() {
-        return "Lunatech FR Champion";
+    public NewGameProtocolController setUserService(UserService userService) {
+        this.userService = userService;
+        return this;
     }
 
-    private String getOwnUserId() {
-        return "challenger-Y";
+    public NewGameProtocolController setActiveGamesService(ActiveGames activeGamesService) {
+        this.activeGamesService = activeGamesService;
+        return this;
     }
 
-
+    public NewGameProtocolController setIDGeneratorService(IDGenerator idGeneratorService) {
+        this.idGeneratorService = idGeneratorService;
+        return this;
+    }
 }

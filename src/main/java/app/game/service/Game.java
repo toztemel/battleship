@@ -1,4 +1,4 @@
-package app.game;
+package app.game.service;
 
 import app.game.api.dto.status.GameStatus;
 

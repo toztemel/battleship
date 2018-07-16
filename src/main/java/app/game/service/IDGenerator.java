@@ -4,7 +4,16 @@ import java.util.UUID;
 
 public class IDGenerator {
 
-    public static String generate() {
+    private static IDGenerator instance = new IDGenerator();
+
+    private IDGenerator() {
+    }
+
+    public static IDGenerator getInstance() {
+        return instance;
+    }
+
+    public String generate() {
         return UUID.randomUUID().toString();
     }
 

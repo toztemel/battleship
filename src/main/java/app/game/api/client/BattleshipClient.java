@@ -10,10 +10,19 @@ import javax.ws.rs.core.Response;
 
 public class BattleshipClient {
 
-    private final RestClient client;
+    private static BattleshipClient instance = new BattleshipClient();
+    private RestClient client;
 
-    public BattleshipClient(String uri) {
+    private BattleshipClient() {
+    }
+
+    public static BattleshipClient getInstance() {
+        return instance;
+    }
+
+    public BattleshipClient target(String uri) {
         client = new RestClient(uri);
+        return this;
     }
 
     public NewGame challengeOpponent(NewGame newGame) {

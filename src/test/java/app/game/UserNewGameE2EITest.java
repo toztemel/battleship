@@ -3,6 +3,7 @@ package app.game;
 import app.game.api.client.UserTestClient;
 import app.game.api.dto.game.NewGame;
 import app.game.battlefield.Battlefield;
+import app.game.service.ActiveGames;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;

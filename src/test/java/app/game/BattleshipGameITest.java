@@ -6,6 +6,7 @@ import app.game.api.dto.firing.FiringResponse;
 import app.game.api.dto.game.NewGame;
 import app.game.api.dto.status.GameStatus;
 import app.game.fire.Coordinates;
+import app.game.service.ActiveGames;
 import app.game.ship.Angle;
 import app.game.ship.SWing;
 import app.game.ship.XWing;
@@ -29,7 +30,7 @@ public class BattleshipGameITest {
         game = new BattleshipGame();
         game.start();
 
-        opponent = new BattleshipClient(LOCALHOST_7000);
+        opponent = BattleshipClient.getInstance().target(LOCALHOST_7000);
     }
 
     @After

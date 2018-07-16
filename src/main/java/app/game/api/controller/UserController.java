@@ -1,32 +1,34 @@
 package app.game.api.controller;
 
-import app.game.ActiveGames;
 import app.game.api.client.BattleshipClient;
-import app.game.api.dto.status.GameStatus;
 import app.game.api.dto.game.NewGame;
+import app.game.api.dto.status.GameStatus;
 import app.game.api.dto.status.OpponentStatus;
 import app.game.api.dto.status.SelfStatus;
 import app.game.api.dto.status.Status;
-import app.game.battlefield.Battlefield;
+import app.game.service.ActiveGames;
 import app.game.service.UserService;
 import io.javalin.Context;
 
 public class UserController {
 
+    private BattleshipClient client;
+    private ActiveGames activeGames;
+    private UserService userService;
+
     public void onNewGame(Context ctx) {
         NewGame userRequest = ctx.bodyAsClass(NewGame.class);
-        BattleshipClient client = new BattleshipClient("http://" + userRequest.getProtocol());
 
         NewGame newRequest = new NewGame();
         newRequest.setRules(userRequest.getRules());
         newRequest.setUserId(userRequest.getUserId());
         newRequest.setFullName(userRequest.getFullName());
-        newRequest.setProtocol(UserService.ownProtocol());
+        newRequest.setProtocol(userService.ownProtocol());
 
-        NewGame response = client.challengeOpponent(newRequest);
+        NewGame response = client.target("http://" + userRequest.getProtocol())
+                .challengeOpponent(newRequest);
 
-        ActiveGames.getInstance().newGame(userRequest, response);
-        ActiveGames.getInstance().putBattlefield(newRequest.getGameId(), Battlefield.newBattlefield());
+        activeGames.newGame(response, response);
 
         ctx.status(201).json(response);
     }
@@ -69,7 +71,7 @@ public class UserController {
     }
 
     private String getOwnerId() {
-        return "challenger-Y";
+        return userService.ownUserId();
     }
 
     private String getOpponentId() {
@@ -78,6 +80,21 @@ public class UserController {
 
     private String[] boardToString(String gameId) {
         return ActiveGames.getInstance().getBattlefield(gameId).asString();
+    }
+
+    public UserController setClient(BattleshipClient client) {
+        this.client = client;
+        return this;
+    }
+
+    public UserController setActiveGames(ActiveGames activeGames) {
+        this.activeGames = activeGames;
+        return this;
+    }
+
+    public UserController setUserService(UserService userService) {
+        this.userService = userService;
+        return this;
     }
 
 }

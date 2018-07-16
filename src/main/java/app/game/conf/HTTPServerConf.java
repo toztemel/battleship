@@ -2,8 +2,9 @@ package app.game.conf;
 
 public final class HTTPServerConf {
 
-    public static final int HTTP_SERVER_PORT = 7000;
+    private static final int HTTP_SERVER_PORT = 7000;
 
-    private HTTPServerConf() {
+    public int httpServerPort() {
+        return HTTP_SERVER_PORT;
     }
 }

@@ -1,18 +1,23 @@
 package app.game;
 
 import app.game.api.BattleshipAPI;
+import app.game.api.client.BattleshipClient;
 import app.game.api.controller.FiringProtocolController;
 import app.game.api.controller.NewGameProtocolController;
 import app.game.api.controller.UserController;
 import app.game.api.mapper.BattleshipObjectMapper;
+import app.game.battlefield.BattlefieldFactory;
+import app.game.conf.HTTPServerConf;
+import app.game.service.ActiveGames;
+import app.game.service.IDGenerator;
+import app.game.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import static app.game.conf.HTTPServerConf.HTTP_SERVER_PORT;
 
 class BattleshipGame {
 
     private static final Logger log = LoggerFactory.getLogger(BattleshipGame.class);
+
     private BattleshipAPI api;
 
     {
@@ -23,7 +28,7 @@ class BattleshipGame {
     }
 
     void start() {
-        start(HTTP_SERVER_PORT);
+        start(new HTTPServerConf().httpServerPort());
     }
 
     void start(int port) {
@@ -32,9 +37,22 @@ class BattleshipGame {
 
     private void startApi(int httpServerPort) {
         api = new BattleshipAPI();
-        FiringProtocolController fireController = new FiringProtocolController();
-        NewGameProtocolController newGameController = new NewGameProtocolController();
-        UserController userController = new UserController();
+
+        ActiveGames.getInstance()
+                .setBattlefieldFactory(new BattlefieldFactory());
+
+        NewGameProtocolController newGameController = new NewGameProtocolController()
+                .setUserService(UserService.getInstance())
+                .setActiveGamesService(ActiveGames.getInstance())
+                .setIDGeneratorService(IDGenerator.getInstance());
+
+        FiringProtocolController fireController = new FiringProtocolController()
+                .setActiveGames(ActiveGames.getInstance());
+
+        UserController userController = new UserController()
+                .setUserService(UserService.getInstance())
+                .setActiveGames(ActiveGames.getInstance())
+                .setClient(BattleshipClient.getInstance());
 
         api.listen(httpServerPort)
                 .withMapper(() -> new BattleshipObjectMapper().getDefaultObjectMapper())

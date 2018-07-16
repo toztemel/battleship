@@ -2,12 +2,13 @@ package app.game;
 
 import app.game.api.client.BattleshipClient;
 import app.game.api.client.UserTestClient;
-import app.game.api.dto.status.GameStatus;
 import app.game.api.dto.game.NewGame;
+import app.game.api.dto.status.GameStatus;
 import app.game.api.dto.status.OpponentStatus;
 import app.game.api.dto.status.SelfStatus;
 import app.game.api.dto.status.Status;
 import app.game.fire.Coordinates;
+import app.game.service.ActiveGames;
 import app.game.ship.Angle;
 import app.game.ship.SWing;
 import org.junit.After;
@@ -35,7 +36,7 @@ public class UserStatusITest {
 
         ownUser = new UserTestClient(LOCALHOST_7000);
 
-        opponentServer = new BattleshipClient(LOCALHOST_7000);
+        opponentServer = BattleshipClient.getInstance().target(LOCALHOST_7000);
         newGame = opponentServer.challengeOpponent(newGameRequest());
     }
 

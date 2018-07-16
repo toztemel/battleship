@@ -1,15 +1,34 @@
 package app.game.service;
 
+import app.game.conf.UserConf;
+
 public class UserService {
-    public static String ownUser() {
-        return "challenger-Y";
+
+    private static UserService instance = new UserService();
+
+    private UserConf conf;
+
+    private UserService() {
     }
 
-    public static String ownFullName() {
-        return "Lunatech NL Champion";
+    public static UserService getInstance() {
+        return instance.setUserConf(new UserConf());
     }
 
-    public static String ownProtocol() {
-        return "localhost:7000";
+    public String ownUserId() {
+        return conf.defaultUserId();
+    }
+
+    public String ownFullName() {
+        return conf.defaultUserName();
+    }
+
+    public String ownProtocol() {
+        return conf.defaultUserProtocol();
+    }
+
+    public UserService setUserConf(UserConf conf) {
+        this.conf = conf;
+        return this;
     }
 }

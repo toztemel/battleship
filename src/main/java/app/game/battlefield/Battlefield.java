@@ -1,6 +1,6 @@
 package app.game.battlefield;
 
-import app.game.api.dto.game.NewGame;
+import app.game.conf.BattlefieldConf;
 import app.game.fire.Coordinates;
 import app.game.fire.Shot;
 import app.game.ship.Battleship;
@@ -11,24 +11,13 @@ import app.game.util.DoubleArrays;
 import java.util.Arrays;
 import java.util.stream.Stream;
 
-import static app.game.battlefield.Constants.BATTLEFIELD_SIZE;
-
 public class Battlefield {
 
     private Ship[][] field;
     private Ship aShip;
+    private BattlefieldConf conf;
 
     Battlefield() {
-        initializeField();
-    }
-
-    public static Battlefield newBattlefield() {
-        return new Battlefield();
-    }
-
-    private void initializeField() {
-        field = new Ship[BATTLEFIELD_SIZE][BATTLEFIELD_SIZE];
-        DoubleArrays.fillEmpty(field);
     }
 
     int length() {
@@ -72,7 +61,14 @@ public class Battlefield {
                 .noneMatch(Ship::isAlive);
     }
 
-    public void reset(NewGame newRequest) {
-        initializeField();
+    Battlefield setConf(BattlefieldConf conf) {
+        this.conf = conf;
+        return this;
+    }
+
+    Battlefield build() {
+        field = new Ship[conf.size()][conf.size()];
+        DoubleArrays.fillEmpty(field);
+        return this;
     }
 }

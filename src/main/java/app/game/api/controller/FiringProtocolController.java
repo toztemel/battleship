@@ -1,6 +1,6 @@
 package app.game.api.controller;
 
-import app.game.ActiveGames;
+import app.game.service.ActiveGames;
 import app.game.api.dto.firing.FiringRequest;
 import app.game.api.dto.firing.FiringResponse;
 import app.game.api.dto.status.GameStatus;
@@ -15,6 +15,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class FiringProtocolController {
+
+    private ActiveGames activeGames;
 
     public void onFire(Context ctx) {
         try {
@@ -32,7 +34,7 @@ public class FiringProtocolController {
 
             FiringResults shots = new FiringResults();
 
-            Battlefield battlefield = ActiveGames.getInstance().getBattlefield(gameId);
+            Battlefield battlefield = activeGames.getBattlefield(gameId);
 
             for(Shot shot : shotList) {
                 Shot.Damage d = battlefield.fireAt(shot);
@@ -66,5 +68,10 @@ public class FiringProtocolController {
     // TODO check game rules
     private void checkGameRules(String gameId, String[] incomingShots) throws IllegalArgumentException {
 
+    }
+
+    public FiringProtocolController setActiveGames(ActiveGames activeGames) {
+        this.activeGames = activeGames;
+        return this;
     }
 }

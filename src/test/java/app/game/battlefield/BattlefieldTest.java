@@ -15,7 +15,7 @@ public class BattlefieldTest {
 
     @Before
     public void setup() {
-        battlefield = new Battlefield();
+        battlefield = new BattlefieldFactory().createNew();
     }
 
     @Test
