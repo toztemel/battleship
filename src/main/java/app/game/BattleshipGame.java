@@ -7,6 +7,7 @@ import app.game.api.controller.NewGameProtocolController;
 import app.game.api.controller.UserController;
 import app.game.api.mapper.BattleshipObjectMapper;
 import app.game.battlefield.BattlefieldFactory;
+import app.game.conf.BattlefieldConf;
 import app.game.conf.HTTPServerConf;
 import app.game.conf.UserConf;
 import app.game.service.ActiveGames;
@@ -31,11 +32,15 @@ class BattleshipGame {
     }
 
     private void configureServices() {
-        ActiveGames.getInstance()
-                .setBattlefieldFactory(new BattlefieldFactory());
-
         UserService.getInstance()
                 .setUserConf(new UserConf());
+
+        BattlefieldFactory.getInstance()
+                .setConf(new BattlefieldConf());
+
+        ActiveGames.getInstance()
+                .setBattlefieldFactory(BattlefieldFactory.getInstance());
+
     }
 
     private void startApi(int httpServerPort) {

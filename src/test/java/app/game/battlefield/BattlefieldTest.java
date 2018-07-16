@@ -1,5 +1,6 @@
 package app.game.battlefield;
 
+import app.game.conf.BattlefieldConf;
 import app.game.fire.Coordinates;
 import app.game.ship.*;
 import org.junit.Before;
@@ -15,7 +16,9 @@ public class BattlefieldTest {
 
     @Before
     public void setup() {
-        battlefield = new BattlefieldFactory().createNew();
+        battlefield = BattlefieldFactory.getInstance()
+                .setConf(new BattlefieldConf())
+                .createEmpty();
     }
 
     @Test

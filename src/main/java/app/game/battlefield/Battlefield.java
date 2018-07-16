@@ -66,9 +66,14 @@ public class Battlefield {
         return this;
     }
 
+    public Battlefield random() {
+        return this;
+    }
+
     Battlefield build() {
         field = new Ship[conf.size()][conf.size()];
         DoubleArrays.fillEmpty(field);
         return this;
     }
+
 }

@@ -25,32 +25,12 @@ public final class ActiveGames {
         return instance;
     }
 
-    public void newGame(NewGame newGame, NewGame newGameResponse) {
-        Game game = new Game();
-        game.setOpponentId(newGame.getUserId());
-        game.setOpponentName(newGame.getFullName());
-        game.setOpponentProtocol(newGame.getProtocol());
-        game.setOpponentBoard(new String[16][16]);
-        game.setRules(newGame.getRules());
-        game.setGameOwner(newGame.getStarting());
-        game.setGameId(newGameResponse.getGameId());
-        game.setUserId(newGameResponse.getUserId());
-        game.setUserName(newGameResponse.getFullName());
-        game.setMode(GameStatus.Mode.player_turn);
-        game.setUserBoard(new String[16][16]);
-
-        idGameMap.put(game.getGameId(), game);
-
-        putBattlefield(game.getGameId());
-    }
-
     public Battlefield getBattlefield(String gameId) {
         return idBattlefieldMap.get(gameId);
     }
 
     public void putBattlefield(String gameId) {
-        Battlefield bf = battlefieldFactory.createNew();
-        idBattlefieldMap.put(gameId, bf);
+        idBattlefieldMap.put(gameId, battlefieldFactory.createEmpty());
     }
 
     public ActiveGames setBattlefieldFactory(BattlefieldFactory battlefieldFactory) {
@@ -58,7 +38,22 @@ public final class ActiveGames {
         return this;
     }
 
-    public void newGameInvitation(NewGame request, NewGame newGame) {
-        newGame(request, newGame);
+    public void onNewGameRequestReceived(NewGame request, NewGame response) {
+        Game game = new Game();
+        game.setOpponentId(request.getUserId());
+        game.setOpponentName(request.getFullName());
+        game.setOpponentProtocol(request.getProtocol());
+        game.setOpponentBoard(new String[16][16]);
+        game.setRules(request.getRules());
+        game.setGameOwner(request.getStarting());
+        game.setGameId(response.getGameId());
+        game.setUserId(response.getUserId());
+        game.setUserName(response.getFullName());
+        game.setMode(GameStatus.Mode.player_turn);
+        game.setUserBoard(new String[16][16]);
+
+        idGameMap.put(game.getGameId(), game);
+
+        putBattlefield(game.getGameId());
     }
 }

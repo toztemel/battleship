@@ -19,18 +19,18 @@ public class UserController {
     public void onNewGame(Context ctx) {
         NewGame userRequest = ctx.bodyAsClass(NewGame.class);
 
-        NewGame newRequest = new NewGame();
-        newRequest.setRules(userRequest.getRules());
-        newRequest.setUserId(userRequest.getUserId());
-        newRequest.setFullName(userRequest.getFullName());
-        newRequest.setProtocol(userService.ownProtocol());
+        NewGame serverRequest = new NewGame();
+        serverRequest.setRules(userRequest.getRules());
+        serverRequest.setUserId(userRequest.getUserId());
+        serverRequest.setFullName(userRequest.getFullName());
+        serverRequest.setProtocol(userService.ownProtocol());
 
-        NewGame response = client.target("http://" + userRequest.getProtocol())
-                .challengeOpponent(newRequest);
+        NewGame opponentResponse = client.target("http://" + userRequest.getProtocol())
+                .challengeOpponent(serverRequest);
 
-        activeGames.newGame(response, response);
+        activeGames.onNewGameRequestReceived(opponentResponse, opponentResponse);
 
-        ctx.status(201).json(response);
+        ctx.status(201).json(opponentResponse);
     }
 
     public void onFire(Context context) {

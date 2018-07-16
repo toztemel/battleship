@@ -15,16 +15,16 @@ public class NewGameProtocolController {
     public void onNewGame(Context ctx) {
         NewGame request = ctx.bodyAsClass(NewGame.class);
 
-        NewGame newGame = new NewGame();
-        newGame.setUserId(userService.ownUserId());
-        newGame.setFullName(userService.ownFullName());
-        newGame.setGameId(idGeneratorService.generate());
-        newGame.setStarting(request.getUserId());
-        newGame.setRules(request.getRules());
+        NewGame response = new NewGame();
+        response.setUserId(userService.ownUserId());
+        response.setFullName(userService.ownFullName());
+        response.setGameId(idGeneratorService.generate());
+        response.setStarting(request.getUserId());
+        response.setRules(request.getRules());
 
-        activeGamesService.newGameInvitation(request, newGame);
+        activeGamesService.onNewGameRequestReceived(request, response);
 
-        ctx.status(201).json(newGame);
+        ctx.status(201).json(response);
     }
 
     public NewGameProtocolController setUserService(UserService userService) {
