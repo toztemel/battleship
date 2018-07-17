@@ -6,6 +6,7 @@ import app.game.api.dto.firing.FiringRequest;
 import app.game.api.dto.firing.FiringResponse;
 import app.game.api.dto.game.NewGame;
 
+import javax.ws.rs.BadRequestException;
 import javax.ws.rs.core.Response;
 
 public class BattleshipClient {
@@ -38,8 +39,8 @@ public class BattleshipClient {
     public FiringResponse fire(NewGame game, FiringRequest fire) {
         Response response = client.put("/protocol/game/" + game.getGameId(), fire);
         if (!RestClient.isSuccessful(response)) {
-            // TODO
             System.err.println(response);
+            throw new BadRequestException(response.toString());
         }
         return response.readEntity(FiringResponse.class);
     }

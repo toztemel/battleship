@@ -4,6 +4,7 @@ import app.game.api.client.BattleshipClient;
 import app.game.api.dto.firing.FiringRequest;
 import app.game.api.dto.firing.FiringResponse;
 import app.game.api.dto.game.NewGame;
+import app.game.api.dto.game.Rules;
 import app.game.api.dto.status.GameStatus;
 import app.game.fire.Coordinates;
 import app.game.service.ActiveGames;
@@ -14,6 +15,8 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
+
+import javax.ws.rs.BadRequestException;
 
 import static app.game.ShotDamageMatcher.at;
 import static app.game.fire.Shot.Damage.*;
@@ -38,10 +41,18 @@ public class ProtocolAPI_IncomingFire_ITest {
         game.stop();
     }
 
-
-    @Ignore
-    @Test
+    @Test(expected = BadRequestException.class)
     public void server_responds_with_error_to_firing_without_initialization() {
+        NewGame newGameRequest = new NewGame();
+        newGameRequest.setUserId("challenger-X");
+        newGameRequest.setFullName("Lunatech NL Champion");
+        newGameRequest.setProtocol("192.168.0.10:8080");
+        newGameRequest.setRules(Rules.STANDARD);
+
+        NewGame newGameResponse = opponent.challengeOpponent(newGameRequest);
+        newGameResponse.setGameId("AN_ARBITRARY_ID");
+
+        opponent.fire(newGameResponse, aiming(Coordinates.of(0, 0)));
     }
 
     @Ignore
@@ -57,18 +68,6 @@ public class ProtocolAPI_IncomingFire_ITest {
     @Ignore
     @Test
     public void server_responds_with_error_to_consequtive_fires_in_simple_mode() {
-    }
-
-    @Ignore
-    @Test
-    public void server_responds_to_a_new_game_invitation() {
-        NewGame newGame = opponent.challengeOpponent(newGameRequest());
-
-        assertEquals("challenger-Y", newGame.getUserId());
-        assertEquals("Lunatech FR Champion", newGame.getFullName());
-        assertNotNull(newGame.getGameId());
-        assertEquals("challenger-X", newGame.getStarting());
-        assertEquals("standard", newGame.getRules());
     }
 
     @Ignore
