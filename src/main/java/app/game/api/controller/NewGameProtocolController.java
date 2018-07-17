@@ -2,29 +2,38 @@ package app.game.api.controller;
 
 import app.game.api.dto.game.NewGame;
 import app.game.service.ActiveGames;
-import app.game.service.IDGenerator;
 import app.game.service.UserService;
 import io.javalin.Context;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class NewGameProtocolController {
 
+    private static final Logger LOG = LoggerFactory.getLogger(NewGameProtocolController.class);
+
     private UserService userService;
     private ActiveGames activeGamesService;
-    private IDGenerator idGeneratorService;
 
     public void onNewGame(Context ctx) {
-        NewGame request = ctx.bodyAsClass(NewGame.class);
+        try {
 
-        NewGame response = new NewGame();
-        response.setUserId(userService.ownUserId());
-        response.setFullName(userService.ownFullName());
-        response.setGameId(idGeneratorService.generate());
-        response.setStarting(request.getUserId());
-        response.setRules(request.getRules());
+            NewGame request = ctx.bodyAsClass(NewGame.class);
 
-        activeGamesService.onNewGameRequestReceived(request, response);
+            NewGame response = new NewGame();
+            response.setStarting(request.getUserId());
+            response.setRules(request.getRules());
+            response.setUserId(userService.ownUserId());
+            response.setFullName(userService.ownFullName());
 
-        ctx.status(201).json(response);
+            String gameId = activeGamesService.onNewGameResponseReceived(request, response);
+
+            response.setGameId(gameId);
+
+            ctx.status(201).json(response);
+
+        } catch (Exception e) {
+            throw new ProtocolApiException(e);
+        }
     }
 
     public NewGameProtocolController setUserService(UserService userService) {
@@ -37,8 +46,4 @@ public class NewGameProtocolController {
         return this;
     }
 
-    public NewGameProtocolController setIDGeneratorService(IDGenerator idGeneratorService) {
-        this.idGeneratorService = idGeneratorService;
-        return this;
-    }
 }

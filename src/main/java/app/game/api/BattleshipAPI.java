@@ -2,16 +2,21 @@ package app.game.api;
 
 import app.game.api.ResourcePath.Protocol;
 import app.game.api.ResourcePath.User;
+import app.game.api.controller.ProtocolApiException;
+import app.game.api.controller.UserApiException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.javalin.Handler;
 import io.javalin.Javalin;
 import io.javalin.translator.json.JavalinJacksonPlugin;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.function.Supplier;
 
 public class BattleshipAPI {
 
-    private static BattleshipAPI instance = new BattleshipAPI();
+    private static final Logger LOG = LoggerFactory.getLogger(BattleshipAPI.class);
+    private static final BattleshipAPI instance = new BattleshipAPI();
 
     private Javalin app;
 
@@ -26,6 +31,15 @@ public class BattleshipAPI {
         app.disableStartupBanner()
                 .disableRequestCache()
                 .enableStandardRequestLogging()
+                .exception(ProtocolApiException.class, (e, ctx) -> {
+                    ctx.status(400);
+                    LOG.error(e.getMessage());
+                })
+                .exception(UserApiException.class, (e, ctx) -> {
+                    ctx.status(400);
+                    LOG.error(e.getMessage());
+                })
+                .error(400, ctx -> ctx.result("HTTP 400"))
                 .start();
         return this;
     }

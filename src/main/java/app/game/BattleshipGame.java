@@ -39,7 +39,8 @@ class BattleshipGame {
                 .setConf(new BattlefieldConf());
 
         ActiveGames.getInstance()
-                .setBattlefieldFactory(BattlefieldFactory.getInstance());
+                .setBattlefieldFactory(BattlefieldFactory.getInstance())
+                .setIDGeneratorService(IDGenerator.getInstance());
 
     }
 
@@ -47,8 +48,7 @@ class BattleshipGame {
 
         NewGameProtocolController newGameController = new NewGameProtocolController()
                 .setUserService(UserService.getInstance())
-                .setActiveGamesService(ActiveGames.getInstance())
-                .setIDGeneratorService(IDGenerator.getInstance());
+                .setActiveGamesService(ActiveGames.getInstance());
 
         FiringProtocolController fireController = new FiringProtocolController()
                 .setActiveGames(ActiveGames.getInstance());

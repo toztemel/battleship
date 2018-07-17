@@ -28,12 +28,11 @@ public class BattleshipClient {
 
     public NewGame challengeOpponent(NewGame newGame) {
         Response response = client.post(Protocol.NEW_GAME, newGame);
-        NewGame newGameResponse = response.readEntity(NewGame.class);
         if (!RestClient.isCreated(response)) {
             // TODO
             System.err.println(response);
         }
-        return newGameResponse;
+        return response.readEntity(NewGame.class);
     }
 
     public FiringResponse fire(NewGame game, FiringRequest fire) {

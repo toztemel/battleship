@@ -1,13 +1,13 @@
 package app.game.api.controller;
 
-import app.game.service.ActiveGames;
 import app.game.api.dto.firing.FiringRequest;
 import app.game.api.dto.firing.FiringResponse;
-import app.game.api.dto.status.GameStatus;
 import app.game.api.dto.firing.FiringResults;
+import app.game.api.dto.status.GameStatus;
 import app.game.battlefield.Battlefield;
 import app.game.fire.CoordinatesFormatter;
 import app.game.fire.Shot;
+import app.game.service.ActiveGames;
 import io.javalin.Context;
 
 import java.util.Arrays;
@@ -21,53 +21,79 @@ public class FiringProtocolController {
     public void onFire(Context ctx) {
         try {
             String gameId = ctx.param("gameId");
-            checkGameId(gameId);
+
+            validateGameId(gameId);
+            validateGameMode(gameId);
 
             FiringRequest firingRequest = ctx.bodyAsClass(FiringRequest.class);
             String[] incomingShots = firingRequest.getShots();
-            checkGameRules(gameId, incomingShots);
+
+            validateGameRules(gameId, firingRequest);
 
             List<Shot> shotList = Arrays.stream(incomingShots)
                     .map(CoordinatesFormatter::fromProtocolString)
                     .map(Shot::new)
                     .collect(Collectors.toList());
 
-            FiringResults shots = new FiringResults();
 
-            Battlefield battlefield = activeGames.getBattlefield(gameId);
-
-            for(Shot shot : shotList) {
-                Shot.Damage d = battlefield.fireAt(shot);
-                shots.put(shot.asHexString(), d.toString());
+            Battlefield battlefield = getBattlefield(gameId);
+            FiringResults firingResults = new FiringResults();
+            for (Shot shot : shotList) {
+                Shot.Damage result = battlefield.fireAt(shot);
+                firingResults.put(shot.asHexString(), result.toString());
             }
 
-            GameStatus game = new GameStatus();
-
+            GameStatus gameStatus = new GameStatus();
             if (battlefield.allShipsKilled()) {
-                game.setStatus(GameStatus.Mode.won);
+                gameStatus.setStatus(GameStatus.Mode.won);
             } else {
-                game.setStatus(GameStatus.Mode.player_turn);
+                gameStatus.setStatus(GameStatus.Mode.player_turn);
             }
-            game.setOwner("challenger-Y");
+            gameStatus.setOwner(getGameOwner(gameId));
+
+            updateGameStatus(gameId, gameStatus);
 
             FiringResponse response = new FiringResponse();
-            response.setShots(shots);
-            response.setGame(game);
+            response.setShots(firingResults);
+            response.setGame(gameStatus);
 
             ctx.status(200).json(response);
         } catch (Exception e) {
-            e.printStackTrace();
+            throw new ProtocolApiException(e);
         }
     }
 
-    // TODO
-    private void checkGameId(String gameId) {
+    private String getGameOwner(String gameId) {
+        return activeGames.getGame(gameId).getOpponentId();
+    }
 
+    private void updateGameStatus(String gameId, GameStatus game) {
+        // TODO update activeGames,
+        // TODO update game rules
+    }
+
+    private Battlefield getBattlefield(String gameId) {
+        return activeGames.getBattlefield(gameId);
+    }
+
+    private void validateGameMode(String gameId) {
+        if (!activeGames.isOpponentsTurn(gameId)) {
+            throw new ProtocolApiException("Opponent cannot shoot. It is owner's turn");
+        }
+    }
+
+    private void validateGameId(String gameId) {
+        boolean activeGame = activeGames.containsGame(gameId);
+        if (!activeGame) {
+            throw new ProtocolApiException("Game not found with id:" + gameId);
+        }
     }
 
     // TODO check game rules
-    private void checkGameRules(String gameId, String[] incomingShots) throws IllegalArgumentException {
-
+    private void validateGameRules(String gameId, FiringRequest incomingShots) throws IllegalArgumentException {
+        if (false) {
+            throw new ProtocolApiException("Invalid number of shots in gameRules:");
+        }
     }
 
     public FiringProtocolController setActiveGames(ActiveGames activeGames) {

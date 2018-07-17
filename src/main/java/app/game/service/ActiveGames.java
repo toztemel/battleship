@@ -15,6 +15,7 @@ public final class ActiveGames {
     private Map<String, Game> idGameMap;
     private Map<String, Battlefield> idBattlefieldMap;
     private BattlefieldFactory battlefieldFactory;
+    private IDGenerator idGenerator;
 
     private ActiveGames() {
         idGameMap = new HashMap<>();
@@ -29,16 +30,9 @@ public final class ActiveGames {
         return idBattlefieldMap.get(gameId);
     }
 
-    public void putBattlefield(String gameId) {
-        idBattlefieldMap.put(gameId, battlefieldFactory.createEmpty());
-    }
+    public String onNewGameResponseReceived(NewGame request, NewGame response) {
+        String gameId = idGenerator.generate();
 
-    public ActiveGames setBattlefieldFactory(BattlefieldFactory battlefieldFactory) {
-        this.battlefieldFactory = battlefieldFactory;
-        return this;
-    }
-
-    public void onNewGameRequestReceived(NewGame request, NewGame response) {
         Game game = new Game();
         game.setOpponentId(request.getUserId());
         game.setOpponentName(request.getFullName());
@@ -46,14 +40,41 @@ public final class ActiveGames {
         game.setOpponentBoard(new String[16][16]);
         game.setRules(request.getRules());
         game.setGameOwner(request.getStarting());
-        game.setGameId(response.getGameId());
+        game.setGameId(gameId);
         game.setUserId(response.getUserId());
         game.setUserName(response.getFullName());
         game.setMode(GameStatus.Mode.player_turn);
         game.setUserBoard(new String[16][16]);
 
-        idGameMap.put(game.getGameId(), game);
+        idGameMap.put(gameId, game);
 
-        putBattlefield(game.getGameId());
+        idBattlefieldMap.put(gameId, battlefieldFactory.createEmpty());
+
+        return gameId;
     }
+
+    public ActiveGames setBattlefieldFactory(BattlefieldFactory battlefieldFactory) {
+        this.battlefieldFactory = battlefieldFactory;
+        return this;
+    }
+
+    public ActiveGames setIDGeneratorService(IDGenerator instance) {
+        this.idGenerator = instance;
+        return this;
+    }
+
+    public boolean containsGame(String gameId) {
+        return idGameMap.containsKey(gameId)
+                && idBattlefieldMap.containsKey(gameId);
+    }
+
+    public boolean isOpponentsTurn(String gameId) {
+        Game game = idGameMap.get(gameId);
+        return game.getGameOwner().equals(game.getOpponentId());
+    }
+
+    public Game getGame(String gameId) {
+        return idGameMap.get(gameId);
+    }
+
 }

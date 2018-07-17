@@ -17,49 +17,68 @@ public class UserController {
     private UserService userService;
 
     public void onNewGame(Context ctx) {
-        NewGame userRequest = ctx.bodyAsClass(NewGame.class);
+        try {
+            NewGame userRequest = ctx.bodyAsClass(NewGame.class);
 
-        NewGame serverRequest = new NewGame();
-        serverRequest.setRules(userRequest.getRules());
-        serverRequest.setUserId(userRequest.getUserId());
-        serverRequest.setFullName(userRequest.getFullName());
-        serverRequest.setProtocol(userService.ownProtocol());
+            NewGame serverRequest = new NewGame();
+            serverRequest.setRules(userRequest.getRules());
+            serverRequest.setUserId(userRequest.getUserId());
+            serverRequest.setFullName(userRequest.getFullName());
+            serverRequest.setProtocol(userService.ownProtocol());
 
-        NewGame opponentResponse = client.target("http://" + userRequest.getProtocol())
-                .challengeOpponent(serverRequest);
+            NewGame opponentResponse = client.target("http://" + userRequest.getProtocol())
+                    .challengeOpponent(serverRequest);
 
-        activeGames.onNewGameRequestReceived(opponentResponse, opponentResponse);
+            activeGames.onNewGameResponseReceived(userRequest, opponentResponse);
 
-        ctx.status(201).json(opponentResponse);
+            ctx.status(201).json(opponentResponse);
+
+        } catch (Exception e) {
+            throw new UserApiException(e);
+        }
     }
 
     public void onFire(Context context) {
+        try {
+        } catch (Exception e) {
+            throw new UserApiException(e);
+        }
+
     }
 
     public void auto(Context context) {
+        try {
+        } catch (Exception e) {
+            throw new UserApiException(e);
+        }
+
     }
 
     public void onStatus(Context ctx) {
-        String gameId = ctx.param("gameId");
+        try {
+            String gameId = ctx.param("gameId");
 
-        GameStatus game = new GameStatus();
-        game.setOwner(getOwnerId());
-        game.setStatus(getGameStatus());
+            GameStatus game = new GameStatus();
+            game.setOwner(getOwnerId());
+            game.setStatus(getGameStatus());
 
-        SelfStatus self = new SelfStatus();
-        self.setUserId(getSelfId());
-        self.setBoard(boardToString(gameId));
+            SelfStatus self = new SelfStatus();
+            self.setUserId(getSelfId());
+            self.setBoard(boardToString(gameId));
 
-        OpponentStatus opponent = new OpponentStatus();
-        opponent.setUserId(getOpponentId());
-        opponent.setBoard(boardToString(gameId));
+            OpponentStatus opponent = new OpponentStatus();
+            opponent.setUserId(getOpponentId());
+            opponent.setBoard(boardToString(gameId));
 
-        Status status = new Status();
-        status.setGame(game);
-        status.setSelf(self);
-        status.setOpponent(opponent);
+            Status status = new Status();
+            status.setGame(game);
+            status.setSelf(self);
+            status.setOpponent(opponent);
 
-        ctx.status(200).json(status);
+            ctx.status(200).json(status);
+        } catch (Exception e) {
+            throw new UserApiException(e);
+        }
     }
 
     private GameStatus.Mode getGameStatus() {
