@@ -7,7 +7,7 @@ import app.game.api.dto.game.NewGame;
 import app.game.api.dto.status.GameStatus;
 import app.game.api.dto.status.OpponentStatus;
 import app.game.api.dto.status.SelfStatus;
-import app.game.api.dto.status.Status;
+import app.game.api.dto.status.StatusResponse;
 import app.game.service.ActiveGames;
 import app.game.service.Game;
 import app.game.service.ProtocolService;
@@ -96,7 +96,7 @@ public class UserController {
 
     public void onStatus(Context ctx) {
         try {
-            Status statusResponse = new Status();
+            StatusResponse statusResponse = new StatusResponse();
 
             String gameId = ctx.param("gameId");
             Game cachedGame = activeGames.getGame(gameId);

@@ -1,6 +1,6 @@
 package app.game.api.dto.status;
 
-public class Status {
+public class StatusResponse {
 
     private GameStatus game;
     private SelfStatus self;

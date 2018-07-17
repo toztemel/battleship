@@ -5,6 +5,7 @@ import app.game.api.dto.game.NewGame;
 import app.game.api.dto.status.GameStatus;
 import app.game.api.dto.status.OpponentStatus;
 import app.game.api.dto.status.SelfStatus;
+import app.game.api.dto.status.StatusResponse;
 import app.game.fire.Coordinates;
 import app.game.service.ActiveGames;
 import app.game.ship.Angle;
@@ -48,29 +49,29 @@ public class UserAPI_Status_ITest {
     @Ignore
     @Test
     public void server_returns_new_game_owner_when_game_status_changes() {
-        app.game.api.dto.status.Status gameStatus = ownUser.queryGameStatus(newGame);
-        String owner = gameStatus.getGame().getOwner();
+        StatusResponse gameStatusResponse = ownUser.queryGameStatus(newGame);
+        String owner = gameStatusResponse.getGame().getOwner();
         // ownServer proceeds
 
-        app.game.api.dto.status.Status gameStatus2 = ownUser.queryGameStatus(newGame);
-        String newOwner = gameStatus2.getGame().getOwner();
+        StatusResponse gameStatusResponse2 = ownUser.queryGameStatus(newGame);
+        String newOwner = gameStatusResponse2.getGame().getOwner();
 
     }
 
     @Test
     public void server_returns_game_status_by_gameId() {
 
-        app.game.api.dto.status.Status gameStatus = ownUser.queryGameStatus(newGame);
+        StatusResponse gameStatusResponse = ownUser.queryGameStatus(newGame);
 
-        assertNotNull(gameStatus.getGame());
-        assertEquals(GameStatus.Status.player_turn, gameStatus.getGame().getStatus());
-        assertEquals("challenger-Y", gameStatus.getGame().getOwner());
+        assertNotNull(gameStatusResponse.getGame());
+        assertEquals(GameStatus.Status.player_turn, gameStatusResponse.getGame().getStatus());
+        assertEquals("challenger-Y", gameStatusResponse.getGame().getOwner());
 
-        SelfStatus self = gameStatus.getSelf();
+        SelfStatus self = gameStatusResponse.getSelf();
         assertNotNull(self);
         assertEquals("challenger-Y", self.getUserId());
 
-        OpponentStatus opponent = gameStatus.getOpponent();
+        OpponentStatus opponent = gameStatusResponse.getOpponent();
         assertNotNull(opponent);
         assertEquals("challenger-X", opponent.getUserId());
         assertTrue(emptyOrUnknownBattlefield(opponent));
@@ -82,9 +83,9 @@ public class UserAPI_Status_ITest {
                 .getBattlefield(newGame.getGameId())
                 .with(new Angle()).at(Coordinates.of(0, 0));
 
-        app.game.api.dto.status.Status gameStatus = ownUser.queryGameStatus(newGame);
+        StatusResponse gameStatusResponse = ownUser.queryGameStatus(newGame);
 
-        SelfStatus self = gameStatus.getSelf();
+        SelfStatus self = gameStatusResponse.getSelf();
         String[] board = self.getBoard();
 
         assertEquals("*...............", board[0]);
@@ -102,9 +103,9 @@ public class UserAPI_Status_ITest {
                 .with(new Angle()).at(Coordinates.of(0, 0))
                 .with(new SWing()).at(Coordinates.of(10, 10));
 
-        app.game.api.dto.status.Status gameStatus = ownUser.queryGameStatus(newGame);
+        StatusResponse gameStatusResponse = ownUser.queryGameStatus(newGame);
 
-        SelfStatus self = gameStatus.getSelf();
+        SelfStatus self = gameStatusResponse.getSelf();
         String[] board = self.getBoard();
         assertEquals("*...............", board[0]);
         assertEquals("*...............", board[1]);
@@ -119,26 +120,26 @@ public class UserAPI_Status_ITest {
 
     @Test
     public void server_returns_empty_opponent_board() {
-        app.game.api.dto.status.Status gameStatus = ownUser.queryGameStatus(newGame);
+        StatusResponse gameStatusResponse = ownUser.queryGameStatus(newGame);
 
-        OpponentStatus opponent = gameStatus.getOpponent();
+        OpponentStatus opponent = gameStatusResponse.getOpponent();
         assertTrue(emptyOrUnknownBattlefield(opponent));
     }
 
     @Ignore
     @Test
     public void server_returns_opponent_board_with_misses() {
-        app.game.api.dto.status.Status gameStatus = ownUser.queryGameStatus(newGame);
+        StatusResponse gameStatusResponse = ownUser.queryGameStatus(newGame);
 
-        OpponentStatus opponent = gameStatus.getOpponent();
+        OpponentStatus opponent = gameStatusResponse.getOpponent();
     }
 
     @Ignore
     @Test
     public void server_returns_opponent_board_with_hits() {
-        app.game.api.dto.status.Status gameStatus = ownUser.queryGameStatus(newGame);
+        StatusResponse gameStatusResponse = ownUser.queryGameStatus(newGame);
 
-        OpponentStatus opponent = gameStatus.getOpponent();
+        OpponentStatus opponent = gameStatusResponse.getOpponent();
     }
 
     private boolean emptyOrUnknownBattlefield(OpponentStatus opponent) {

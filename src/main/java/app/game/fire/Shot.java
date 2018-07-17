@@ -29,8 +29,7 @@ public final class Shot {
     public enum Damage {
         @JsonProperty("miss") MISS,
         @JsonProperty("hit") HIT,
-        @JsonProperty("kill") KILL;
-
+        @JsonProperty("kill") KILL
     }
 
 }

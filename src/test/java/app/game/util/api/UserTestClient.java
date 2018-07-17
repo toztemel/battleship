@@ -3,7 +3,7 @@ package app.game.util.api;
 import app.game.api.ResourcePath;
 import app.game.api.client.rest.RestClient;
 import app.game.api.dto.game.NewGame;
-import app.game.api.dto.status.Status;
+import app.game.api.dto.status.StatusResponse;
 
 import javax.ws.rs.core.Response;
 
@@ -15,12 +15,12 @@ public class UserTestClient {
         client = new RestClient(uri);
     }
 
-    public Status queryGameStatus(NewGame game) {
+    public StatusResponse queryGameStatus(NewGame game) {
         Response response = client.get(ResourcePath.User.USER_API.concat(game.getGameId()));
         if (!RestClient.isSuccessful(response)) {
             // TODO process error
         }
-        return response.readEntity(Status.class);
+        return response.readEntity(StatusResponse.class);
     }
 
     public NewGame challangeOpponent(NewGame newGameRequest) {
