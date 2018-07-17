@@ -58,6 +58,7 @@ class BattleshipGame {
                 .setActiveGames(ActiveGames.getInstance())
                 .setClient(BattleshipClient.getInstance());
 
+
         api = BattleshipAPI.getInstance()
                 .listen(httpServerPort)
                 .withMapper(this::defaultObjectMapper)
@@ -67,6 +68,11 @@ class BattleshipGame {
                 .onUserAsksStatus(userController::onStatus)
                 .onUserFires(userController::onFire)
                 .onUserEnablesAutoPilot(userController::auto)
+                .onError(ctx -> {
+                    String gameId = ctx.param("gameId");
+                    ActiveGames.getInstance().onError(gameId);
+                    ctx.result("HTTP 400");
+                })
                 .start();
     }
 

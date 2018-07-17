@@ -5,6 +5,7 @@ import app.game.api.ResourcePath.User;
 import app.game.api.controller.ProtocolApiException;
 import app.game.api.controller.UserApiException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import io.javalin.ErrorHandler;
 import io.javalin.Handler;
 import io.javalin.Javalin;
 import io.javalin.translator.json.JavalinJacksonPlugin;
@@ -39,7 +40,6 @@ public class BattleshipAPI {
                     ctx.status(400);
                     LOG.error(e.getMessage());
                 })
-                .error(400, ctx -> ctx.result("HTTP 400"))
                 .start();
         return this;
     }
@@ -88,4 +88,8 @@ public class BattleshipAPI {
         return this;
     }
 
+    public BattleshipAPI onError(ErrorHandler errorHandler) {
+        app.error(400, errorHandler);
+        return this;
+    }
 }

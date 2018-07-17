@@ -1,5 +1,6 @@
 package app.game.service;
 
+import app.game.BattleshipGame;
 import app.game.api.dto.game.NewGame;
 import app.game.api.dto.status.GameStatus;
 import app.game.battlefield.Battlefield;
@@ -77,4 +78,8 @@ public final class ActiveGames {
         return idGameMap.get(gameId);
     }
 
+    public void onError(String gameId) {
+        idGameMap.remove(gameId);
+        idBattlefieldMap.remove(gameId);
+    }
 }
