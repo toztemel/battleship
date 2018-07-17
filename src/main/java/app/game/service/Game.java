@@ -18,7 +18,6 @@ public class Game {
     private String userId;
     private String userName;
     private String userProtocol;
-    private String[][] userBoard;
 
     public String getGameId() {
         return gameId;
@@ -98,14 +97,6 @@ public class Game {
 
     public void setUserProtocol(String userProtocol) {
         this.userProtocol = userProtocol;
-    }
-
-    public String[][] getUserBoard() {
-        return userBoard;
-    }
-
-    public void setUserBoard(String[][] userBoard) {
-        this.userBoard = userBoard;
     }
 
     public Rules getRules() {

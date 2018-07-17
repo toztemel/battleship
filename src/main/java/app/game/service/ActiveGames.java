@@ -15,7 +15,6 @@ public final class ActiveGames {
     private Map<String, Game> idGameMap;
     private Map<String, Battlefield> idBattlefieldMap;
     private BattlefieldFactory battlefieldFactory;
-    private IDGenerator idGenerator;
 
     private ActiveGames() {
         idGameMap = new HashMap<>();
@@ -30,8 +29,8 @@ public final class ActiveGames {
         return idBattlefieldMap.get(gameId);
     }
 
-    public String onNewGameResponseReceived(NewGame request, NewGame response) {
-        String gameId = idGenerator.generate();
+    public String onNewGameRequestReceived(NewGame request, NewGame response) {
+        String gameId = response.getGameId();
 
         Game game = new Game();
 
@@ -43,7 +42,6 @@ public final class ActiveGames {
         game.setUserId(response.getUserId());
         game.setUserName(response.getFullName());
         game.setUserProtocol(response.getProtocol());
-        game.setUserBoard(new String[16][16]);
 
         game.setRules(request.getRules());
         game.setMode(GameStatus.Mode.player_turn);
@@ -59,11 +57,6 @@ public final class ActiveGames {
 
     public ActiveGames setBattlefieldFactory(BattlefieldFactory battlefieldFactory) {
         this.battlefieldFactory = battlefieldFactory;
-        return this;
-    }
-
-    public ActiveGames setIDGeneratorService(IDGenerator instance) {
-        this.idGenerator = instance;
         return this;
     }
 

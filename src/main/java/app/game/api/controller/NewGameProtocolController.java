@@ -2,6 +2,7 @@ package app.game.api.controller;
 
 import app.game.api.dto.game.NewGame;
 import app.game.service.ActiveGames;
+import app.game.service.IDGenerator;
 import app.game.service.ProtocolService;
 import app.game.service.UserService;
 import io.javalin.Context;
@@ -11,6 +12,7 @@ public class NewGameProtocolController {
     private UserService userService;
     private ActiveGames activeGamesService;
     private ProtocolService protocolService;
+    private IDGenerator idGenerator;
 
     public void onNewGame(Context ctx) {
         try {
@@ -23,8 +25,8 @@ public class NewGameProtocolController {
             response.setUserId(userService.ownUserId());
             response.setFullName(userService.ownFullName());
             response.setProtocol(protocolService.getOwnProtocol());
-
-            String gameId = activeGamesService.onNewGameResponseReceived(request, response);
+            response.setGameId(idGenerator.generate());
+            String gameId = activeGamesService.onNewGameRequestReceived(request, response);
 
             response.setGameId(gameId);
 
@@ -47,6 +49,11 @@ public class NewGameProtocolController {
 
     public NewGameProtocolController setProtocolService(ProtocolService protocolService) {
         this.protocolService = protocolService;
+        return this;
+    }
+
+    public NewGameProtocolController setIDGeneratorService(IDGenerator idGenerator) {
+        this.idGenerator = idGenerator;
         return this;
     }
 }

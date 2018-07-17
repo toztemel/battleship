@@ -9,8 +9,12 @@ import app.game.api.dto.status.Status;
 import app.game.service.ActiveGames;
 import app.game.service.UserService;
 import io.javalin.Context;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class UserController {
+
+    private static Logger LOG = LoggerFactory.getLogger(UserController.class);
 
     private BattleshipClient client;
     private ActiveGames activeGames;
@@ -29,11 +33,12 @@ public class UserController {
             NewGame opponentResponse = client.target("http://" + userRequest.getProtocol())
                     .challengeOpponent(serverRequest);
 
-            activeGames.onNewGameResponseReceived(userRequest, opponentResponse);
+            activeGames.onNewGameRequestReceived(userRequest, opponentResponse);
 
             ctx.status(201).json(opponentResponse);
-
+            LOG.info("Created new game. Id=", opponentResponse.getGameId());
         } catch (Exception e) {
+            LOG.error("Error occured onNewGame:", e);
             throw new UserApiException(e);
         }
     }
@@ -76,6 +81,7 @@ public class UserController {
             status.setOpponent(opponent);
 
             ctx.status(200).json(status);
+            LOG.info("Return status of game Id=", gameId);
         } catch (Exception e) {
             throw new UserApiException(e);
         }

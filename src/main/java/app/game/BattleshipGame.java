@@ -33,7 +33,6 @@ class BattleshipGame {
     }
 
     private void configureServices(HTTPServerConf conf) {
-        System.setProperty(org.slf4j.impl.SimpleLogger.DEFAULT_LOG_LEVEL_KEY, "WARN");
 
         ProtocolService.getInstance()
                 .setHttpConf(conf);
@@ -45,9 +44,7 @@ class BattleshipGame {
                 .setConf(new BattlefieldConf());
 
         ActiveGames.getInstance()
-                .setBattlefieldFactory(BattlefieldFactory.getInstance())
-                .setIDGeneratorService(IDGenerator.getInstance());
-
+                .setBattlefieldFactory(BattlefieldFactory.getInstance());
     }
 
     private void startApi(HTTPServerConf conf) {
@@ -55,7 +52,8 @@ class BattleshipGame {
         NewGameProtocolController newGameController = new NewGameProtocolController()
                 .setUserService(UserService.getInstance())
                 .setActiveGamesService(ActiveGames.getInstance())
-                .setProtocolService(ProtocolService.getInstance());
+                .setProtocolService(ProtocolService.getInstance())
+                .setIDGeneratorService(IDGenerator.getInstance());
 
         FiringProtocolController fireController = new FiringProtocolController()
                 .setActiveGames(ActiveGames.getInstance());
