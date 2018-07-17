@@ -3,7 +3,9 @@ package app.game.battlefield;
 import app.game.conf.BattlefieldConf;
 import app.game.fire.Coordinates;
 import app.game.ship.*;
+import app.game.util.DoubleArrays;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import static app.game.battlefield.BattlefieldShipReferenceMatcher.contains;
@@ -51,41 +53,26 @@ public class BattlefieldTest {
 
     @Test
     public void length() {
+        assertEquals(16, battlefield.length());
     }
 
     @Test
     public void width() {
+        assertEquals(16, battlefield.width());
     }
 
+    @Ignore
     @Test
-    public void shipAt() {
+    public void battlefield_randomly_generates_ships() {
+        int i = 0;
+        while (i++ < 20) {
+            battlefield = BattlefieldFactory.getInstance()
+                    .setConf(new BattlefieldConf())
+                    .createRandom();
+
+            DoubleArrays.print2DArray(battlefield.asString());
+            System.out.println();
+        }
     }
 
-    @Test
-    public void with() {
-    }
-
-    @Test
-    public void build() {
-    }
-
-    @Test
-    public void asString() {
-    }
-
-    @Test
-    public void at() {
-    }
-
-    @Test
-    public void fireAt() {
-    }
-
-    @Test
-    public void allShipsKilled() {
-    }
-
-    @Test
-    public void reset() {
-    }
 }

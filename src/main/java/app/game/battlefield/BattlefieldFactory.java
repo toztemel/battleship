@@ -24,7 +24,7 @@ public class BattlefieldFactory {
     public Battlefield createRandom() {
         return new Battlefield()
                 .setConf(conf)
-                .random()
+                .randomly()
                 .build();
     }
 

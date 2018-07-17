@@ -1,7 +1,6 @@
 package app.game;
 
 import app.game.api.client.BattleshipClient;
-import app.game.api.client.UserTestClient;
 import app.game.api.dto.game.NewGame;
 import app.game.api.dto.status.GameStatus;
 import app.game.api.dto.status.OpponentStatus;
@@ -11,6 +10,7 @@ import app.game.fire.Coordinates;
 import app.game.service.ActiveGames;
 import app.game.ship.Angle;
 import app.game.ship.SWing;
+import app.game.util.api.UserTestClient;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Ignore;

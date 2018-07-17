@@ -32,11 +32,11 @@ abstract class AbstractBattleship implements Battleship {
         return this;
     }
 
-    private int length() {
+    public int length() {
         return frame.length();
     }
 
-    private int width() {
+    public int width() {
         return frame.width();
     }
 

@@ -6,4 +6,7 @@ public interface Battleship extends Ship {
 
     Shot.Damage hitBy(Shot shot);
 
+    int length();
+
+    int width();
 }

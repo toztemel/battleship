@@ -1,6 +1,6 @@
 package app.game;
 
-import app.game.api.client.UserTestClient;
+import app.game.util.api.UserTestClient;
 import app.game.api.dto.game.NewGame;
 import app.game.battlefield.Battlefield;
 import app.game.service.ActiveGames;
