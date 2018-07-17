@@ -41,7 +41,7 @@ public class FiringProtocolController {
             FiringResults firingResults = new FiringResults();
             for (Shot shot : shotList) {
                 Shot.Damage result = battlefield.fireAt(shot);
-                firingResults.put(shot.asHexString(), result.toString());
+                firingResults.put(shot.asHexString(), result);
             }
 
             GameStatus gameStatus = new GameStatus();
@@ -51,8 +51,8 @@ public class FiringProtocolController {
                 gameStatus.setStatus(GameStatus.Status.player_turn);
             }
             updateGameStatus(gameId, gameStatus);
-
             gameStatus.setOwner(getGameOwner(gameId));
+
             FiringResponse response = new FiringResponse();
             response.setShots(firingResults);
             response.setGame(gameStatus);

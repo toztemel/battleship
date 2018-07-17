@@ -24,12 +24,7 @@ public class ShotDamageMatcher extends TypeSafeMatcher<FiringResponse> {
 
     @Override
     public boolean matchesSafely(FiringResponse response) {
-        return expected.toString()
-                .toLowerCase()
-                .equals(
-                        response.getShots()
-                                .get(coordinates.toHexString())
-                );
+        return expected == response.getShots().get(coordinates.toHexString());
     }
 
     @Override

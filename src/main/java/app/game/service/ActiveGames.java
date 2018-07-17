@@ -126,9 +126,8 @@ public final class ActiveGames {
         game.setGameOwner(firingResponse.getGame().getOwner());
     }
 
-    private void updateOpponentBoard(Game game, Coordinates coordinates, String damageStr) {
+    private void updateOpponentBoard(Game game, Coordinates coordinates, Shot.Damage damage) {
         String[][] opponentBoard = game.getOpponentBoard();
-        Shot.Damage damage = Shot.Damage.valueOf(damageStr);
         String result = Shot.Damage.MISS == damage ? "-" : "X";
         opponentBoard[coordinates.row()][coordinates.column()] = result;
     }

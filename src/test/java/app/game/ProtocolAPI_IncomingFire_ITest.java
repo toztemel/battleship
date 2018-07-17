@@ -1,16 +1,13 @@
 package app.game;
 
 import app.game.api.client.BattleshipClient;
-import app.game.api.dto.firing.FiringRequest;
 import app.game.api.dto.firing.FiringResponse;
 import app.game.api.dto.game.NewGame;
 import app.game.api.dto.game.Rules;
-import app.game.api.dto.status.GameStatus;
 import app.game.fire.Coordinates;
 import app.game.service.ActiveGames;
 import app.game.ship.Angle;
-import app.game.ship.SWing;
-import app.game.ship.XWing;
+import app.game.ship.NullShipObject;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Ignore;
@@ -19,9 +16,10 @@ import org.junit.Test;
 import javax.ws.rs.BadRequestException;
 
 import static app.game.ShotDamageMatcher.at;
-import static app.game.fire.Shot.Damage.*;
+import static app.game.fire.Shot.Damage.HIT;
+import static app.game.fire.Shot.Damage.MISS;
 import static app.game.util.TestUtil.*;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertThat;
 
 public class ProtocolAPI_IncomingFire_ITest {
 
@@ -65,56 +63,40 @@ public class ProtocolAPI_IncomingFire_ITest {
     public void server_responds_with_error_to_firing_multiple_times_in_simple_mode() {
     }
 
-    @Ignore
-    @Test
-    public void server_responds_with_error_to_consequtive_fires_in_simple_mode() {
+    @Test(expected = BadRequestException.class)
+    public void server_responds_with_error_to_consecutive_fires_in_simple_mode() {
+        NewGame newGameRequest = new NewGame();
+        newGameRequest.setUserId("challenger-X");
+        newGameRequest.setFullName("Lunatech NL Champion");
+        newGameRequest.setProtocol("192.168.0.10:8080");
+        newGameRequest.setRules(Rules.STANDARD);
+
+        NewGame newGame = opponent.challengeOpponent(newGameRequest);
+
+        opponent.fire(newGame.getGameId(), aiming(Coordinates.of(0, 0)));
+        opponent.fire(newGame.getGameId(), aiming(Coordinates.of(0, 0)));
     }
 
-    @Ignore
     @Test
     public void server_returns_MISS_when_opponent_misses_single_shot() {
-        NewGame newGame = opponent.challengeOpponent(newGameRequest());
-        ActiveGames.getInstance()
-                .getBattlefield(newGame.getGameId())
-                .with(new XWing()).at(Coordinates.of(10, 10));
+        NewGame newGameRequest = new NewGame();
+        newGameRequest.setUserId("challenger-X");
+        newGameRequest.setFullName("Lunatech NL Champion");
+        newGameRequest.setProtocol("192.168.0.10:8080");
+        newGameRequest.setRules(Rules.STANDARD);
+
+        NewGame newGame = opponent.challengeOpponent(newGameRequest);
 
         Coordinates coordinates = Coordinates.of(0, 0);
+        ActiveGames.getInstance()
+                .getBattlefield(newGame.getGameId())
+                .with(NullShipObject.instance()).at(coordinates);
+
         FiringResponse result = opponent.fire(newGame.getGameId(), aiming(coordinates));
 
         assertThat(result, at(coordinates).is(MISS));
     }
 
-    @Ignore
-    @Test
-    public void server_returns_MISS_when_opponent_misses_multiple_shots() {
-        NewGame newGame = opponent.challengeOpponent(newGameRequest());
-
-        ActiveGames.getInstance()
-                .getBattlefield(newGame.getGameId())
-                .with(new XWing()).at(Coordinates.of(10, 10));
-
-        Coordinates[] coordinateList = new Coordinates[]
-                {
-                        Coordinates.of(1, 11)
-                        , Coordinates.of(0, 10)
-                        , Coordinates.of(5, 1)
-                };
-
-        FiringRequest fire = aiming(coordinateList);
-        FiringResponse firingResponse = opponent.fire(newGame.getGameId(), fire);
-
-        assertNotNull(firingResponse.getGame());
-        assertEquals("challenger-Y", firingResponse.getGame().getOwner());
-        assertEquals(GameStatus.Status.player_turn, firingResponse.getGame().getStatus());
-
-        assertNotNull(firingResponse.getShots());
-        for (Coordinates coordinates : coordinateList) {
-            assertThat(firingResponse, at(coordinates).is(MISS));
-        }
-
-    }
-
-    @Ignore
     @Test
     public void server_returns_HIT_when_opponent_hits_single_shot() {
 
@@ -129,73 +111,6 @@ public class ProtocolAPI_IncomingFire_ITest {
         FiringResponse result = opponent.fire(newGame.getGameId(), aiming(coordinates));
 
         assertThat(result, at(coordinates).is(HIT));
-    }
-
-    @Test
-    public void server_returns_KILL_when_opponent_kills_a_single_ship() {
-
-        NewGame newGame = opponent.challengeOpponent(newGameRequest());
-
-        ActiveGames.getInstance()
-                .getBattlefield(newGame.getGameId())
-                .with(new Angle()).at(Coordinates.of(0, 0));
-
-        Coordinates coordinates = Coordinates.of(0, 0);
-        FiringResponse result = opponent.fire(newGame.getGameId(), aiming(coordinates));
-        assertThat(result, at(coordinates).is(HIT));
-
-        coordinates = Coordinates.of(1, 0);
-        result = opponent.fire(newGame.getGameId(), aiming(coordinates));
-        assertThat(result, at(coordinates).is(HIT));
-
-        coordinates = Coordinates.of(2, 0);
-        result = opponent.fire(newGame.getGameId(), aiming(coordinates));
-        assertThat(result, at(coordinates).is(HIT));
-
-        coordinates = Coordinates.of(3, 0);
-        result = opponent.fire(newGame.getGameId(), aiming(coordinates));
-        assertThat(result, at(coordinates).is(HIT));
-
-        coordinates = Coordinates.of(3, 1);
-        result = opponent.fire(newGame.getGameId(), aiming(coordinates));
-        assertThat(result, at(coordinates).is(HIT));
-
-        coordinates = Coordinates.of(3, 2);
-        result = opponent.fire(newGame.getGameId(), aiming(coordinates));
-        assertThat(result, at(coordinates).is(KILL));
-    }
-
-    @Ignore
-    @Test
-    public void server_returns_WIN_when_opponent_kills_all_ships() {
-
-        NewGame newGame = opponent.challengeOpponent(newGameRequest());
-
-        ActiveGames.getInstance()
-                .getBattlefield(newGame.getGameId())
-                .with(new Angle()).at(Coordinates.of(0, 0))
-                .with(new SWing()).at(Coordinates.of(10, 10));
-
-
-        opponent.fire(newGame.getGameId(), aiming(Coordinates.of(0, 0)));
-        opponent.fire(newGame.getGameId(), aiming(Coordinates.of(1, 0)));
-        opponent.fire(newGame.getGameId(), aiming(Coordinates.of(2, 0)));
-        opponent.fire(newGame.getGameId(), aiming(Coordinates.of(3, 0)));
-        opponent.fire(newGame.getGameId(), aiming(Coordinates.of(3, 1)));
-        FiringResponse response = opponent.fire(newGame.getGameId(), aiming(Coordinates.of(3, 2)));
-
-        assertEquals(GameStatus.Status.player_turn, response.getGame().getStatus());
-        assertThat(response, at(Coordinates.of(3, 2)).is(KILL));
-
-        opponent.fire(newGame.getGameId(), aiming(Coordinates.of(10, 11)));
-        opponent.fire(newGame.getGameId(), aiming(Coordinates.of(10, 12)));
-        opponent.fire(newGame.getGameId(), aiming(Coordinates.of(11, 11)));
-        opponent.fire(newGame.getGameId(), aiming(Coordinates.of(12, 11)));
-
-        response = opponent.fire(newGame.getGameId(), aiming(Coordinates.of(12, 10)));
-
-        assertThat(response, at(Coordinates.of(12, 10)).is(KILL));
-        assertEquals(GameStatus.Status.won, response.getGame().getStatus());
     }
 
 }
