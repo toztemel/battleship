@@ -6,7 +6,7 @@ import app.game.api.dto.status.GameStatus;
 public class Game {
 
     private String gameId;
-    private GameStatus.Mode mode;
+    private GameStatus.Status status;
     private String gameOwner;
     private Rules rules;
 
@@ -27,12 +27,12 @@ public class Game {
         this.gameId = gameId;
     }
 
-    public GameStatus.Mode getMode() {
-        return mode;
+    public GameStatus.Status getStatus() {
+        return status;
     }
 
-    public void setMode(GameStatus.Mode mode) {
-        this.mode = mode;
+    public void setStatus(GameStatus.Status status) {
+        this.status = status;
     }
 
     public String getGameOwner() {

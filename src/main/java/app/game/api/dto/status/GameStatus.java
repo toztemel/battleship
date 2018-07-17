@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 
 public class GameStatus {
 
-    private Mode status;
+    private Status status;
     private String owner;
 
     public String getOwner() {
@@ -15,16 +15,16 @@ public class GameStatus {
         this.owner = owner;
     }
 
-    public Mode getStatus() {
+    public Status getStatus() {
         return status;
     }
 
-    public void setStatus(Mode status) {
+    public void setStatus(Status status) {
         this.status = status;
     }
 
     @JsonFormat(shape = JsonFormat.Shape.STRING)
-    public enum Mode {
+    public enum Status {
         player_turn, won
     }
 }

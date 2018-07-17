@@ -44,7 +44,8 @@ class BattleshipGame {
                 .setConf(new BattlefieldConf());
 
         ActiveGames.getInstance()
-                .setBattlefieldFactory(BattlefieldFactory.getInstance());
+                .setBattlefieldFactory(BattlefieldFactory.getInstance())
+        .setProtocolService(ProtocolService.getInstance());
     }
 
     private void startApi(HTTPServerConf conf) {
@@ -61,7 +62,8 @@ class BattleshipGame {
         UserController userController = new UserController()
                 .setUserService(UserService.getInstance())
                 .setActiveGames(ActiveGames.getInstance())
-                .setClient(BattleshipClient.getInstance());
+                .setBattleshipClient(BattleshipClient.getInstance())
+                .setProtocolService(ProtocolService.getInstance());
 
 
         api = BattleshipAPI.getInstance()

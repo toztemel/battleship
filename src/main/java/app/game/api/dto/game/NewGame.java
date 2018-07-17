@@ -9,9 +9,6 @@ public class NewGame {
     private String starting;
     private Rules rules;
 
-    public NewGame() {
-    }
-
     public String getUserId() {
         return userId;
     }

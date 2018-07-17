@@ -16,6 +16,7 @@ import static app.game.util.TestUtil.LOCALHOST_7001;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
+@Ignore
 public class UserAPI_NewGame_ITest {
 
     private BattleshipGame ownServer;

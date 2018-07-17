@@ -5,7 +5,6 @@ import app.game.api.dto.game.NewGame;
 import app.game.api.dto.status.GameStatus;
 import app.game.api.dto.status.OpponentStatus;
 import app.game.api.dto.status.SelfStatus;
-import app.game.api.dto.status.Status;
 import app.game.fire.Coordinates;
 import app.game.service.ActiveGames;
 import app.game.ship.Angle;
@@ -22,6 +21,7 @@ import static app.game.util.TestUtil.LOCALHOST_7000;
 import static app.game.util.TestUtil.newGameRequest;
 import static org.junit.Assert.*;
 
+@Ignore
 public class UserAPI_Status_ITest {
 
     private BattleshipGame ownServer;
@@ -48,11 +48,11 @@ public class UserAPI_Status_ITest {
     @Ignore
     @Test
     public void server_returns_new_game_owner_when_game_status_changes() {
-        Status gameStatus = ownUser.queryGameStatus(newGame);
+        app.game.api.dto.status.Status gameStatus = ownUser.queryGameStatus(newGame);
         String owner = gameStatus.getGame().getOwner();
         // ownServer proceeds
 
-        Status gameStatus2 = ownUser.queryGameStatus(newGame);
+        app.game.api.dto.status.Status gameStatus2 = ownUser.queryGameStatus(newGame);
         String newOwner = gameStatus2.getGame().getOwner();
 
     }
@@ -60,10 +60,10 @@ public class UserAPI_Status_ITest {
     @Test
     public void server_returns_game_status_by_gameId() {
 
-        Status gameStatus = ownUser.queryGameStatus(newGame);
+        app.game.api.dto.status.Status gameStatus = ownUser.queryGameStatus(newGame);
 
         assertNotNull(gameStatus.getGame());
-        assertEquals(GameStatus.Mode.player_turn, gameStatus.getGame().getStatus());
+        assertEquals(GameStatus.Status.player_turn, gameStatus.getGame().getStatus());
         assertEquals("challenger-Y", gameStatus.getGame().getOwner());
 
         SelfStatus self = gameStatus.getSelf();
@@ -82,7 +82,7 @@ public class UserAPI_Status_ITest {
                 .getBattlefield(newGame.getGameId())
                 .with(new Angle()).at(Coordinates.of(0, 0));
 
-        Status gameStatus = ownUser.queryGameStatus(newGame);
+        app.game.api.dto.status.Status gameStatus = ownUser.queryGameStatus(newGame);
 
         SelfStatus self = gameStatus.getSelf();
         String[] board = self.getBoard();
@@ -102,7 +102,7 @@ public class UserAPI_Status_ITest {
                 .with(new Angle()).at(Coordinates.of(0, 0))
                 .with(new SWing()).at(Coordinates.of(10, 10));
 
-        Status gameStatus = ownUser.queryGameStatus(newGame);
+        app.game.api.dto.status.Status gameStatus = ownUser.queryGameStatus(newGame);
 
         SelfStatus self = gameStatus.getSelf();
         String[] board = self.getBoard();
@@ -119,7 +119,7 @@ public class UserAPI_Status_ITest {
 
     @Test
     public void server_returns_empty_opponent_board() {
-        Status gameStatus = ownUser.queryGameStatus(newGame);
+        app.game.api.dto.status.Status gameStatus = ownUser.queryGameStatus(newGame);
 
         OpponentStatus opponent = gameStatus.getOpponent();
         assertTrue(emptyOrUnknownBattlefield(opponent));
@@ -128,7 +128,7 @@ public class UserAPI_Status_ITest {
     @Ignore
     @Test
     public void server_returns_opponent_board_with_misses() {
-        Status gameStatus = ownUser.queryGameStatus(newGame);
+        app.game.api.dto.status.Status gameStatus = ownUser.queryGameStatus(newGame);
 
         OpponentStatus opponent = gameStatus.getOpponent();
     }
@@ -136,7 +136,7 @@ public class UserAPI_Status_ITest {
     @Ignore
     @Test
     public void server_returns_opponent_board_with_hits() {
-        Status gameStatus = ownUser.queryGameStatus(newGame);
+        app.game.api.dto.status.Status gameStatus = ownUser.queryGameStatus(newGame);
 
         OpponentStatus opponent = gameStatus.getOpponent();
     }

@@ -8,6 +8,7 @@ import app.game.battlefield.Battlefield;
 import app.game.fire.CoordinatesFormatter;
 import app.game.fire.Shot;
 import app.game.service.ActiveGames;
+import app.game.service.Game;
 import io.javalin.Context;
 
 import java.util.Arrays;
@@ -23,7 +24,7 @@ public class FiringProtocolController {
             String gameId = ctx.param("gameId");
 
             validateGameId(gameId);
-            validateGameMode(gameId);
+            validateGameStatus(gameId);
 
             FiringRequest firingRequest = ctx.bodyAsClass(FiringRequest.class);
             String[] incomingShots = firingRequest.getShots();
@@ -45,14 +46,13 @@ public class FiringProtocolController {
 
             GameStatus gameStatus = new GameStatus();
             if (battlefield.allShipsKilled()) {
-                gameStatus.setStatus(GameStatus.Mode.won);
+                gameStatus.setStatus(GameStatus.Status.won);
             } else {
-                gameStatus.setStatus(GameStatus.Mode.player_turn);
+                gameStatus.setStatus(GameStatus.Status.player_turn);
             }
-            gameStatus.setOwner(getGameOwner(gameId));
-
             updateGameStatus(gameId, gameStatus);
 
+            gameStatus.setOwner(getGameOwner(gameId));
             FiringResponse response = new FiringResponse();
             response.setShots(firingResults);
             response.setGame(gameStatus);
@@ -64,10 +64,13 @@ public class FiringProtocolController {
     }
 
     private String getGameOwner(String gameId) {
-        return activeGames.getGame(gameId).getOpponentId();
+        return activeGames.getGame(gameId).getUserId();
     }
 
     private void updateGameStatus(String gameId, GameStatus game) {
+        Game cachedGame = activeGames.getGame(gameId);
+        cachedGame.setStatus(game.getStatus());
+        cachedGame.setGameOwner(cachedGame.getUserId());
         // TODO update activeGames,
         // TODO update game rules
     }
@@ -76,7 +79,7 @@ public class FiringProtocolController {
         return activeGames.getBattlefield(gameId);
     }
 
-    private void validateGameMode(String gameId) {
+    private void validateGameStatus(String gameId) {
         if (!activeGames.isOpponentsTurn(gameId)) {
             throw new ProtocolApiException("Opponent cannot shoot. It is owner's turn");
         }

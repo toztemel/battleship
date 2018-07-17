@@ -1,5 +1,7 @@
 package app.game.fire;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public final class Shot {
 
     private Coordinates coordinates;
@@ -25,12 +27,10 @@ public final class Shot {
     }
 
     public enum Damage {
-        MISS, HIT, KILL;
+        @JsonProperty("miss") MISS,
+        @JsonProperty("hit") HIT,
+        @JsonProperty("kill") KILL;
 
-        @Override
-        public String toString() {
-            return super.toString().toLowerCase();
-        }
     }
 
 }

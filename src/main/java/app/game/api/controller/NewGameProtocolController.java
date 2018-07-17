@@ -16,9 +16,7 @@ public class NewGameProtocolController {
 
     public void onNewGame(Context ctx) {
         try {
-
             NewGame request = ctx.bodyAsClass(NewGame.class);
-
             NewGame response = new NewGame();
             response.setStarting(request.getUserId());
             response.setRules(request.getRules());
@@ -26,12 +24,8 @@ public class NewGameProtocolController {
             response.setFullName(userService.ownFullName());
             response.setProtocol(protocolService.getOwnProtocol());
             response.setGameId(idGenerator.generate());
-            String gameId = activeGamesService.onNewGameRequestReceived(request, response);
-
-            response.setGameId(gameId);
-
+            activeGamesService.onIncomingNewGameRequest(request, response);
             ctx.status(201).json(response);
-
         } catch (Exception e) {
             throw new ProtocolApiException(e);
         }

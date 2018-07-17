@@ -10,8 +10,8 @@ import java.util.Arrays;
 
 public class TestUtil {
 
-    public static final String LOCALHOST_7000 = "http://localhost:7000";
-    public static final String LOCALHOST_7001 = "http://localhost:7001";
+    public static final String LOCALHOST_7000 = "localhost:7000";
+    public static final String LOCALHOST_7001 = "localhost:7001";
 
     public static NewGame newGameRequest() {
         NewGame newGameRequest = new NewGame();

@@ -11,7 +11,9 @@ import javax.ws.rs.core.Response;
 
 public class BattleshipClient {
 
+    private static final String HTTP = "http://";
     private static BattleshipClient instance = new BattleshipClient();
+
     private RestClient client;
 
     private BattleshipClient() {
@@ -23,7 +25,7 @@ public class BattleshipClient {
     }
 
     public BattleshipClient target(String uri) {
-        client = new RestClient(uri);
+        client = new RestClient(HTTP + uri);
         return this;
     }
 
@@ -36,8 +38,8 @@ public class BattleshipClient {
         return response.readEntity(NewGame.class);
     }
 
-    public FiringResponse fire(NewGame game, FiringRequest fire) {
-        Response response = client.put("/protocol/game/" + game.getGameId(), fire);
+    public FiringResponse fire(String gameId, FiringRequest fire) {
+        Response response = client.put("/protocol/game/" + gameId, fire);
         if (!RestClient.isSuccessful(response)) {
             System.err.println(response);
             throw new BadRequestException(response.toString());

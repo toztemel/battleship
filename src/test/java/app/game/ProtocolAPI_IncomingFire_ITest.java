@@ -52,7 +52,7 @@ public class ProtocolAPI_IncomingFire_ITest {
         NewGame newGameResponse = opponent.challengeOpponent(newGameRequest);
         newGameResponse.setGameId("AN_ARBITRARY_ID");
 
-        opponent.fire(newGameResponse, aiming(Coordinates.of(0, 0)));
+        opponent.fire(newGameResponse.getGameId(), aiming(Coordinates.of(0, 0)));
     }
 
     @Ignore
@@ -79,11 +79,12 @@ public class ProtocolAPI_IncomingFire_ITest {
                 .with(new XWing()).at(Coordinates.of(10, 10));
 
         Coordinates coordinates = Coordinates.of(0, 0);
-        FiringResponse result = opponent.fire(newGame, aiming(coordinates));
+        FiringResponse result = opponent.fire(newGame.getGameId(), aiming(coordinates));
 
         assertThat(result, at(coordinates).is(MISS));
     }
 
+    @Ignore
     @Test
     public void server_returns_MISS_when_opponent_misses_multiple_shots() {
         NewGame newGame = opponent.challengeOpponent(newGameRequest());
@@ -100,11 +101,11 @@ public class ProtocolAPI_IncomingFire_ITest {
                 };
 
         FiringRequest fire = aiming(coordinateList);
-        FiringResponse firingResponse = opponent.fire(newGame, fire);
+        FiringResponse firingResponse = opponent.fire(newGame.getGameId(), fire);
 
         assertNotNull(firingResponse.getGame());
         assertEquals("challenger-Y", firingResponse.getGame().getOwner());
-        assertEquals(GameStatus.Mode.player_turn, firingResponse.getGame().getStatus());
+        assertEquals(GameStatus.Status.player_turn, firingResponse.getGame().getStatus());
 
         assertNotNull(firingResponse.getShots());
         for (Coordinates coordinates : coordinateList) {
@@ -113,6 +114,7 @@ public class ProtocolAPI_IncomingFire_ITest {
 
     }
 
+    @Ignore
     @Test
     public void server_returns_HIT_when_opponent_hits_single_shot() {
 
@@ -124,7 +126,7 @@ public class ProtocolAPI_IncomingFire_ITest {
                 .with(new Angle()).at(Coordinates.of(0, 0));
 
         Coordinates coordinates = Coordinates.of(0, 0);
-        FiringResponse result = opponent.fire(newGame, aiming(coordinates));
+        FiringResponse result = opponent.fire(newGame.getGameId(), aiming(coordinates));
 
         assertThat(result, at(coordinates).is(HIT));
     }
@@ -139,30 +141,31 @@ public class ProtocolAPI_IncomingFire_ITest {
                 .with(new Angle()).at(Coordinates.of(0, 0));
 
         Coordinates coordinates = Coordinates.of(0, 0);
-        FiringResponse result = opponent.fire(newGame, aiming(coordinates));
+        FiringResponse result = opponent.fire(newGame.getGameId(), aiming(coordinates));
         assertThat(result, at(coordinates).is(HIT));
 
         coordinates = Coordinates.of(1, 0);
-        result = opponent.fire(newGame, aiming(coordinates));
+        result = opponent.fire(newGame.getGameId(), aiming(coordinates));
         assertThat(result, at(coordinates).is(HIT));
 
         coordinates = Coordinates.of(2, 0);
-        result = opponent.fire(newGame, aiming(coordinates));
+        result = opponent.fire(newGame.getGameId(), aiming(coordinates));
         assertThat(result, at(coordinates).is(HIT));
 
         coordinates = Coordinates.of(3, 0);
-        result = opponent.fire(newGame, aiming(coordinates));
+        result = opponent.fire(newGame.getGameId(), aiming(coordinates));
         assertThat(result, at(coordinates).is(HIT));
 
         coordinates = Coordinates.of(3, 1);
-        result = opponent.fire(newGame, aiming(coordinates));
+        result = opponent.fire(newGame.getGameId(), aiming(coordinates));
         assertThat(result, at(coordinates).is(HIT));
 
         coordinates = Coordinates.of(3, 2);
-        result = opponent.fire(newGame, aiming(coordinates));
+        result = opponent.fire(newGame.getGameId(), aiming(coordinates));
         assertThat(result, at(coordinates).is(KILL));
     }
 
+    @Ignore
     @Test
     public void server_returns_WIN_when_opponent_kills_all_ships() {
 
@@ -174,25 +177,25 @@ public class ProtocolAPI_IncomingFire_ITest {
                 .with(new SWing()).at(Coordinates.of(10, 10));
 
 
-        opponent.fire(newGame, aiming(Coordinates.of(0, 0)));
-        opponent.fire(newGame, aiming(Coordinates.of(1, 0)));
-        opponent.fire(newGame, aiming(Coordinates.of(2, 0)));
-        opponent.fire(newGame, aiming(Coordinates.of(3, 0)));
-        opponent.fire(newGame, aiming(Coordinates.of(3, 1)));
-        FiringResponse response = opponent.fire(newGame, aiming(Coordinates.of(3, 2)));
+        opponent.fire(newGame.getGameId(), aiming(Coordinates.of(0, 0)));
+        opponent.fire(newGame.getGameId(), aiming(Coordinates.of(1, 0)));
+        opponent.fire(newGame.getGameId(), aiming(Coordinates.of(2, 0)));
+        opponent.fire(newGame.getGameId(), aiming(Coordinates.of(3, 0)));
+        opponent.fire(newGame.getGameId(), aiming(Coordinates.of(3, 1)));
+        FiringResponse response = opponent.fire(newGame.getGameId(), aiming(Coordinates.of(3, 2)));
 
-        assertEquals(GameStatus.Mode.player_turn, response.getGame().getStatus());
+        assertEquals(GameStatus.Status.player_turn, response.getGame().getStatus());
         assertThat(response, at(Coordinates.of(3, 2)).is(KILL));
 
-        opponent.fire(newGame, aiming(Coordinates.of(10, 11)));
-        opponent.fire(newGame, aiming(Coordinates.of(10, 12)));
-        opponent.fire(newGame, aiming(Coordinates.of(11, 11)));
-        opponent.fire(newGame, aiming(Coordinates.of(12, 11)));
+        opponent.fire(newGame.getGameId(), aiming(Coordinates.of(10, 11)));
+        opponent.fire(newGame.getGameId(), aiming(Coordinates.of(10, 12)));
+        opponent.fire(newGame.getGameId(), aiming(Coordinates.of(11, 11)));
+        opponent.fire(newGame.getGameId(), aiming(Coordinates.of(12, 11)));
 
-        response = opponent.fire(newGame, aiming(Coordinates.of(12, 10)));
+        response = opponent.fire(newGame.getGameId(), aiming(Coordinates.of(12, 10)));
 
         assertThat(response, at(Coordinates.of(12, 10)).is(KILL));
-        assertEquals(GameStatus.Mode.won, response.getGame().getStatus());
+        assertEquals(GameStatus.Status.won, response.getGame().getStatus());
     }
 
 }

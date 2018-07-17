@@ -23,10 +23,6 @@ public class UserService {
         return conf.defaultUserName();
     }
 
-    public String ownProtocol() {
-        return conf.defaultUserProtocol();
-    }
-
     public UserService setUserConf(UserConf conf) {
         this.conf = conf;
         return this;

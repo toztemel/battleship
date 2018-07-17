@@ -19,11 +19,14 @@ public class ProtocolService {
         return instance;
     }
 
-    public String getOwnProtocol() throws UnknownHostException {
+    public String getOwnProtocol() {
         if (ownProtocol == null) {
-            String hostAddress = InetAddress.getLocalHost().getHostAddress();
-            String port = Integer.toString(conf.httpServerPort());
-            ownProtocol = hostAddress + ":" + port;
+            try {
+                String hostAddress = InetAddress.getLocalHost().getHostAddress();
+                String port = Integer.toString(conf.httpServerPort());
+                ownProtocol = hostAddress + ":" + port;
+            } catch (UnknownHostException ignore) {
+            }
         }
         return ownProtocol;
     }
