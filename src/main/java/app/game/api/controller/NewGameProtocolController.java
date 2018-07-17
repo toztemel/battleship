@@ -2,17 +2,15 @@ package app.game.api.controller;
 
 import app.game.api.dto.game.NewGame;
 import app.game.service.ActiveGames;
+import app.game.service.ProtocolService;
 import app.game.service.UserService;
 import io.javalin.Context;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class NewGameProtocolController {
 
-    private static final Logger LOG = LoggerFactory.getLogger(NewGameProtocolController.class);
-
     private UserService userService;
     private ActiveGames activeGamesService;
+    private ProtocolService protocolService;
 
     public void onNewGame(Context ctx) {
         try {
@@ -24,6 +22,7 @@ public class NewGameProtocolController {
             response.setRules(request.getRules());
             response.setUserId(userService.ownUserId());
             response.setFullName(userService.ownFullName());
+            response.setProtocol(protocolService.getOwnProtocol());
 
             String gameId = activeGamesService.onNewGameResponseReceived(request, response);
 
@@ -46,4 +45,8 @@ public class NewGameProtocolController {
         return this;
     }
 
+    public NewGameProtocolController setProtocolService(ProtocolService protocolService) {
+        this.protocolService = protocolService;
+        return this;
+    }
 }

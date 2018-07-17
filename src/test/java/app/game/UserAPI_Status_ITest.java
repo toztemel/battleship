@@ -22,7 +22,7 @@ import static app.game.util.TestUtil.LOCALHOST_7000;
 import static app.game.util.TestUtil.newGameRequest;
 import static org.junit.Assert.*;
 
-public class UserStatusITest {
+public class UserAPI_Status_ITest {
 
     private BattleshipGame ownServer;
     private UserTestClient ownUser;

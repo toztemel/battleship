@@ -1,6 +1,5 @@
 package app.game.service;
 
-import app.game.BattleshipGame;
 import app.game.api.dto.game.NewGame;
 import app.game.api.dto.status.GameStatus;
 import app.game.battlefield.Battlefield;
@@ -35,21 +34,25 @@ public final class ActiveGames {
         String gameId = idGenerator.generate();
 
         Game game = new Game();
+
         game.setOpponentId(request.getUserId());
         game.setOpponentName(request.getFullName());
         game.setOpponentProtocol(request.getProtocol());
         game.setOpponentBoard(new String[16][16]);
-        game.setRules(request.getRules());
-        game.setGameOwner(request.getStarting());
-        game.setGameId(gameId);
+
         game.setUserId(response.getUserId());
         game.setUserName(response.getFullName());
-        game.setMode(GameStatus.Mode.player_turn);
+        game.setUserProtocol(response.getProtocol());
         game.setUserBoard(new String[16][16]);
+
+        game.setRules(request.getRules());
+        game.setMode(GameStatus.Mode.player_turn);
+        game.setGameOwner(response.getStarting());
+        game.setGameId(gameId);
 
         idGameMap.put(gameId, game);
 
-        idBattlefieldMap.put(gameId, battlefieldFactory.createEmpty());
+        idBattlefieldMap.put(gameId, battlefieldFactory.createRandom());
 
         return gameId;
     }

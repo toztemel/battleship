@@ -12,6 +12,7 @@ import app.game.conf.HTTPServerConf;
 import app.game.conf.UserConf;
 import app.game.service.ActiveGames;
 import app.game.service.IDGenerator;
+import app.game.service.ProtocolService;
 import app.game.service.UserService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -23,15 +24,20 @@ class BattleshipGame {
     }
 
     void start() {
-        start(new HTTPServerConf().httpServerPort());
+        start(new HTTPServerConf());
     }
 
-    void start(int port) {
-        configureServices();
-        startApi(port);
+    void start(HTTPServerConf conf) {
+        configureServices(conf);
+        startApi(conf);
     }
 
-    private void configureServices() {
+    private void configureServices(HTTPServerConf conf) {
+        System.setProperty(org.slf4j.impl.SimpleLogger.DEFAULT_LOG_LEVEL_KEY, "WARN");
+
+        ProtocolService.getInstance()
+                .setHttpConf(conf);
+
         UserService.getInstance()
                 .setUserConf(new UserConf());
 
@@ -44,11 +50,12 @@ class BattleshipGame {
 
     }
 
-    private void startApi(int httpServerPort) {
+    private void startApi(HTTPServerConf conf) {
 
         NewGameProtocolController newGameController = new NewGameProtocolController()
                 .setUserService(UserService.getInstance())
-                .setActiveGamesService(ActiveGames.getInstance());
+                .setActiveGamesService(ActiveGames.getInstance())
+                .setProtocolService(ProtocolService.getInstance());
 
         FiringProtocolController fireController = new FiringProtocolController()
                 .setActiveGames(ActiveGames.getInstance());
@@ -60,7 +67,7 @@ class BattleshipGame {
 
 
         api = BattleshipAPI.getInstance()
-                .listen(httpServerPort)
+                .listen(conf)
                 .withMapper(this::defaultObjectMapper)
                 .onProtocolNewGame(newGameController::onNewGame)
                 .onProtocolFire(fireController::onFire)

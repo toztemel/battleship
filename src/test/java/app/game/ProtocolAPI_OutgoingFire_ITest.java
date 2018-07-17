@@ -16,17 +16,17 @@ import org.junit.Ignore;
 import org.junit.Test;
 
 import static app.game.ShotDamageMatcher.at;
-import static app.game.util.TestUtil.*;
 import static app.game.fire.Shot.Damage.*;
+import static app.game.util.TestUtil.*;
 import static org.junit.Assert.*;
 
-public class BattleshipGameITest {
+public class ProtocolAPI_OutgoingFire_ITest {
 
     private BattleshipGame game;
     private BattleshipClient opponent;
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
         game = new BattleshipGame();
         game.start();
 

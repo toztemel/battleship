@@ -1,5 +1,6 @@
 package app.game.service;
 
+import app.game.api.dto.game.Rules;
 import app.game.api.dto.status.GameStatus;
 
 public class Game {
@@ -7,7 +8,7 @@ public class Game {
     private String gameId;
     private GameStatus.Mode mode;
     private String gameOwner;
-    private String rules;
+    private Rules rules;
 
     private String opponentId;
     private String opponentProtocol;
@@ -41,14 +42,6 @@ public class Game {
 
     public void setGameOwner(String gameOwner) {
         this.gameOwner = gameOwner;
-    }
-
-    public String getRules() {
-        return rules;
-    }
-
-    public void setRules(String rules) {
-        this.rules = rules;
     }
 
     public String getOpponentId() {
@@ -113,5 +106,13 @@ public class Game {
 
     public void setUserBoard(String[][] userBoard) {
         this.userBoard = userBoard;
+    }
+
+    public Rules getRules() {
+        return rules;
+    }
+
+    public void setRules(Rules rules) {
+        this.rules = rules;
     }
 }

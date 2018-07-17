@@ -1,11 +1,14 @@
 package app.game;
 
+import app.game.api.dto.game.Rules;
+import app.game.conf.HTTPServerConf;
 import app.game.util.api.UserTestClient;
 import app.game.api.dto.game.NewGame;
 import app.game.battlefield.Battlefield;
 import app.game.service.ActiveGames;
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import static app.game.util.TestUtil.LOCALHOST_7000;
@@ -13,7 +16,7 @@ import static app.game.util.TestUtil.LOCALHOST_7001;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
-public class UserNewGameE2EITest {
+public class UserAPI_NewGame_ITest {
 
     private BattleshipGame ownServer;
     private BattleshipGame opponentServer;
@@ -24,11 +27,11 @@ public class UserNewGameE2EITest {
     public void setUp() throws Exception {
         user = new UserTestClient(LOCALHOST_7000);
         ownServer = new BattleshipGame();
-        ownServer.start(7000);
+        ownServer.start(new HTTPServerConf().httpServerPort(7000));
 
         opponent = new UserTestClient(LOCALHOST_7001);
         opponentServer = new BattleshipGame();
-        opponentServer.start(7001);
+        opponentServer.start(new HTTPServerConf().httpServerPort(7001));
     }
 
     @After
@@ -37,12 +40,18 @@ public class UserNewGameE2EITest {
         opponentServer.stop();
     }
 
+    @Ignore
+    @Test
+    public void server_sends_an_invitation_when_user_starts_a_new_game() {
+    }
+
+
     @Test
     public void server_creates_new_board_when_user_starts_new_game() {
         NewGame newGameRequest = new NewGame();
         newGameRequest.setUserId("challenger-X");
         newGameRequest.setFullName("Lunatech NL Champion");
-        newGameRequest.setRules("standard");
+        newGameRequest.setRules(Rules.STANDARD);
         newGameRequest.setProtocol("localhost:7001");
         NewGame newGame = user.challangeOpponent(newGameRequest);
 
@@ -54,7 +63,7 @@ public class UserNewGameE2EITest {
         NewGame newGameRequest = new NewGame();
         newGameRequest.setUserId("challenger-X");
         newGameRequest.setFullName("Lunatech NL Champion");
-        newGameRequest.setRules("standard");
+        newGameRequest.setRules(Rules.STANDARD);
         newGameRequest.setProtocol("localhost:7001");
         NewGame newGame = user.challangeOpponent(newGameRequest);
 

@@ -1,7 +1,5 @@
 package app.game.api.dto.game;
 
-// TODO enumarate rules
-
 public class NewGame {
 
     private String userId;
@@ -9,7 +7,7 @@ public class NewGame {
     private String protocol;
     private String gameId;
     private String starting;
-    private String rules;
+    private Rules rules;
 
     public NewGame() {
     }
@@ -38,14 +36,6 @@ public class NewGame {
         this.protocol = protocol;
     }
 
-    public String getRules() {
-        return rules;
-    }
-
-    public void setRules(String rules) {
-        this.rules = rules;
-    }
-
     public String getGameId() {
         return gameId;
     }
@@ -62,4 +52,11 @@ public class NewGame {
         this.starting = starting;
     }
 
+    public Rules getRules() {
+        return rules;
+    }
+
+    public void setRules(Rules rules) {
+        this.rules = rules;
+    }
 }
