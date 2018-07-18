@@ -1,4 +1,4 @@
-package app.game.api.client.rest;
+package app.game.api.protocol.client.rest;
 
 import app.game.api.mapper.BattleshipObjectMapper;
 import org.glassfish.jersey.jackson.JacksonFeature;

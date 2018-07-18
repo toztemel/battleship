@@ -1,7 +1,7 @@
 package app.game;
 
 import app.game.api.BattleshipAPI;
-import app.game.api.client.ProtocolApiClient;
+import app.game.api.protocol.client.ProtocolApiClient;
 import app.game.api.user.*;
 import app.game.api.mapper.BattleshipObjectMapper;
 import app.game.api.protocol.ProtocolFiringController;

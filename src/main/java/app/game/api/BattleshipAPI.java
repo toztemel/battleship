@@ -2,7 +2,7 @@ package app.game.api;
 
 import app.game.api.ResourcePath.Protocol;
 import app.game.api.ResourcePath.User;
-import app.game.api.client.ProtocolApiClientException;
+import app.game.api.protocol.client.ProtocolApiClientException;
 import app.game.api.protocol.ProtocolApiException;
 import app.game.api.user.UserApiException;
 import app.game.conf.HTTPServerConf;

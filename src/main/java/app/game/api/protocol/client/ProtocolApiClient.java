@@ -1,7 +1,7 @@
-package app.game.api.client;
+package app.game.api.protocol.client;
 
 import app.game.api.ResourcePath.Protocol;
-import app.game.api.client.rest.RestClient;
+import app.game.api.protocol.client.rest.RestClient;
 import app.game.api.dto.firing.FiringRequest;
 import app.game.api.dto.firing.FiringResponse;
 import app.game.api.dto.game.NewGame;

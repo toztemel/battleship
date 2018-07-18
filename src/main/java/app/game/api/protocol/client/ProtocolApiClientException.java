@@ -1,4 +1,4 @@
-package app.game.api.client;
+package app.game.api.protocol.client;
 
 import javax.ws.rs.BadRequestException;
 

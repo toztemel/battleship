@@ -1,6 +1,6 @@
 package app.game;
 
-import app.game.api.client.ProtocolApiClient;
+import app.game.api.protocol.client.ProtocolApiClient;
 import app.game.api.dto.game.NewGame;
 import app.game.api.dto.status.GameStatus;
 import app.game.api.dto.status.OpponentStatus;

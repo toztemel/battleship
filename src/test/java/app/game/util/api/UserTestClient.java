@@ -1,7 +1,7 @@
 package app.game.util.api;
 
 import app.game.api.ResourcePath;
-import app.game.api.client.rest.RestClient;
+import app.game.api.protocol.client.rest.RestClient;
 import app.game.api.dto.game.NewGame;
 import app.game.api.dto.status.StatusResponse;
 
