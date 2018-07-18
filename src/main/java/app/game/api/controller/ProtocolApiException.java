@@ -8,7 +8,7 @@ public class ProtocolApiException extends BadRequestException {
         super(e);
     }
 
-    ProtocolApiException(String s) {
+    public ProtocolApiException(String s) {
         super(s);
     }
 }

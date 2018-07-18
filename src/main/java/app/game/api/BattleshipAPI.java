@@ -38,7 +38,7 @@ public class BattleshipAPI {
                     LOG.error(e.getMessage());
                 })
                 .exception(UserApiException.class, (e, ctx) -> {
-                    ctx.status(200).result("Try again");
+                    ctx.status(200).result("Problem occurred");
                     LOG.error(e.getMessage());
                 })
                 .start();
@@ -64,8 +64,18 @@ public class BattleshipAPI {
         return this;
     }
 
+    public BattleshipAPI preProtocolFireFilter(Handler handler) {
+        app.before(Protocol.FIRE, handler);
+        return this;
+    }
+
     public BattleshipAPI onProtocolFire(Handler handler) {
         app.put(Protocol.FIRE, handler);
+        return this;
+    }
+
+    public BattleshipAPI postProtocolFireFilter(Handler handler) {
+        app.after(Protocol.FIRE, handler);
         return this;
     }
 

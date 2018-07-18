@@ -1,5 +1,6 @@
 package app.game.battlefield;
 
+import app.game.api.dto.firing.FiringResults;
 import app.game.conf.BattlefieldConf;
 import app.game.fire.Coordinates;
 import app.game.fire.Shot;
@@ -45,7 +46,16 @@ public class Battlefield {
         return this;
     }
 
-    public Shot.Damage fireAt(Shot shot) {
+    public FiringResults fireAt(List<Shot> shots) {
+        FiringResults firingResults = new FiringResults();
+        for (Shot shot : shots) {
+            Shot.Damage result = fireAt(shot);
+            firingResults.put(shot.asHexString(), result);
+        }
+        return firingResults;
+    }
+
+    private Shot.Damage fireAt(Shot shot) {
         Ship ship = field[shot.row()][shot.col()];
         if (ship == NullShipObject.instance()) {
             return Shot.Damage.MISS;
@@ -80,7 +90,7 @@ public class Battlefield {
     }
 
     private void generateRandomShips() {
-        List<Battleship> ships = new ArrayList<Battleship>(){
+        List<Battleship> ships = new ArrayList<Battleship>() {
             {
                 add(new Angle().rotate());
                 add(new AWing().rotate());
@@ -96,14 +106,14 @@ public class Battlefield {
     }
 
     private void locateShip(Battleship... ships) {
-        for(Battleship ship : ships) {
+        for (Battleship ship : ships) {
             int maxRow = field.length - ship.length();
             int maxColumn = field[0].length - ship.width();
             Random random = new Random();
             int row = random.nextInt(maxRow + 1);
             int column = random.nextInt(maxColumn + 1);
 
-            while(!isAvailable(field, ship, row, column)) {
+            while (!isAvailable(field, ship, row, column)) {
                 row = random.nextInt(maxRow + 1);
                 column = random.nextInt(maxColumn + 1);
             }

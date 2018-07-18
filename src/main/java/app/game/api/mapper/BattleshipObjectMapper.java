@@ -1,5 +1,6 @@
 package app.game.api.mapper;
 
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 
@@ -12,9 +13,9 @@ public class BattleshipObjectMapper implements ContextResolver<ObjectMapper> {
     private final ObjectMapper defaultObjectMapper = createDefaultMapper();
 
     private static ObjectMapper createDefaultMapper() {
-        final ObjectMapper result = new ObjectMapper();
-        result.enable(SerializationFeature.INDENT_OUTPUT);
-        return result;
+        return new ObjectMapper()
+                .enable(SerializationFeature.INDENT_OUTPUT)
+                .setSerializationInclusion(Include.NON_NULL);
     }
 
     @Override

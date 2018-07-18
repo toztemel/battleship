@@ -1,10 +1,7 @@
 package app.game.api.controller;
 
 import app.game.api.dto.game.NewGame;
-import app.game.service.ActiveGames;
-import app.game.service.IDGenerator;
-import app.game.service.ProtocolService;
-import app.game.service.UserService;
+import app.game.service.*;
 import io.javalin.Context;
 
 public class NewGameProtocolController {
@@ -13,6 +10,7 @@ public class NewGameProtocolController {
     private ActiveGames activeGamesService;
     private ProtocolService protocolService;
     private IDGenerator idGenerator;
+    private RuleValidationService ruleValidationService = RuleValidationService.getInstance();
 
     public void onNewGame(Context ctx) {
         try {
@@ -25,6 +23,7 @@ public class NewGameProtocolController {
             response.setProtocol(protocolService.getOwnProtocol());
             response.setGameId(idGenerator.generate());
             activeGamesService.onIncomingNewGameRequest(request, response);
+            ruleValidationService.onNewGameProtocolRequestReceived(request, response);
             ctx.status(201).json(response);
         } catch (Exception e) {
             throw new ProtocolApiException(e);

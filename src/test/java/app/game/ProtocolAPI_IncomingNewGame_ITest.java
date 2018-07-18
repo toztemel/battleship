@@ -68,8 +68,8 @@ public class ProtocolAPI_IncomingNewGame_ITest {
         assertEquals(request.getUserId(), game.getGameOwner());
         assertEquals(request.getFullName(), game.getOpponentName());
         assertEquals(request.getProtocol(), game.getOpponentProtocol());
-        assertEquals(request.getRule(), game.getRule());
-        assertEquals(GameStatus.Status.player_turn, game.getStatus());
+        assertEquals(request.getRule(), game.getGameRule());
+        assertEquals(GameStatus.Status.player_turn, game.getGameStatus());
         assertEquals(response.getUserId(), game.getUserId());
         assertEquals(response.getFullName(), game.getUserName());
         assertEquals(response.getProtocol(), game.getUserProtocol());

@@ -3,6 +3,7 @@ package app.game;
 import app.game.api.BattleshipAPI;
 import app.game.api.client.BattleshipClient;
 import app.game.api.controller.FiringProtocolController;
+import app.game.api.controller.FiringProtocolFilter;
 import app.game.api.controller.NewGameProtocolController;
 import app.game.api.controller.UserController;
 import app.game.api.mapper.BattleshipObjectMapper;
@@ -10,10 +11,7 @@ import app.game.battlefield.BattlefieldFactory;
 import app.game.conf.BattlefieldConf;
 import app.game.conf.HTTPServerConf;
 import app.game.conf.UserConf;
-import app.game.service.ActiveGames;
-import app.game.service.IDGenerator;
-import app.game.service.ProtocolService;
-import app.game.service.UserService;
+import app.game.service.*;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 class BattleshipGame {
@@ -45,7 +43,8 @@ class BattleshipGame {
 
         ActiveGames.getInstance()
                 .setBattlefieldFactory(BattlefieldFactory.getInstance())
-        .setProtocolService(ProtocolService.getInstance());
+                .setProtocolService(ProtocolService.getInstance());
+
     }
 
     private void startApi(HTTPServerConf conf) {
@@ -56,8 +55,14 @@ class BattleshipGame {
                 .setProtocolService(ProtocolService.getInstance())
                 .setIDGeneratorService(IDGenerator.getInstance());
 
+
+        FiringProtocolFilter fireFilter = new FiringProtocolFilter()
+                .setActiveGames(ActiveGames.getInstance())
+                .setRuleValidationService(RuleValidationService.getInstance());
+
         FiringProtocolController fireController = new FiringProtocolController()
-                .setActiveGames(ActiveGames.getInstance());
+                .setActiveGames(ActiveGames.getInstance())
+                .setFilter(fireFilter);
 
         UserController userController = new UserController()
                 .setUserService(UserService.getInstance())

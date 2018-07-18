@@ -43,13 +43,13 @@ public final class ActiveGames {
         game.setOpponentName(response.getFullName());
         game.setOpponentProtocol(request.getProtocol()); // provided by own user
         game.setOpponentBoard(emptyOpponentBoard());
-        game.setStatus(GameStatus.Status.player_turn);
+        game.setGameStatus(GameStatus.Status.player_turn);
 
         game.setUserId(request.getUserId());
         game.setUserName(request.getFullName());
         game.setUserProtocol(protocolService.getOwnProtocol());
 
-        game.setRule(request.getRule());
+        game.setGameRule(request.getRule());
         game.setGameOwner(response.getStarting());
         game.setGameId(response.getGameId());
 
@@ -78,10 +78,10 @@ public final class ActiveGames {
         game.setUserName(response.getFullName());
         game.setUserProtocol(protocolService.getOwnProtocol());
 
-        game.setRule(request.getRule());
+        game.setGameRule(request.getRule());
         game.setGameOwner(response.getStarting());
         game.setGameId(response.getGameId());
-        game.setStatus(GameStatus.Status.player_turn);
+        game.setGameStatus(GameStatus.Status.player_turn);
 
         idGameMap.put(response.getGameId(), game);
 

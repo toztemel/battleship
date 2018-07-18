@@ -13,8 +13,9 @@ public final class CoordinatesFormatter {
             throw new InvalidCoordinatesException();
         }
 
-        int row = 0;
-        int column = 0;
+        int row;
+        int column;
+
         try {
             row = Integer.parseInt(hexString.substring(0, xIndex), HEX);
             column = Integer.parseInt(hexString.substring(xIndex + 1), HEX);
@@ -22,7 +23,7 @@ public final class CoordinatesFormatter {
             throw new InvalidCoordinatesException(e);
         }
 
-        if (row < +0 || column < +0) {
+        if (row < 0 || column < 0) {
             throw new InvalidCoordinatesException();
         }
 

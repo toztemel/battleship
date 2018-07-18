@@ -61,7 +61,7 @@ public class UserController {
             context.status(200).json(firingResponse);
         } catch (Exception e) {
             LOG.error("Error occured while firing.", e);
-            throw new UserApiException(e);
+            throw e;
         }
     }
 
@@ -103,7 +103,7 @@ public class UserController {
 
             GameStatus game = new GameStatus();
             game.setOwner(cachedGame.getGameOwner());
-            game.setStatus(cachedGame.getStatus());
+            game.setStatus(cachedGame.getGameStatus());
             statusResponse.setGame(game);
 
             SelfStatus self = new SelfStatus();

@@ -9,6 +9,7 @@ import app.game.fire.CoordinatesFormatter;
 import app.game.fire.Shot;
 import app.game.service.ActiveGames;
 import app.game.service.Game;
+import app.game.service.RuleValidationService;
 import io.javalin.Context;
 
 import java.util.Arrays;
@@ -18,44 +19,33 @@ import java.util.stream.Collectors;
 public class FiringProtocolController {
 
     private ActiveGames activeGames;
+    private FiringProtocolFilter fireFilter;
 
     public void onFire(Context ctx) {
         try {
-            String gameId = ctx.param("gameId");
-
-            validateGameId(gameId);
-            validateGameStatus(gameId);
-
             FiringRequest firingRequest = ctx.bodyAsClass(FiringRequest.class);
-            String[] incomingShots = firingRequest.getShots();
+            String gameId = ctx.param("gameId");
+            fireFilter.preFilter(gameId, firingRequest);
 
-            validateGameRules(gameId, firingRequest);
-
-            List<Shot> shotList = Arrays.stream(incomingShots)
-                    .map(CoordinatesFormatter::fromProtocolString)
-                    .map(Shot::new)
-                    .collect(Collectors.toList());
-
-
-            Battlefield battlefield = getBattlefield(gameId);
-            FiringResults firingResults = new FiringResults();
-            for (Shot shot : shotList) {
-                Shot.Damage result = battlefield.fireAt(shot);
-                firingResults.put(shot.asHexString(), result);
-            }
-
+            List<Shot> shotList = extractShotList(firingRequest);
+            Battlefield battlefield = activeGames.getBattlefield(gameId);
+            FiringResults firingResults = battlefield.fireAt(shotList);
+            Game cachedGame = activeGames.getGame(gameId);
             GameStatus gameStatus = new GameStatus();
             if (battlefield.allShipsKilled()) {
+                gameStatus.setOwner(cachedGame.getOpponentId());
                 gameStatus.setStatus(GameStatus.Status.won);
             } else {
+                gameStatus.setOwner(cachedGame.getUserId());
                 gameStatus.setStatus(GameStatus.Status.player_turn);
             }
-            updateGameStatus(gameId, gameStatus);
-            gameStatus.setOwner(getGameOwner(gameId));
-
+            cachedGame.setGameStatus(gameStatus.getStatus());
+            cachedGame.setGameOwner(gameStatus.getOwner());
             FiringResponse response = new FiringResponse();
             response.setShots(firingResults);
             response.setGame(gameStatus);
+
+            fireFilter.postFilter(gameId, response);
 
             ctx.status(200).json(response);
         } catch (Exception e) {
@@ -63,44 +53,20 @@ public class FiringProtocolController {
         }
     }
 
-    private String getGameOwner(String gameId) {
-        return activeGames.getGame(gameId).getUserId();
-    }
-
-    private void updateGameStatus(String gameId, GameStatus game) {
-        Game cachedGame = activeGames.getGame(gameId);
-        cachedGame.setStatus(game.getStatus());
-        cachedGame.setGameOwner(cachedGame.getUserId());
-        // TODO update activeGames,
-        // TODO update game rules
-    }
-
-    private Battlefield getBattlefield(String gameId) {
-        return activeGames.getBattlefield(gameId);
-    }
-
-    private void validateGameStatus(String gameId) {
-        if (!activeGames.isOpponentsTurn(gameId)) {
-            throw new ProtocolApiException("Opponent cannot shoot. It is owner's turn");
-        }
-    }
-
-    private void validateGameId(String gameId) {
-        boolean activeGame = activeGames.containsGame(gameId);
-        if (!activeGame) {
-            throw new ProtocolApiException("Game not found with id:" + gameId);
-        }
-    }
-
-    // TODO check game rules
-    private void validateGameRules(String gameId, FiringRequest incomingShots) throws IllegalArgumentException {
-        if (false) {
-            throw new ProtocolApiException("Invalid number of shots in gameRules:");
-        }
+    private List<Shot> extractShotList(FiringRequest firingRequest) {
+        return Arrays.stream(firingRequest.getShots())
+                .map(CoordinatesFormatter::fromProtocolString)
+                .map(Shot::new)
+                .collect(Collectors.toList());
     }
 
     public FiringProtocolController setActiveGames(ActiveGames activeGames) {
         this.activeGames = activeGames;
+        return this;
+    }
+
+    public FiringProtocolController setFilter(FiringProtocolFilter fireFilter) {
+        this.fireFilter = fireFilter;
         return this;
     }
 }
