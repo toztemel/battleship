@@ -3,6 +3,7 @@ package app.game.ship.frame;
 import app.game.fire.Coordinates;
 import app.game.ship.*;
 import app.game.util.DoubleArrays;
+import app.game.util.TestUtil;
 import org.junit.Test;
 
 import static org.junit.Assert.assertTrue;
@@ -36,7 +37,7 @@ public class FrameTest {
 
     private void print(Frame bFrame) {
         System.out.println("Shape of " + bFrame.getClass().getSimpleName() + ":");
-        DoubleArrays.print2DArray(bFrame.frame);
+        TestUtil.print2DArray(bFrame.frame);
     }
 
     @Test

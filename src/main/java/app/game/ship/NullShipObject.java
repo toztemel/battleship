@@ -2,6 +2,8 @@ package app.game.ship;
 
 import app.game.fire.Coordinates;
 
+import java.util.Arrays;
+
 public class NullShipObject implements Ship {
 
     private static Ship instance = new NullShipObject();
@@ -11,6 +13,12 @@ public class NullShipObject implements Ship {
 
     public static Ship instance() {
         return instance;
+    }
+
+    public static void fillArea(Ship[][] ships) {
+        Arrays.stream(ships).forEach(row -> {
+            Arrays.fill(row, instance);
+        });
     }
 
     @Override

@@ -7,7 +7,6 @@ import app.game.ship.DamagedShip;
 import app.game.ship.NullShipObject;
 import app.game.ship.Ship;
 import app.game.ship.frame.rotation.Matrix;
-import app.game.util.DoubleArrays;
 
 import java.util.Arrays;
 import java.util.stream.Stream;
@@ -22,7 +21,7 @@ public abstract class Frame {
     }
 
     private void initializeFrame(Ship owner, Ship[][] ships) {
-        DoubleArrays.fillEmpty(ships);
+        NullShipObject.fillArea(ships);
         frame = ships;
         ship = owner;
     }

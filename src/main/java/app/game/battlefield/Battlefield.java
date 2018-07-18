@@ -51,7 +51,7 @@ public class Battlefield {
 
     Battlefield build() {
         field = new Ship[conf.size()][conf.size()];
-        DoubleArrays.fillEmpty(field);
+        NullShipObject.fillArea(field);
         return this;
     }
 

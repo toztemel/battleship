@@ -4,6 +4,7 @@ import app.game.api.dto.firing.FiringRequest;
 import app.game.api.dto.game.NewGame;
 import app.game.api.dto.game.Rule;
 import app.game.fire.Coordinates;
+import app.game.ship.Ship;
 
 import java.util.Arrays;
 
@@ -30,4 +31,18 @@ public class TestUtil {
         return fire;
     }
 
+    public static void print2DArray(Ship[][] frame) {
+        System.out.println();
+        for (int i = 0; i < frame.length; i++) {
+            System.out.print("[");
+            for (int j = 0; j < frame[0].length; j++) {
+                System.out.print(frame[i][j].toStringAt(Coordinates.of(i, j)));
+                if (j < frame[0].length - 1) {
+                    System.out.print(",");
+                }
+            }
+            System.out.println("]");
+        }
+        System.out.println();
+    }
 }
