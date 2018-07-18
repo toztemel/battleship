@@ -31,16 +31,16 @@ public class Battlefield {
                 .noneMatch(Ship::isAlive);
     }
 
-    public FiringResults fireAt(List<Shot> shots) {
+    public FiringResults shotBy(List<Shot> shots) {
         FiringResults firingResults = new FiringResults();
         for (Shot shot : shots) {
-            Shot.Damage result = fireAt(shot);
+            Shot.Damage result = shotBy(shot);
             firingResults.put(shot.asHexString(), result);
         }
         return firingResults;
     }
 
-    private Shot.Damage fireAt(Shot shot) {
+    private Shot.Damage shotBy(Shot shot) {
         Ship ship = field[shot.row()][shot.col()];
         if (ship == NullShipObject.instance()) {
             return Shot.Damage.MISS;

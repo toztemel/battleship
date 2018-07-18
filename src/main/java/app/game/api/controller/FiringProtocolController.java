@@ -22,13 +22,14 @@ public class FiringProtocolController {
 
     public void onFire(Context ctx) {
         try {
-            FiringRequest firingRequest = ctx.bodyAsClass(FiringRequest.class);
             String gameId = ctx.param("gameId");
+            FiringRequest firingRequest = ctx.bodyAsClass(FiringRequest.class);
+
             fireFilter.preFilter(gameId, firingRequest);
 
-            List<Shot> shotList = extractShotList(firingRequest);
             Battlefield battlefield = gameCacheService.getBattlefield(gameId);
-            FiringResults firingResults = battlefield.fireAt(shotList);
+            FiringResults firingResults = battlefield.shotBy(extractShots(firingRequest));
+
             Game cachedGame = gameCacheService.getGame(gameId);
             GameStatus gameStatus = new GameStatus();
             if (battlefield.allShipsKilled()) {
@@ -38,8 +39,10 @@ public class FiringProtocolController {
                 gameStatus.setOwner(cachedGame.getUserId());
                 gameStatus.setStatus(GameStatus.Status.player_turn);
             }
+
             cachedGame.setGameStatus(gameStatus.getStatus());
             cachedGame.setGameOwner(gameStatus.getOwner());
+
             FiringResponse response = new FiringResponse();
             response.setShots(firingResults);
             response.setGame(gameStatus);
@@ -52,7 +55,7 @@ public class FiringProtocolController {
         }
     }
 
-    private List<Shot> extractShotList(FiringRequest firingRequest) {
+    private List<Shot> extractShots(FiringRequest firingRequest) {
         return Arrays.stream(firingRequest.getShots())
                 .map(Coordinates::fromProtocolString)
                 .map(Shot::new)

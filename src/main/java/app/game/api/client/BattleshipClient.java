@@ -2,12 +2,10 @@ package app.game.api.client;
 
 import app.game.api.ResourcePath.Protocol;
 import app.game.api.client.rest.RestClient;
-import app.game.api.controller.ProtocolApiException;
 import app.game.api.dto.firing.FiringRequest;
 import app.game.api.dto.firing.FiringResponse;
 import app.game.api.dto.game.NewGame;
 
-import javax.ws.rs.BadRequestException;
 import javax.ws.rs.core.Response;
 
 public class BattleshipClient {
@@ -33,7 +31,7 @@ public class BattleshipClient {
     public NewGame challengeOpponent(NewGame newGame) {
         Response response = client.post(Protocol.NEW_GAME, newGame);
         if (!RestClient.isCreated(response)) {
-            throw new ProtocolApiException(response.toString());
+            throw new ProtocolApiClientException(response.toString());
         }
         return response.readEntity(NewGame.class);
     }
@@ -41,7 +39,7 @@ public class BattleshipClient {
     public FiringResponse fire(String gameId, FiringRequest fire) {
         Response response = client.put("/protocol/game/" + gameId, fire);
         if (!RestClient.isSuccessful(response)) {
-            throw new ProtocolApiException(response.toString());
+            throw new ProtocolApiClientException(response.toString());
         }
         return response.readEntity(FiringResponse.class);
     }

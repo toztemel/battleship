@@ -2,6 +2,7 @@ package app.game.api;
 
 import app.game.api.ResourcePath.Protocol;
 import app.game.api.ResourcePath.User;
+import app.game.api.client.ProtocolApiClientException;
 import app.game.api.controller.ProtocolApiException;
 import app.game.api.controller.UserApiException;
 import app.game.conf.HTTPServerConf;
@@ -34,6 +35,10 @@ public class BattleshipAPI {
                 .disableRequestCache()
                 .enableStandardRequestLogging()
                 .exception(ProtocolApiException.class, (e, ctx) -> {
+                    ctx.status(400).result(e.getUserMessage());
+                    LOG.error(e.getMessage());
+                })
+                .exception(ProtocolApiClientException.class, (e, ctx) -> {
                     ctx.status(400).result(e.getUserMessage());
                     LOG.error(e.getMessage());
                 })

@@ -49,7 +49,7 @@ public class FiringProtocolFilter implements ProtocolFilter {
         try {
             gameRuleValidationService.onFiringProtocolRequestReceived(gameId, firingRequest);
         } catch (GameRuleViolationException e) {
-            throw new ProtocolApiException("Invalid number of shots in gameRules:");
+            throw new ProtocolApiException("Invalid number of shots");
         }
     }
 

@@ -11,7 +11,7 @@ public class ProtocolApiException extends BadRequestException {
         message = e.getMessage();
     }
 
-    public ProtocolApiException(String s) {
+    ProtocolApiException(String s) {
         super(s);
 
         message = s;
