@@ -7,6 +7,8 @@ import app.game.service.cache.Game;
 
 class XShot implements GameRule {
 
+    private static final int X_SHOT = 10;
+
     @Override
     public void validateIncomingShots(FiringRequest s, Game game) {
         if (s.getShots().length > game.getOpponentShots()) {
@@ -21,9 +23,8 @@ class XShot implements GameRule {
 
     @Override
     public void processIncomingGameRequest(NewGame request, NewGame response, Game game) {
-        int xShot = 10;
-        game.setOpponentShots(xShot);
-        game.setUserShots(xShot);
+        game.setOpponentShots(X_SHOT);
+        game.setUserShots(X_SHOT);
     }
 
 }

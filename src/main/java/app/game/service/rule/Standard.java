@@ -5,6 +5,7 @@ import app.game.service.cache.Game;
 
 class Standard extends XShot {
 
+    @Override
     public void processIncomingGameRequest(NewGame request, NewGame response, Game game) {
         game.setUserShots(1);
         game.setOpponentShots(1);
