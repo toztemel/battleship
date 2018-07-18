@@ -4,7 +4,7 @@ import app.game.api.dto.firing.FiringRequest;
 import app.game.api.dto.firing.FiringResponse;
 import app.game.api.dto.status.GameStatus;
 import app.game.service.cache.GameCacheService;
-import app.game.service.GameRuleValidationService;
+import app.game.service.rule.GameRuleValidationService;
 import app.game.service.rule.GameRuleViolationException;
 
 public class FiringProtocolFilter implements ProtocolFilter {

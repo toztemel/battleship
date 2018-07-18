@@ -3,11 +3,12 @@ package app.game.service.rule;
 import app.game.api.dto.firing.FiringRequest;
 import app.game.api.dto.firing.FiringResponse;
 import app.game.api.dto.game.NewGame;
-import app.game.service.Game;
+import app.game.service.cache.Game;
 
 import java.util.Random;
 
-public class XShot implements GameRule {
+// TODO parametrize X and send over to opponent
+class XShot implements GameRule {
 
     @Override
     public void validateIncomingShots(FiringRequest s, Game game) {

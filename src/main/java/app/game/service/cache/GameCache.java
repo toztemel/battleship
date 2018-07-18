@@ -4,7 +4,6 @@ import app.game.battlefield.Battlefield;
 import app.game.battlefield.BattlefieldFactory;
 import app.game.fire.Coordinates;
 import app.game.fire.Shot;
-import app.game.service.Game;
 
 import java.util.HashMap;
 import java.util.Map;

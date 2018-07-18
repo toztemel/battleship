@@ -6,7 +6,7 @@ import app.game.api.dto.game.Rule;
 import app.game.api.dto.status.GameStatus;
 import app.game.battlefield.Battlefield;
 import app.game.service.cache.GameCacheService;
-import app.game.service.Game;
+import app.game.service.cache.Game;
 import app.game.service.ProtocolService;
 import app.game.service.UserService;
 import org.junit.After;

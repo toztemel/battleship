@@ -3,9 +3,9 @@ package app.game.service.rule;
 import app.game.api.dto.firing.FiringRequest;
 import app.game.api.dto.firing.FiringResponse;
 import app.game.api.dto.game.NewGame;
-import app.game.service.Game;
+import app.game.service.cache.Game;
 
-public interface GameRule {
+interface GameRule {
 
     void validateIncomingShots(FiringRequest s, Game game);
 

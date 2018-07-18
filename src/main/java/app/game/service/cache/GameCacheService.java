@@ -6,7 +6,6 @@ import app.game.api.dto.status.GameStatus;
 import app.game.battlefield.Battlefield;
 import app.game.battlefield.BattlefieldFactory;
 import app.game.fire.Coordinates;
-import app.game.service.Game;
 import app.game.service.ProtocolService;
 import app.game.util.DoubleArrays;
 

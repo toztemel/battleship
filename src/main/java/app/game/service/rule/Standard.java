@@ -1,11 +1,10 @@
 package app.game.service.rule;
 
 import app.game.api.dto.game.NewGame;
-import app.game.service.Game;
+import app.game.service.cache.Game;
 
-public class Standard extends XShot {
+class Standard extends XShot {
 
-    @Override
     public void processIncomingGameRequest(NewGame request, NewGame response, Game game) {
         game.setUserShots(1);
         game.setOpponentShots(1);

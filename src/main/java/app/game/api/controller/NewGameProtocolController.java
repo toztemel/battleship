@@ -3,6 +3,7 @@ package app.game.api.controller;
 import app.game.api.dto.game.NewGame;
 import app.game.service.*;
 import app.game.service.cache.GameCacheService;
+import app.game.service.rule.GameRuleValidationService;
 import io.javalin.Context;
 
 public class NewGameProtocolController {

@@ -9,7 +9,7 @@ import app.game.api.dto.status.OpponentStatus;
 import app.game.api.dto.status.SelfStatus;
 import app.game.api.dto.status.StatusResponse;
 import app.game.service.cache.GameCacheService;
-import app.game.service.Game;
+import app.game.service.cache.Game;
 import app.game.service.ProtocolService;
 import app.game.service.UserService;
 import app.game.util.DoubleArrays;

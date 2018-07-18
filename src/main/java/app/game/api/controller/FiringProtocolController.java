@@ -8,7 +8,7 @@ import app.game.battlefield.Battlefield;
 import app.game.fire.Coordinates;
 import app.game.fire.Shot;
 import app.game.service.cache.GameCacheService;
-import app.game.service.Game;
+import app.game.service.cache.Game;
 import io.javalin.Context;
 
 import java.util.Arrays;

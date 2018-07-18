@@ -1,4 +1,4 @@
-package app.game.service;
+package app.game.service.cache;
 
 import app.game.api.dto.game.Rule;
 import app.game.api.dto.status.GameStatus;

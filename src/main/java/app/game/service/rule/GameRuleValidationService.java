@@ -1,11 +1,10 @@
-package app.game.service;
+package app.game.service.rule;
 
 import app.game.api.dto.firing.FiringRequest;
 import app.game.api.dto.firing.FiringResponse;
 import app.game.api.dto.game.NewGame;
+import app.game.service.cache.Game;
 import app.game.service.cache.GameCacheService;
-import app.game.service.rule.GameRuleFactory;
-import app.game.service.rule.GameRuleViolationException;
 
 public class GameRuleValidationService {
 
@@ -14,6 +13,7 @@ public class GameRuleValidationService {
     private GameRuleFactory gameRuleFactory;
 
     private GameRuleValidationService() {
+        gameRuleFactory = new GameRuleFactory();
     }
 
     public static GameRuleValidationService getInstance() {
@@ -50,8 +50,4 @@ public class GameRuleValidationService {
                 .processIncomingGameRequest(request, response, game);
     }
 
-    public GameRuleValidationService setGameRuleFactory(GameRuleFactory instance) {
-        gameRuleFactory = instance;
-        return this;
-    }
 }

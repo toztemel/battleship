@@ -11,9 +11,11 @@ import app.game.battlefield.BattlefieldFactory;
 import app.game.conf.BattlefieldConf;
 import app.game.conf.HTTPServerConf;
 import app.game.conf.UserConf;
-import app.game.service.*;
+import app.game.service.IDGenerator;
+import app.game.service.ProtocolService;
+import app.game.service.UserService;
 import app.game.service.cache.GameCacheService;
-import app.game.service.rule.GameRuleFactory;
+import app.game.service.rule.GameRuleValidationService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 class BattleshipGame {
@@ -46,9 +48,6 @@ class BattleshipGame {
         GameCacheService.getInstance()
                 .setBattlefieldFactory(BattlefieldFactory.getInstance())
                 .setProtocolService(ProtocolService.getInstance());
-
-        GameRuleValidationService.getInstance()
-                .setGameRuleFactory(GameRuleFactory.getInstance());
 
     }
 

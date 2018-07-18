@@ -5,11 +5,10 @@ import app.game.api.dto.firing.FiringResponse;
 import app.game.api.dto.firing.FiringResults;
 import app.game.api.dto.game.NewGame;
 import app.game.fire.Shot;
-import app.game.service.Game;
+import app.game.service.cache.Game;
 
-public class Desperation implements GameRule {
+class Desperation implements GameRule {
 
-    @Override
     public void validateIncomingShots(FiringRequest s, Game game) {
         int shotsAllowed = game.getOpponentShots();
         if (s.getShots().length > shotsAllowed) {
@@ -17,7 +16,6 @@ public class Desperation implements GameRule {
         }
     }
 
-    @Override
     public void validateOutgoingResponse(FiringResponse firingResponse, Game game) {
         FiringResults shotResults = firingResponse.getShots();
         if (shotResults.containsValue(Shot.Damage.KILL)) {
@@ -29,7 +27,6 @@ public class Desperation implements GameRule {
         }
     }
 
-    @Override
     public void processIncomingGameRequest(NewGame request, NewGame response, Game game) {
         game.setUserShots(1);
         game.setOpponentShots(1);
