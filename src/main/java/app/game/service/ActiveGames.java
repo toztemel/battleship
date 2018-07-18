@@ -55,7 +55,7 @@ public final class ActiveGames {
 
         idGameMap.put(response.getGameId(), game);
 
-        idBattlefieldMap.put(response.getGameId(), battlefieldFactory.createRandom());
+        idBattlefieldMap.put(response.getGameId(), battlefieldFactory.createInstance());
 
     }
 
@@ -85,7 +85,7 @@ public final class ActiveGames {
 
         idGameMap.put(response.getGameId(), game);
 
-        idBattlefieldMap.put(response.getGameId(), battlefieldFactory.createRandom());
+        idBattlefieldMap.put(response.getGameId(), battlefieldFactory.createInstance());
     }
 
     public ActiveGames setBattlefieldFactory(BattlefieldFactory battlefieldFactory) {

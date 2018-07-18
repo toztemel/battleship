@@ -75,7 +75,7 @@ public class Battlefield {
         return this;
     }
 
-    public Battlefield randomly() {
+    Battlefield randomly() {
         randomly = true;
         return this;
     }

@@ -19,8 +19,8 @@ public class BattlefieldTest {
     @Before
     public void setup() {
         battlefield = BattlefieldFactory.getInstance()
-                .setConf(new BattlefieldConf())
-                .createEmpty();
+                .configure(new BattlefieldConf())
+                .createTestInstance();
     }
 
     @Test
@@ -67,8 +67,8 @@ public class BattlefieldTest {
         int i = 0;
         while (i++ < 20) {
             battlefield = BattlefieldFactory.getInstance()
-                    .setConf(new BattlefieldConf())
-                    .createRandom();
+                    .configure(new BattlefieldConf())
+                    .createInstance();
 
             DoubleArrays.print2DArray(battlefield.asString());
             System.out.println();

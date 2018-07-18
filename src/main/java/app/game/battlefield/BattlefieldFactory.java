@@ -15,20 +15,20 @@ public class BattlefieldFactory {
         return instance;
     }
 
-    public Battlefield createEmpty() {
+    Battlefield createTestInstance() {
         return new Battlefield()
                 .setConf(conf)
                 .build();
     }
 
-    public Battlefield createRandom() {
+    public Battlefield createInstance() {
         return new Battlefield()
                 .setConf(conf)
                 .randomly()
                 .build();
     }
 
-    public BattlefieldFactory setConf(BattlefieldConf c) {
+    public BattlefieldFactory configure(BattlefieldConf c) {
         conf = c;
         return this;
     }

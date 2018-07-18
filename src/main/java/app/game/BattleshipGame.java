@@ -39,7 +39,7 @@ class BattleshipGame {
                 .setUserConf(new UserConf());
 
         BattlefieldFactory.getInstance()
-                .setConf(new BattlefieldConf());
+                .configure(new BattlefieldConf());
 
         ActiveGames.getInstance()
                 .setBattlefieldFactory(BattlefieldFactory.getInstance())
