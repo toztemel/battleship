@@ -1,10 +1,10 @@
 package app.game.fire;
 
-public final class CoordinatesFormatter {
+public final class HexToCoordinatesConverter {
 
     private static final int HEX = 16;
 
-    private CoordinatesFormatter() {
+    private HexToCoordinatesConverter() {
     }
 
     public static Coordinates fromProtocolString(String hexString) throws InvalidCoordinatesException {
@@ -30,7 +30,7 @@ public final class CoordinatesFormatter {
         return Coordinates.of(row, column).withHexString(hexString);
     }
 
-    public static String toProtocolString(Coordinates c) {
+    static String toProtocolString(Coordinates c) {
         return Integer.toHexString(c.row()).toUpperCase()
                 + "x"
                 + Integer.toHexString(c.column()).toUpperCase();

@@ -12,6 +12,7 @@ import app.game.conf.BattlefieldConf;
 import app.game.conf.HTTPServerConf;
 import app.game.conf.UserConf;
 import app.game.service.*;
+import app.game.service.rule.GameRuleFactory;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 class BattleshipGame {
@@ -45,6 +46,9 @@ class BattleshipGame {
                 .setBattlefieldFactory(BattlefieldFactory.getInstance())
                 .setProtocolService(ProtocolService.getInstance());
 
+        GameRuleValidationService.getInstance()
+                .setGameRuleFactory(GameRuleFactory.getInstance());
+
     }
 
     private void startApi(HTTPServerConf conf) {
@@ -58,7 +62,7 @@ class BattleshipGame {
 
         FiringProtocolFilter fireFilter = new FiringProtocolFilter()
                 .setActiveGames(ActiveGames.getInstance())
-                .setRuleValidationService(RuleValidationService.getInstance());
+                .setGameRuleValidationService(GameRuleValidationService.getInstance());
 
         FiringProtocolController fireController = new FiringProtocolController()
                 .setActiveGames(ActiveGames.getInstance())

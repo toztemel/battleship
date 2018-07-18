@@ -3,18 +3,19 @@ package app.game.service;
 import app.game.api.dto.firing.FiringRequest;
 import app.game.api.dto.firing.FiringResponse;
 import app.game.api.dto.game.NewGame;
-import app.game.api.dto.game.Rule;
 import app.game.service.rule.GameRuleFactory;
 import app.game.service.rule.GameRuleViolationException;
 
-public class RuleValidationService {
+public class GameRuleValidationService {
 
-    private static final RuleValidationService instance = new RuleValidationService();
+    private static final GameRuleValidationService instance = new GameRuleValidationService();
 
-    private RuleValidationService() {
+    private GameRuleFactory gameRuleFactory;
+
+    private GameRuleValidationService() {
     }
 
-    public static RuleValidationService getInstance() {
+    public static GameRuleValidationService getInstance() {
         return instance;
     }
 
@@ -25,9 +26,7 @@ public class RuleValidationService {
     }
 
     private void validateNumberOfShots(FiringRequest firingRequest, Game game) {
-        Rule gameRule = game.getGameRule();
-        GameRuleFactory.getInstance()
-                .create(gameRule)
+        gameRuleFactory.get(game.getGameRule())
                 .validateIncomingShots(firingRequest, game);
     }
 
@@ -40,17 +39,18 @@ public class RuleValidationService {
 
     public void onFiringProtocolResponseSent(String gameId, FiringResponse firingResponse) {
         Game game = ActiveGames.getInstance().getGame(gameId);
-        GameRuleFactory.getInstance()
-                .create(game.getGameRule())
+        gameRuleFactory.get(game.getGameRule())
                 .validateOutgoingResponse(firingResponse, game);
-
     }
 
     public void onNewGameProtocolRequestReceived(NewGame request, NewGame response) {
         Game game = ActiveGames.getInstance().getGame(response.getGameId());
-
-        GameRuleFactory.getInstance()
-                .create(request.getRule())
+        gameRuleFactory.get(request.getRule())
                 .processIncomingGameRequest(request, response, game);
+    }
+
+    public GameRuleValidationService setGameRuleFactory(GameRuleFactory instance) {
+        gameRuleFactory = instance;
+        return this;
     }
 }

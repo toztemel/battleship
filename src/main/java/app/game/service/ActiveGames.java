@@ -6,7 +6,7 @@ import app.game.api.dto.status.GameStatus;
 import app.game.battlefield.Battlefield;
 import app.game.battlefield.BattlefieldFactory;
 import app.game.fire.Coordinates;
-import app.game.fire.CoordinatesFormatter;
+import app.game.fire.HexToCoordinatesConverter;
 import app.game.fire.Shot;
 import app.game.util.DoubleArrays;
 
@@ -120,7 +120,7 @@ public final class ActiveGames {
     public void firedAt(String gameId, FiringResponse firingResponse) {
         Game game = idGameMap.get(gameId);
         firingResponse.getShots().forEach((coordinateStr, damage) -> {
-            Coordinates coordinates = CoordinatesFormatter.fromProtocolString(coordinateStr);
+            Coordinates coordinates = HexToCoordinatesConverter.fromProtocolString(coordinateStr);
             updateOpponentBoard(game, coordinates, damage);
         });
         game.setGameOwner(firingResponse.getGame().getOwner());

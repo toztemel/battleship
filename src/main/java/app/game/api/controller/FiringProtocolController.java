@@ -5,11 +5,10 @@ import app.game.api.dto.firing.FiringResponse;
 import app.game.api.dto.firing.FiringResults;
 import app.game.api.dto.status.GameStatus;
 import app.game.battlefield.Battlefield;
-import app.game.fire.CoordinatesFormatter;
+import app.game.fire.HexToCoordinatesConverter;
 import app.game.fire.Shot;
 import app.game.service.ActiveGames;
 import app.game.service.Game;
-import app.game.service.RuleValidationService;
 import io.javalin.Context;
 
 import java.util.Arrays;
@@ -55,7 +54,7 @@ public class FiringProtocolController {
 
     private List<Shot> extractShotList(FiringRequest firingRequest) {
         return Arrays.stream(firingRequest.getShots())
-                .map(CoordinatesFormatter::fromProtocolString)
+                .map(HexToCoordinatesConverter::fromProtocolString)
                 .map(Shot::new)
                 .collect(Collectors.toList());
     }

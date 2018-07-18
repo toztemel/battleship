@@ -10,7 +10,7 @@ public class NewGameProtocolController {
     private ActiveGames activeGamesService;
     private ProtocolService protocolService;
     private IDGenerator idGenerator;
-    private RuleValidationService ruleValidationService = RuleValidationService.getInstance();
+    private GameRuleValidationService gameRuleValidationService = GameRuleValidationService.getInstance();
 
     public void onNewGame(Context ctx) {
         try {
@@ -23,7 +23,7 @@ public class NewGameProtocolController {
             response.setProtocol(protocolService.getOwnProtocol());
             response.setGameId(idGenerator.generate());
             activeGamesService.onIncomingNewGameRequest(request, response);
-            ruleValidationService.onNewGameProtocolRequestReceived(request, response);
+            gameRuleValidationService.onNewGameProtocolRequestReceived(request, response);
             ctx.status(201).json(response);
         } catch (Exception e) {
             throw new ProtocolApiException(e);

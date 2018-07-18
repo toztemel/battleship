@@ -4,7 +4,6 @@ import app.game.api.dto.firing.FiringRequest;
 import app.game.api.dto.game.NewGame;
 import app.game.api.dto.game.Rule;
 import app.game.fire.Coordinates;
-import app.game.fire.CoordinatesFormatter;
 
 import java.util.Arrays;
 
@@ -24,7 +23,7 @@ public class TestUtil {
 
     public static FiringRequest aiming(Coordinates... coordinates) {
         String[] shots = Arrays.stream(coordinates)
-                .map(CoordinatesFormatter::toProtocolString)
+                .map(Coordinates::toHexString)
                 .toArray(String[]::new);
         FiringRequest fire = new FiringRequest();
         fire.setShots(shots);

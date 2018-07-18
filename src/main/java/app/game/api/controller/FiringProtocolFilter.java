@@ -4,13 +4,13 @@ import app.game.api.dto.firing.FiringRequest;
 import app.game.api.dto.firing.FiringResponse;
 import app.game.api.dto.status.GameStatus;
 import app.game.service.ActiveGames;
-import app.game.service.RuleValidationService;
+import app.game.service.GameRuleValidationService;
 import app.game.service.rule.GameRuleViolationException;
 
 public class FiringProtocolFilter implements ProtocolFilter {
 
     private ActiveGames activeGames;
-    private RuleValidationService ruleValidationService;
+    private GameRuleValidationService gameRuleValidationService;
 
     void preFilter(String gameId, FiringRequest firingRequest) {
         if (null == gameId) {
@@ -26,7 +26,7 @@ public class FiringProtocolFilter implements ProtocolFilter {
     }
 
     private void validateFiringResponse(String gameId, FiringResponse firingResponse) {
-        ruleValidationService.onFiringProtocolResponseSent(gameId, firingResponse);
+        gameRuleValidationService.onFiringProtocolResponseSent(gameId, firingResponse);
     }
 
     // TODO
@@ -47,7 +47,7 @@ public class FiringProtocolFilter implements ProtocolFilter {
 
     private void validateGameRules(String gameId, FiringRequest firingRequest) {
         try {
-            ruleValidationService.onFiringProtocolRequestReceived(gameId, firingRequest);
+            gameRuleValidationService.onFiringProtocolRequestReceived(gameId, firingRequest);
         } catch (GameRuleViolationException e) {
             throw new ProtocolApiException("Invalid number of shots in gameRules:");
         }
@@ -58,8 +58,8 @@ public class FiringProtocolFilter implements ProtocolFilter {
         return this;
     }
 
-    public FiringProtocolFilter setRuleValidationService(RuleValidationService instance) {
-        ruleValidationService = instance;
+    public FiringProtocolFilter setGameRuleValidationService(GameRuleValidationService instance) {
+        gameRuleValidationService = instance;
         return this;
     }
 }
