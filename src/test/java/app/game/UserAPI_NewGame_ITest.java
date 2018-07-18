@@ -1,6 +1,6 @@
 package app.game;
 
-import app.game.api.dto.game.Rules;
+import app.game.api.dto.game.Rule;
 import app.game.conf.HTTPServerConf;
 import app.game.util.api.UserTestClient;
 import app.game.api.dto.game.NewGame;
@@ -52,7 +52,7 @@ public class UserAPI_NewGame_ITest {
         NewGame newGameRequest = new NewGame();
         newGameRequest.setUserId("challenger-X");
         newGameRequest.setFullName("Lunatech NL Champion");
-        newGameRequest.setRules(Rules.STANDARD);
+        newGameRequest.setRule(Rule.STANDARD);
         newGameRequest.setProtocol("localhost:7001");
         NewGame newGame = user.challangeOpponent(newGameRequest);
 
@@ -64,14 +64,14 @@ public class UserAPI_NewGame_ITest {
         NewGame newGameRequest = new NewGame();
         newGameRequest.setUserId("challenger-X");
         newGameRequest.setFullName("Lunatech NL Champion");
-        newGameRequest.setRules(Rules.STANDARD);
+        newGameRequest.setRule(Rule.STANDARD);
         newGameRequest.setProtocol("localhost:7001");
         NewGame newGame = user.challangeOpponent(newGameRequest);
 
         assertEquals("challenger-Y", newGame.getUserId());
         assertEquals("Lunatech FR Champion", newGame.getFullName());
         assertEquals("challenger-X", newGame.getStarting());
-        assertEquals("standard", newGame.getRules());
+        assertEquals("standard", newGame.getRule());
         assertNotNull(newGame.getGameId());
     }
 

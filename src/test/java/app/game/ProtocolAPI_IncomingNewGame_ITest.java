@@ -2,7 +2,7 @@ package app.game;
 
 import app.game.api.client.BattleshipClient;
 import app.game.api.dto.game.NewGame;
-import app.game.api.dto.game.Rules;
+import app.game.api.dto.game.Rule;
 import app.game.api.dto.status.GameStatus;
 import app.game.battlefield.Battlefield;
 import app.game.service.ActiveGames;
@@ -42,7 +42,7 @@ public class ProtocolAPI_IncomingNewGame_ITest {
         request.setUserId("challenger-X");
         request.setFullName("Lunatech NL Champion");
         request.setProtocol("192.168.0.10:8080");
-        request.setRules(Rules.STANDARD);
+        request.setRule(Rule.STANDARD);
 
         NewGame response = opponent.challengeOpponent(request);
 
@@ -58,7 +58,7 @@ public class ProtocolAPI_IncomingNewGame_ITest {
         request.setFullName("Tayfun");
         request.setUserId("t123");
         request.setProtocol("10.10.0.123:7070");
-        request.setRules(Rules.STANDARD);
+        request.setRule(Rule.STANDARD);
 
         NewGame response = opponent.challengeOpponent(request);
 
@@ -68,7 +68,7 @@ public class ProtocolAPI_IncomingNewGame_ITest {
         assertEquals(request.getUserId(), game.getGameOwner());
         assertEquals(request.getFullName(), game.getOpponentName());
         assertEquals(request.getProtocol(), game.getOpponentProtocol());
-        assertEquals(request.getRules(), game.getRules());
+        assertEquals(request.getRule(), game.getRule());
         assertEquals(GameStatus.Status.player_turn, game.getStatus());
         assertEquals(response.getUserId(), game.getUserId());
         assertEquals(response.getFullName(), game.getUserName());
@@ -81,7 +81,7 @@ public class ProtocolAPI_IncomingNewGame_ITest {
         request.setUserId("challenger-X");
         request.setFullName("Lunatech NL Champion");
         request.setProtocol("192.168.0.10:8080");
-        request.setRules(Rules.DESPERATION);
+        request.setRule(Rule.DESPERATION);
 
         NewGame response = opponent.challengeOpponent(request);
 
@@ -92,7 +92,7 @@ public class ProtocolAPI_IncomingNewGame_ITest {
         assertEquals(protocolService.getOwnProtocol(), response.getProtocol());
         assertNotNull(response.getGameId());
         assertEquals(request.getUserId(), response.getStarting());
-        assertEquals(request.getRules(), response.getRules());
+        assertEquals(request.getRule(), response.getRule());
 
 
     }

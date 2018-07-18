@@ -7,7 +7,7 @@ public class NewGame {
     private String protocol;
     private String gameId;
     private String starting;
-    private Rules rules;
+    private Rule rule;
 
     public String getUserId() {
         return userId;
@@ -49,11 +49,11 @@ public class NewGame {
         this.starting = starting;
     }
 
-    public Rules getRules() {
-        return rules;
+    public Rule getRule() {
+        return rule;
     }
 
-    public void setRules(Rules rules) {
-        this.rules = rules;
+    public void setRule(Rule rule) {
+        this.rule = rule;
     }
 }

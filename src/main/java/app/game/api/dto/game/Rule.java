@@ -2,7 +2,7 @@ package app.game.api.dto.game;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public enum Rules {
+public enum Rule {
     @JsonProperty("standard")
     STANDARD,
     @JsonProperty("super_charge")

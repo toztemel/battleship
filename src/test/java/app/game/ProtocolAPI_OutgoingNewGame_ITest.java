@@ -73,7 +73,7 @@ public class ProtocolAPI_OutgoingNewGame_ITest {
         assertEquals("Lunatech FR Champion", newGame.getFullName());
         assertNotNull(newGame.getGameId());
         assertEquals("challenger-X", newGame.getStarting());
-        assertEquals("standard", newGame.getRules());
+        assertEquals("standard", newGame.getRule());
     }
 
     @Ignore

@@ -49,7 +49,7 @@ public final class ActiveGames {
         game.setUserName(request.getFullName());
         game.setUserProtocol(protocolService.getOwnProtocol());
 
-        game.setRules(request.getRules());
+        game.setRule(request.getRule());
         game.setGameOwner(response.getStarting());
         game.setGameId(response.getGameId());
 
@@ -78,7 +78,7 @@ public final class ActiveGames {
         game.setUserName(response.getFullName());
         game.setUserProtocol(protocolService.getOwnProtocol());
 
-        game.setRules(request.getRules());
+        game.setRule(request.getRule());
         game.setGameOwner(response.getStarting());
         game.setGameId(response.getGameId());
         game.setStatus(GameStatus.Status.player_turn);

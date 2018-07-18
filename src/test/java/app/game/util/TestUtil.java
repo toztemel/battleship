@@ -2,7 +2,7 @@ package app.game.util;
 
 import app.game.api.dto.firing.FiringRequest;
 import app.game.api.dto.game.NewGame;
-import app.game.api.dto.game.Rules;
+import app.game.api.dto.game.Rule;
 import app.game.fire.Coordinates;
 import app.game.fire.CoordinatesFormatter;
 
@@ -18,7 +18,7 @@ public class TestUtil {
         newGameRequest.setUserId("challenger-X");
         newGameRequest.setFullName("Lunatech NL Champion");
         newGameRequest.setProtocol("192.168.0.10:8080");
-        newGameRequest.setRules(Rules.STANDARD);
+        newGameRequest.setRule(Rule.STANDARD);
         return newGameRequest;
     }
 

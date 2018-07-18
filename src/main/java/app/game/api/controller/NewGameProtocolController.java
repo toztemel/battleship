@@ -19,7 +19,7 @@ public class NewGameProtocolController {
             NewGame request = ctx.bodyAsClass(NewGame.class);
             NewGame response = new NewGame();
             response.setStarting(request.getUserId());
-            response.setRules(request.getRules());
+            response.setRule(request.getRule());
             response.setUserId(userService.ownUserId());
             response.setFullName(userService.ownFullName());
             response.setProtocol(protocolService.getOwnProtocol());

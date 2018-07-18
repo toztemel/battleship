@@ -3,7 +3,7 @@ package app.game;
 import app.game.api.client.BattleshipClient;
 import app.game.api.dto.firing.FiringResponse;
 import app.game.api.dto.game.NewGame;
-import app.game.api.dto.game.Rules;
+import app.game.api.dto.game.Rule;
 import app.game.fire.Coordinates;
 import app.game.service.ActiveGames;
 import app.game.ship.Angle;
@@ -45,7 +45,7 @@ public class ProtocolAPI_IncomingFire_ITest {
         newGameRequest.setUserId("challenger-X");
         newGameRequest.setFullName("Lunatech NL Champion");
         newGameRequest.setProtocol("192.168.0.10:8080");
-        newGameRequest.setRules(Rules.STANDARD);
+        newGameRequest.setRule(Rule.STANDARD);
 
         NewGame newGameResponse = opponent.challengeOpponent(newGameRequest);
         newGameResponse.setGameId("AN_ARBITRARY_ID");
@@ -69,7 +69,7 @@ public class ProtocolAPI_IncomingFire_ITest {
         newGameRequest.setUserId("challenger-X");
         newGameRequest.setFullName("Lunatech NL Champion");
         newGameRequest.setProtocol("192.168.0.10:8080");
-        newGameRequest.setRules(Rules.STANDARD);
+        newGameRequest.setRule(Rule.STANDARD);
 
         NewGame newGame = opponent.challengeOpponent(newGameRequest);
 
@@ -83,7 +83,7 @@ public class ProtocolAPI_IncomingFire_ITest {
         newGameRequest.setUserId("challenger-X");
         newGameRequest.setFullName("Lunatech NL Champion");
         newGameRequest.setProtocol("192.168.0.10:8080");
-        newGameRequest.setRules(Rules.STANDARD);
+        newGameRequest.setRule(Rule.STANDARD);
 
         NewGame newGame = opponent.challengeOpponent(newGameRequest);
 

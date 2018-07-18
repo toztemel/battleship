@@ -1,6 +1,6 @@
 package app.game.service;
 
-import app.game.api.dto.game.Rules;
+import app.game.api.dto.game.Rule;
 import app.game.api.dto.status.GameStatus;
 
 public class Game {
@@ -8,7 +8,7 @@ public class Game {
     private String gameId;
     private GameStatus.Status status;
     private String gameOwner;
-    private Rules rules;
+    private Rule rule;
 
     private String opponentId;
     private String opponentProtocol;
@@ -99,11 +99,11 @@ public class Game {
         this.userProtocol = userProtocol;
     }
 
-    public Rules getRules() {
-        return rules;
+    public Rule getRule() {
+        return rule;
     }
 
-    public void setRules(Rules rules) {
-        this.rules = rules;
+    public void setRule(Rule rule) {
+        this.rule = rule;
     }
 }

@@ -30,7 +30,7 @@ public class UserController {
         try {
             NewGame userRequest = ctx.bodyAsClass(NewGame.class);
             NewGame serverRequest = new NewGame();
-            serverRequest.setRules(userRequest.getRules());
+            serverRequest.setRule(userRequest.getRule());
             serverRequest.setUserId(userRequest.getUserId());
             serverRequest.setFullName(userRequest.getFullName());
             serverRequest.setProtocol(protocolService.getOwnProtocol());
