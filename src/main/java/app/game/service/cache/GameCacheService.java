@@ -104,7 +104,7 @@ public final class GameCacheService {
         return gameCache.getGame(gameId);
     }
 
-    public void onError(String gameId) {
+    public void clear(String gameId) {
         gameCache.removeGame(gameId);
     }
 

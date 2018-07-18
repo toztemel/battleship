@@ -57,7 +57,8 @@ class BattleshipGame {
                 .setUserService(UserService.getInstance())
                 .setGameCacheServiceService(GameCacheService.getInstance())
                 .setProtocolService(ProtocolService.getInstance())
-                .setIDGeneratorService(IDGenerator.getInstance());
+                .setIDGeneratorService(IDGenerator.getInstance())
+                .setGameRuleValidationService(GameRuleValidationService.getInstance());
 
 
         FiringProtocolFilter fireFilter = new FiringProtocolFilter()
@@ -86,7 +87,7 @@ class BattleshipGame {
                 .onUserEnablesAutoPilot(userController::auto)
                 .on400Error(ctx -> {
                     String gameId = ctx.param("gameId");
-                    GameCacheService.getInstance().onError(gameId);
+                    GameCacheService.getInstance().clear(gameId);
                     ctx.result("HTTP 400");
                 })
                 .start();

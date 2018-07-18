@@ -12,7 +12,7 @@ public class NewGameProtocolController {
     private GameCacheService gameCacheServiceService;
     private ProtocolService protocolService;
     private IDGenerator idGenerator;
-    private GameRuleValidationService gameRuleValidationService = GameRuleValidationService.getInstance();
+    private GameRuleValidationService gameRuleValidationService;
 
     public void onNewGame(Context ctx) {
         try {
@@ -49,6 +49,11 @@ public class NewGameProtocolController {
 
     public NewGameProtocolController setIDGeneratorService(IDGenerator idGenerator) {
         this.idGenerator = idGenerator;
+        return this;
+    }
+
+    public NewGameProtocolController setGameRuleValidationService(GameRuleValidationService grvs) {
+        gameRuleValidationService = grvs;
         return this;
     }
 }

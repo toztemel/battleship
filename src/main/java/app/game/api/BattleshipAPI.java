@@ -34,11 +34,11 @@ public class BattleshipAPI {
                 .disableRequestCache()
                 .enableStandardRequestLogging()
                 .exception(ProtocolApiException.class, (e, ctx) -> {
-                    ctx.status(400);
+                    ctx.status(400).result(e.getUserMessage());
                     LOG.error(e.getMessage());
                 })
                 .exception(UserApiException.class, (e, ctx) -> {
-                    ctx.status(200).result("Problem occurred");
+                    ctx.status(200).result(e.getUserMessage());
                     LOG.error(e.getMessage());
                 })
                 .start();
@@ -46,7 +46,7 @@ public class BattleshipAPI {
     }
 
     public void stop() {
-        Javalin stop = app.stop();
+        app.stop();
     }
 
     public BattleshipAPI listen(HTTPServerConf conf) {
@@ -64,18 +64,8 @@ public class BattleshipAPI {
         return this;
     }
 
-    public BattleshipAPI preProtocolFireFilter(Handler handler) {
-        app.before(Protocol.FIRE, handler);
-        return this;
-    }
-
     public BattleshipAPI onProtocolFire(Handler handler) {
         app.put(Protocol.FIRE, handler);
-        return this;
-    }
-
-    public BattleshipAPI postProtocolFireFilter(Handler handler) {
-        app.after(Protocol.FIRE, handler);
         return this;
     }
 
