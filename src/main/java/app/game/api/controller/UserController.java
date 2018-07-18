@@ -57,7 +57,8 @@ public class UserController {
             FiringResponse firingResponse = battleshipClient.target(opponentProtocol)
                     .fire(gameId, firingRequest);
 
-            gameCacheService.firedAt(gameId, firingResponse);
+            gameCacheService.onOutgoingFireRequest(gameId, firingResponse);
+
             context.status(200).json(firingResponse);
         } catch (Exception e) {
             LOG.error("Error occured while firing.", e);

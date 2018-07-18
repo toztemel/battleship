@@ -49,7 +49,7 @@ final class GameCache {
         idBattlefieldMap.remove(gameId);
     }
 
-    void firedAtOpponent(Game game, Coordinates coordinates, Shot.Damage damage) {
+    void updateOpponentDamage(Game game, Coordinates coordinates, Shot.Damage damage) {
         String result = Shot.Damage.MISS == damage ? "-" : "X";
         String[][] opponentBoard = game.getOpponentBoard();
         opponentBoard[coordinates.row()][coordinates.column()] = result;

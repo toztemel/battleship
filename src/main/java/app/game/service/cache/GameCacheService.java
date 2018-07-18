@@ -10,8 +10,6 @@ import app.game.service.Game;
 import app.game.service.ProtocolService;
 import app.game.util.DoubleArrays;
 
-import java.util.Map;
-
 public final class GameCacheService {
 
     private static GameCacheService instance = new GameCacheService();
@@ -75,6 +73,20 @@ public final class GameCacheService {
         gameCache.cacheGame(game);
     }
 
+    public void onOutgoingFireRequest(String gameId, FiringResponse firingResponse) {
+        Game game = gameCache.getGame(gameId);
+        updateOpponentBoard(firingResponse, game);
+        game.setGameOwner(firingResponse.getGame().getOwner());
+    }
+
+    private void updateOpponentBoard(FiringResponse firingResponse, Game game) {
+        firingResponse.getShots()
+                .forEach((coordinateStr, damage) -> {
+                    Coordinates coordinates = Coordinates.fromProtocolString(coordinateStr);
+                    gameCache.updateOpponentDamage(game, coordinates, damage);
+                });
+    }
+
     private String[][] emptyBoard() {
         String[][] opponentBoard = new String[16][16];
         DoubleArrays.fill(opponentBoard, ".");
@@ -95,15 +107,6 @@ public final class GameCacheService {
 
     public void onError(String gameId) {
         gameCache.removeGame(gameId);
-    }
-
-    public void firedAt(String gameId, FiringResponse firingResponse) {
-        Game game = idGameMap.get(gameId);
-        firingResponse.getShots().forEach((coordinateStr, damage) -> {
-            Coordinates coordinates = Coordinates.fromProtocolString(coordinateStr);
-            gameCache.firedAtOpponent(game, coordinates, damage);
-        });
-        game.setGameOwner(firingResponse.getGame().getOwner());
     }
 
     public GameCacheService setProtocolService(ProtocolService protocolService) {
