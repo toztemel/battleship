@@ -38,7 +38,7 @@ public class BattleshipAPI {
                     LOG.error(e.getMessage());
                 })
                 .exception(UserApiException.class, (e, ctx) -> {
-                    ctx.status(400);
+                    ctx.status(200).result("Try again");
                     LOG.error(e.getMessage());
                 })
                 .start();
@@ -89,8 +89,9 @@ public class BattleshipAPI {
         return this;
     }
 
-    public BattleshipAPI onError(ErrorHandler errorHandler) {
+    public BattleshipAPI on400Error(ErrorHandler errorHandler) {
         app.error(400, errorHandler);
         return this;
     }
+
 }

@@ -75,7 +75,7 @@ class BattleshipGame {
                 .onUserAsksStatus(userController::onStatus)
                 .onUserFires(userController::onFire)
                 .onUserEnablesAutoPilot(userController::auto)
-                .onError(ctx -> {
+                .on400Error(ctx -> {
                     String gameId = ctx.param("gameId");
                     ActiveGames.getInstance().onError(gameId);
                     ctx.result("HTTP 400");

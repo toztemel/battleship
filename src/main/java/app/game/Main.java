@@ -6,16 +6,16 @@ public class Main {
 
     public static void main(String... args) {
         configureLogger();
+        startGame(args[0]);
+    }
 
-        BattleshipGame game = new BattleshipGame();
-
-        if (null != args[0]) {
-            int port = Integer.parseInt(args[0]);
-            HTTPServerConf httpServerConf = new HTTPServerConf().httpServerPort(port);
-            game.start(httpServerConf);
-        } else {
-            game.start();
+    private static void startGame(String arg) {
+        HTTPServerConf conf = new HTTPServerConf();
+        if (null != arg) {
+            conf.httpServerPort(Integer.parseInt(arg));
         }
+
+        new BattleshipGame().start(conf);
     }
 
     private static void configureLogger() {
