@@ -1,4 +1,4 @@
-package app.game.api.controller;
+package app.game.api.protocol;
 
 import app.game.api.dto.firing.FiringRequest;
 import app.game.api.dto.firing.FiringResponse;
@@ -7,7 +7,7 @@ import app.game.service.cache.GameCacheService;
 import app.game.service.rule.GameRuleValidationService;
 import app.game.service.rule.GameRuleViolationException;
 
-public class FiringProtocolFilter implements ProtocolFilter {
+public class ProtocolFiringFilter implements ProtocolFilter {
 
     private GameCacheService gameCacheService;
     private GameRuleValidationService gameRuleValidationService;
@@ -53,12 +53,12 @@ public class FiringProtocolFilter implements ProtocolFilter {
         }
     }
 
-    public FiringProtocolFilter setGameCacheService(GameCacheService instance) {
+    public ProtocolFiringFilter setGameCacheService(GameCacheService instance) {
         gameCacheService = instance;
         return this;
     }
 
-    public FiringProtocolFilter setGameRuleValidationService(GameRuleValidationService instance) {
+    public ProtocolFiringFilter setGameRuleValidationService(GameRuleValidationService instance) {
         gameRuleValidationService = instance;
         return this;
     }

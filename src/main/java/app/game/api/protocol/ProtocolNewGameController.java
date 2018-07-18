@@ -1,4 +1,4 @@
-package app.game.api.controller;
+package app.game.api.protocol;
 
 import app.game.api.dto.game.NewGame;
 import app.game.service.*;
@@ -6,7 +6,7 @@ import app.game.service.cache.GameCacheService;
 import app.game.service.rule.GameRuleValidationService;
 import io.javalin.Context;
 
-public class NewGameProtocolController {
+public class ProtocolNewGameController {
 
     private UserService userService;
     private GameCacheService gameCacheServiceService;
@@ -32,27 +32,27 @@ public class NewGameProtocolController {
         }
     }
 
-    public NewGameProtocolController setUserService(UserService userService) {
+    public ProtocolNewGameController setUserService(UserService userService) {
         this.userService = userService;
         return this;
     }
 
-    public NewGameProtocolController setGameCacheServiceService(GameCacheService gameCacheServiceService) {
+    public ProtocolNewGameController setGameCacheServiceService(GameCacheService gameCacheServiceService) {
         this.gameCacheServiceService = gameCacheServiceService;
         return this;
     }
 
-    public NewGameProtocolController setProtocolService(ProtocolService protocolService) {
+    public ProtocolNewGameController setProtocolService(ProtocolService protocolService) {
         this.protocolService = protocolService;
         return this;
     }
 
-    public NewGameProtocolController setIDGeneratorService(IDGenerator idGenerator) {
+    public ProtocolNewGameController setIDGeneratorService(IDGenerator idGenerator) {
         this.idGenerator = idGenerator;
         return this;
     }
 
-    public NewGameProtocolController setGameRuleValidationService(GameRuleValidationService grvs) {
+    public ProtocolNewGameController setGameRuleValidationService(GameRuleValidationService grvs) {
         gameRuleValidationService = grvs;
         return this;
     }

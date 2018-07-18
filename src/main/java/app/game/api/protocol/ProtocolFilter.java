@@ -1,4 +1,4 @@
-package app.game.api.controller;
+package app.game.api.protocol;
 
 public interface ProtocolFilter {
 

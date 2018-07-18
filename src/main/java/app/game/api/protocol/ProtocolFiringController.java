@@ -1,4 +1,4 @@
-package app.game.api.controller;
+package app.game.api.protocol;
 
 import app.game.api.dto.firing.FiringRequest;
 import app.game.api.dto.firing.FiringResponse;
@@ -15,10 +15,10 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class FiringProtocolController {
+public class ProtocolFiringController {
 
     private GameCacheService gameCacheService;
-    private FiringProtocolFilter fireFilter;
+    private ProtocolFiringFilter fireFilter;
 
     public void onFire(Context ctx) {
         try {
@@ -62,12 +62,12 @@ public class FiringProtocolController {
                 .collect(Collectors.toList());
     }
 
-    public FiringProtocolController setGameCacheService(GameCacheService gameCacheService) {
+    public ProtocolFiringController setGameCacheService(GameCacheService gameCacheService) {
         this.gameCacheService = gameCacheService;
         return this;
     }
 
-    public FiringProtocolController setFilter(FiringProtocolFilter fireFilter) {
+    public ProtocolFiringController setFilter(ProtocolFiringFilter fireFilter) {
         this.fireFilter = fireFilter;
         return this;
     }

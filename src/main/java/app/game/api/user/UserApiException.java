@@ -1,19 +1,18 @@
-package app.game.api.controller;
+package app.game.api.user;
 
 import javax.ws.rs.BadRequestException;
 
-public class ProtocolApiException extends BadRequestException {
+public class UserApiException extends BadRequestException {
 
     private String message;
 
-    ProtocolApiException(Exception e) {
+    UserApiException(Exception e) {
         super(e);
         message = e.getMessage();
     }
 
-    ProtocolApiException(String s) {
+    UserApiException(String s) {
         super(s);
-
         message = s;
     }
 

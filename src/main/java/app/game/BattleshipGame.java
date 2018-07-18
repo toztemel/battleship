@@ -2,11 +2,11 @@ package app.game;
 
 import app.game.api.BattleshipAPI;
 import app.game.api.client.BattleshipClient;
-import app.game.api.controller.FiringProtocolController;
-import app.game.api.controller.FiringProtocolFilter;
-import app.game.api.controller.NewGameProtocolController;
-import app.game.api.controller.UserController;
+import app.game.api.user.*;
 import app.game.api.mapper.BattleshipObjectMapper;
+import app.game.api.protocol.ProtocolFiringController;
+import app.game.api.protocol.ProtocolFiringFilter;
+import app.game.api.protocol.ProtocolNewGameController;
 import app.game.battlefield.BattlefieldFactory;
 import app.game.conf.BattlefieldConf;
 import app.game.conf.HTTPServerConf;
@@ -53,7 +53,7 @@ class BattleshipGame {
 
     private void startApi(HTTPServerConf conf) {
 
-        NewGameProtocolController newGameController = new NewGameProtocolController()
+        ProtocolNewGameController newGameController = new ProtocolNewGameController()
                 .setUserService(UserService.getInstance())
                 .setGameCacheServiceService(GameCacheService.getInstance())
                 .setProtocolService(ProtocolService.getInstance())
@@ -61,19 +61,32 @@ class BattleshipGame {
                 .setGameRuleValidationService(GameRuleValidationService.getInstance());
 
 
-        FiringProtocolFilter fireFilter = new FiringProtocolFilter()
+        ProtocolFiringFilter fireFilter = new ProtocolFiringFilter()
                 .setGameCacheService(GameCacheService.getInstance())
                 .setGameRuleValidationService(GameRuleValidationService.getInstance());
 
-        FiringProtocolController fireController = new FiringProtocolController()
+        ProtocolFiringController fireController = new ProtocolFiringController()
                 .setGameCacheService(GameCacheService.getInstance())
                 .setFilter(fireFilter);
 
-        UserController userController = new UserController()
+        UserFiringController userFiringController = new UserFiringController()
+                .setUserService(UserService.getInstance())
+                .setGameCacheService(GameCacheService.getInstance())
+                .setBattleshipClient(BattleshipClient.getInstance());
+
+        UserAutoController userAutoController = new UserAutoController()
+                .setUserService(UserService.getInstance())
+                .setGameCacheService(GameCacheService.getInstance())
+                .setBattleshipClient(BattleshipClient.getInstance());
+
+        UserNewGameController userNewGameController = new UserNewGameController()
                 .setUserService(UserService.getInstance())
                 .setGameCacheService(GameCacheService.getInstance())
                 .setBattleshipClient(BattleshipClient.getInstance())
                 .setProtocolService(ProtocolService.getInstance());
+
+        UserStatusController userStatusController = new UserStatusController()
+                .setGameCacheService(GameCacheService.getInstance());
 
 
         api = BattleshipAPI.getInstance()
@@ -81,10 +94,10 @@ class BattleshipGame {
                 .withMapper(this::defaultObjectMapper)
                 .onProtocolNewGame(newGameController::onNewGame)
                 .onProtocolFire(fireController::onFire)
-                .onUserStartNewGame(userController::onNewGame)
-                .onUserAsksStatus(userController::onStatus)
-                .onUserFires(userController::onFire)
-                .onUserEnablesAutoPilot(userController::auto)
+                .onUserStartNewGame(userNewGameController::onNewGame)
+                .onUserAsksStatus(userStatusController::onStatus)
+                .onUserFires(userFiringController::onFire)
+                .onUserEnablesAutoPilot(userAutoController::auto)
                 .on400Error(ctx -> {
                     String gameId = ctx.param("gameId");
                     GameCacheService.getInstance().clear(gameId);
