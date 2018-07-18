@@ -1,6 +1,6 @@
 package app.game;
 
-import app.game.api.client.BattleshipClient;
+import app.game.api.client.ProtocolApiClient;
 import app.game.api.dto.firing.FiringRequest;
 import app.game.api.dto.firing.FiringResponse;
 import app.game.api.dto.game.NewGame;
@@ -27,14 +27,14 @@ import static org.junit.Assert.*;
 public class ProtocolAPI_OutgoingNewGame_ITest {
 
     private BattleshipGame game;
-    private BattleshipClient opponent;
+    private ProtocolApiClient opponent;
 
     @Before
     public void setUp() {
         game = new BattleshipGame();
         game.start();
 
-        opponent = BattleshipClient.getInstance().target(LOCALHOST_7000);
+        opponent = ProtocolApiClient.getInstance().target(LOCALHOST_7000);
     }
 
     @After

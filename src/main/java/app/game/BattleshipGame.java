@@ -1,7 +1,7 @@
 package app.game;
 
 import app.game.api.BattleshipAPI;
-import app.game.api.client.BattleshipClient;
+import app.game.api.client.ProtocolApiClient;
 import app.game.api.user.*;
 import app.game.api.mapper.BattleshipObjectMapper;
 import app.game.api.protocol.ProtocolFiringController;
@@ -72,17 +72,17 @@ class BattleshipGame {
         UserFiringController userFiringController = new UserFiringController()
                 .setUserService(UserService.getInstance())
                 .setGameCacheService(GameCacheService.getInstance())
-                .setBattleshipClient(BattleshipClient.getInstance());
+                .setProtocolApiClient(ProtocolApiClient.getInstance());
 
         UserAutoController userAutoController = new UserAutoController()
                 .setUserService(UserService.getInstance())
                 .setGameCacheService(GameCacheService.getInstance())
-                .setBattleshipClient(BattleshipClient.getInstance());
+                .setProtocolApiClient(ProtocolApiClient.getInstance());
 
         UserNewGameController userNewGameController = new UserNewGameController()
                 .setUserService(UserService.getInstance())
                 .setGameCacheService(GameCacheService.getInstance())
-                .setBattleshipClient(BattleshipClient.getInstance())
+                .setProtocolApiClient(ProtocolApiClient.getInstance())
                 .setProtocolService(ProtocolService.getInstance());
 
         UserStatusController userStatusController = new UserStatusController()

@@ -1,6 +1,6 @@
 package app.game.api.user;
 
-import app.game.api.client.BattleshipClient;
+import app.game.api.client.ProtocolApiClient;
 import app.game.service.UserService;
 import app.game.service.cache.GameCacheService;
 import io.javalin.Context;
@@ -11,7 +11,7 @@ public class UserAutoController {
 
     private static Logger LOG = LoggerFactory.getLogger(UserAutoController.class);
 
-    private BattleshipClient battleshipClient;
+    private ProtocolApiClient protocolApiClient;
     private GameCacheService gameCacheService;
     private UserService userService;
 
@@ -25,8 +25,8 @@ public class UserAutoController {
 
     }
 
-    public UserAutoController setBattleshipClient(BattleshipClient battleshipClient) {
-        this.battleshipClient = battleshipClient;
+    public UserAutoController setProtocolApiClient(ProtocolApiClient protocolApiClient) {
+        this.protocolApiClient = protocolApiClient;
         return this;
     }
 

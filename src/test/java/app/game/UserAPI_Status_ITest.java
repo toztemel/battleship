@@ -1,6 +1,6 @@
 package app.game;
 
-import app.game.api.client.BattleshipClient;
+import app.game.api.client.ProtocolApiClient;
 import app.game.api.dto.game.NewGame;
 import app.game.api.dto.status.GameStatus;
 import app.game.api.dto.status.OpponentStatus;
@@ -29,7 +29,7 @@ public class UserAPI_Status_ITest {
 
     private BattleshipGame ownServer;
     private UserTestClient ownUser;
-    private BattleshipClient opponentServer;
+    private ProtocolApiClient opponentServer;
     private NewGame newGame;
 
     @Before
@@ -39,7 +39,7 @@ public class UserAPI_Status_ITest {
 
         ownUser = new UserTestClient(LOCALHOST_7000);
 
-        opponentServer = BattleshipClient.getInstance().target(LOCALHOST_7000);
+        opponentServer = ProtocolApiClient.getInstance().target(LOCALHOST_7000);
         newGame = opponentServer.challengeOpponent(newGameRequest());
     }
 

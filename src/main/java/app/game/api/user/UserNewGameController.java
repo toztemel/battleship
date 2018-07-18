@@ -1,6 +1,6 @@
 package app.game.api.user;
 
-import app.game.api.client.BattleshipClient;
+import app.game.api.client.ProtocolApiClient;
 import app.game.api.dto.game.NewGame;
 import app.game.service.ProtocolService;
 import app.game.service.UserService;
@@ -13,7 +13,7 @@ public class UserNewGameController {
 
     private static Logger LOG = LoggerFactory.getLogger(UserNewGameController.class);
 
-    private BattleshipClient battleshipClient;
+    private ProtocolApiClient protocolApiClient;
     private GameCacheService gameCacheService;
     private UserService userService;
     private ProtocolService protocolService;
@@ -26,7 +26,7 @@ public class UserNewGameController {
             serverRequest.setUserId(userRequest.getUserId());
             serverRequest.setFullName(userRequest.getFullName());
             serverRequest.setProtocol(protocolService.getOwnProtocol());
-            NewGame opponentResponse = battleshipClient.target(userRequest.getProtocol())
+            NewGame opponentResponse = protocolApiClient.target(userRequest.getProtocol())
                     .challengeOpponent(serverRequest);
             gameCacheService.onOutgoingNewGameRequest(userRequest, opponentResponse);
             ctx.status(201).json(opponentResponse);
@@ -37,8 +37,8 @@ public class UserNewGameController {
         }
     }
 
-    public UserNewGameController setBattleshipClient(BattleshipClient battleshipClient) {
-        this.battleshipClient = battleshipClient;
+    public UserNewGameController setProtocolApiClient(ProtocolApiClient protocolApiClient) {
+        this.protocolApiClient = protocolApiClient;
         return this;
     }
 

@@ -1,6 +1,6 @@
 package app.game.api.user;
 
-import app.game.api.client.BattleshipClient;
+import app.game.api.client.ProtocolApiClient;
 import app.game.api.dto.firing.FiringRequest;
 import app.game.api.dto.firing.FiringResponse;
 import app.game.service.UserService;
@@ -13,7 +13,7 @@ public class UserFiringController {
 
     private static Logger LOG = LoggerFactory.getLogger(UserFiringController.class);
 
-    private BattleshipClient battleshipClient;
+    private ProtocolApiClient protocolApiClient;
     private GameCacheService gameCacheService;
     private UserService userService;
 
@@ -26,7 +26,7 @@ public class UserFiringController {
             validateGameRules(gameId, firingRequest);
 
             String opponentProtocol = gameCacheService.getGame(gameId).getOpponentProtocol();
-            FiringResponse firingResponse = battleshipClient.target(opponentProtocol)
+            FiringResponse firingResponse = protocolApiClient.target(opponentProtocol)
                     .fire(gameId, firingRequest);
 
             gameCacheService.onOutgoingFireRequest(gameId, firingResponse);
@@ -58,8 +58,8 @@ public class UserFiringController {
         }
     }
 
-    public UserFiringController setBattleshipClient(BattleshipClient battleshipClient) {
-        this.battleshipClient = battleshipClient;
+    public UserFiringController setProtocolApiClient(ProtocolApiClient protocolApiClient) {
+        this.protocolApiClient = protocolApiClient;
         return this;
     }
 
