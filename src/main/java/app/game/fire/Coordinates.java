@@ -15,6 +15,10 @@ public final class Coordinates {
         return new Coordinates(row, column);
     }
 
+    public static Coordinates fromProtocolString(String coordinateStr) {
+        return HexToCoordinatesConverter.fromProtocolString(coordinateStr);
+    }
+
     public int row() {
         return row;
     }

@@ -5,7 +5,7 @@ import app.game.api.dto.game.NewGame;
 import app.game.api.dto.game.Rule;
 import app.game.api.dto.status.GameStatus;
 import app.game.battlefield.Battlefield;
-import app.game.service.ActiveGames;
+import app.game.service.GameCache;
 import app.game.service.Game;
 import app.game.service.ProtocolService;
 import app.game.service.UserService;
@@ -46,7 +46,7 @@ public class ProtocolAPI_IncomingNewGame_ITest {
 
         NewGame response = opponent.challengeOpponent(request);
 
-        Battlefield battlefield = ActiveGames.getInstance().getBattlefield(response.getGameId());
+        Battlefield battlefield = GameCache.getInstance().getBattlefield(response.getGameId());
         assertNotNull(battlefield);
         assertFalse(battlefield.allShipsKilled());
 //        System.out.println(Arrays.deepToString(battlefield.asString()));
@@ -62,7 +62,7 @@ public class ProtocolAPI_IncomingNewGame_ITest {
 
         NewGame response = opponent.challengeOpponent(request);
 
-        Game game = ActiveGames.getInstance().getGame(response.getGameId());
+        Game game = GameCache.getInstance().getGame(response.getGameId());
         assertNotNull(game);
         assertEquals(request.getUserId(), game.getOpponentId());
         assertEquals(request.getUserId(), game.getGameOwner());

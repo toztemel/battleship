@@ -6,28 +6,27 @@ import app.game.api.dto.status.GameStatus;
 import app.game.battlefield.Battlefield;
 import app.game.battlefield.BattlefieldFactory;
 import app.game.fire.Coordinates;
-import app.game.fire.HexToCoordinatesConverter;
 import app.game.fire.Shot;
 import app.game.util.DoubleArrays;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public final class ActiveGames {
+public final class GameCache {
 
-    private static ActiveGames instance = new ActiveGames();
+    private static GameCache instance = new GameCache();
 
     private Map<String, Game> idGameMap;
     private Map<String, Battlefield> idBattlefieldMap;
     private BattlefieldFactory battlefieldFactory;
     private ProtocolService protocolService;
 
-    private ActiveGames() {
+    private GameCache() {
         idGameMap = new HashMap<>();
         idBattlefieldMap = new HashMap<>();
     }
 
-    public static ActiveGames getInstance() {
+    public static GameCache getInstance() {
         return instance;
     }
 
@@ -88,7 +87,7 @@ public final class ActiveGames {
         idBattlefieldMap.put(response.getGameId(), battlefieldFactory.createInstance());
     }
 
-    public ActiveGames setBattlefieldFactory(BattlefieldFactory battlefieldFactory) {
+    public GameCache setBattlefieldFactory(BattlefieldFactory battlefieldFactory) {
         this.battlefieldFactory = battlefieldFactory;
         return this;
     }
@@ -112,7 +111,7 @@ public final class ActiveGames {
         idBattlefieldMap.remove(gameId);
     }
 
-    public ActiveGames setProtocolService(ProtocolService protocolService) {
+    public GameCache setProtocolService(ProtocolService protocolService) {
         this.protocolService = protocolService;
         return this;
     }
@@ -120,7 +119,7 @@ public final class ActiveGames {
     public void firedAt(String gameId, FiringResponse firingResponse) {
         Game game = idGameMap.get(gameId);
         firingResponse.getShots().forEach((coordinateStr, damage) -> {
-            Coordinates coordinates = HexToCoordinatesConverter.fromProtocolString(coordinateStr);
+            Coordinates coordinates = Coordinates.fromProtocolString(coordinateStr);
             updateOpponentBoard(game, coordinates, damage);
         });
         game.setGameOwner(firingResponse.getGame().getOwner());

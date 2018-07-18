@@ -1,13 +1,13 @@
 package app.game.fire;
 
-public final class HexToCoordinatesConverter {
+final class HexToCoordinatesConverter {
 
     private static final int HEX = 16;
 
     private HexToCoordinatesConverter() {
     }
 
-    public static Coordinates fromProtocolString(String hexString) throws InvalidCoordinatesException {
+    static Coordinates fromProtocolString(String hexString) throws InvalidCoordinatesException {
         int xIndex = hexString.indexOf("x");
         if (xIndex < 0) {
             throw new InvalidCoordinatesException();

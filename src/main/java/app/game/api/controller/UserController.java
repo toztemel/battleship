@@ -8,7 +8,7 @@ import app.game.api.dto.status.GameStatus;
 import app.game.api.dto.status.OpponentStatus;
 import app.game.api.dto.status.SelfStatus;
 import app.game.api.dto.status.StatusResponse;
-import app.game.service.ActiveGames;
+import app.game.service.GameCache;
 import app.game.service.Game;
 import app.game.service.ProtocolService;
 import app.game.service.UserService;
@@ -22,7 +22,7 @@ public class UserController {
     private static Logger LOG = LoggerFactory.getLogger(UserController.class);
 
     private BattleshipClient battleshipClient;
-    private ActiveGames activeGames;
+    private GameCache gameCache;
     private UserService userService;
     private ProtocolService protocolService;
 
@@ -36,7 +36,7 @@ public class UserController {
             serverRequest.setProtocol(protocolService.getOwnProtocol());
             NewGame opponentResponse = battleshipClient.target(userRequest.getProtocol())
                     .challengeOpponent(serverRequest);
-            activeGames.onOutgoingNewGameRequest(userRequest, opponentResponse);
+            gameCache.onOutgoingNewGameRequest(userRequest, opponentResponse);
             ctx.status(201).json(opponentResponse);
             LOG.info("Created new game. Id=", opponentResponse.getGameId());
         } catch (Exception e) {
@@ -53,11 +53,11 @@ public class UserController {
             FiringRequest firingRequest = context.bodyAsClass(FiringRequest.class);
             validateGameRules(gameId, firingRequest);
 
-            String opponentProtocol = activeGames.getGame(gameId).getOpponentProtocol();
+            String opponentProtocol = gameCache.getGame(gameId).getOpponentProtocol();
             FiringResponse firingResponse = battleshipClient.target(opponentProtocol)
                     .fire(gameId, firingRequest);
 
-            activeGames.firedAt(gameId, firingResponse);
+            gameCache.firedAt(gameId, firingResponse);
             context.status(200).json(firingResponse);
         } catch (Exception e) {
             LOG.error("Error occured while firing.", e);
@@ -66,14 +66,14 @@ public class UserController {
     }
 
     private void validateGameId(String gameId) {
-        boolean activeGame = activeGames.containsGame(gameId);
+        boolean activeGame = gameCache.containsGame(gameId);
         if (!activeGame) {
             throw new UserApiException("Game not found with id:" + gameId);
         }
     }
 
     private void validateGameStatus(String gameId) {
-        if (activeGames.isOpponentsTurn(gameId)) {
+        if (gameCache.isOpponentsTurn(gameId)) {
             throw new UserApiException("Owner cannot shoot. It is opponent's turn");
         }
     }
@@ -99,7 +99,7 @@ public class UserController {
             StatusResponse statusResponse = new StatusResponse();
 
             String gameId = ctx.param("gameId");
-            Game cachedGame = activeGames.getGame(gameId);
+            Game cachedGame = gameCache.getGame(gameId);
 
             GameStatus game = new GameStatus();
             game.setOwner(cachedGame.getGameOwner());
@@ -125,7 +125,7 @@ public class UserController {
     }
 
     private String[] ownBattlefieldAsStringArray(String gameId) {
-        return activeGames.getBattlefield(gameId).asString();
+        return gameCache.getBattlefield(gameId).asString();
     }
 
     private String[] opponentBattlefieldAsStringArray(Game cachedGame) {
@@ -138,8 +138,8 @@ public class UserController {
         return this;
     }
 
-    public UserController setActiveGames(ActiveGames activeGames) {
-        this.activeGames = activeGames;
+    public UserController setGameCache(GameCache gameCache) {
+        this.gameCache = gameCache;
         return this;
     }
 

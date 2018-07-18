@@ -42,7 +42,7 @@ class BattleshipGame {
         BattlefieldFactory.getInstance()
                 .configure(new BattlefieldConf());
 
-        ActiveGames.getInstance()
+        GameCache.getInstance()
                 .setBattlefieldFactory(BattlefieldFactory.getInstance())
                 .setProtocolService(ProtocolService.getInstance());
 
@@ -55,22 +55,22 @@ class BattleshipGame {
 
         NewGameProtocolController newGameController = new NewGameProtocolController()
                 .setUserService(UserService.getInstance())
-                .setActiveGamesService(ActiveGames.getInstance())
+                .setGameCacheService(GameCache.getInstance())
                 .setProtocolService(ProtocolService.getInstance())
                 .setIDGeneratorService(IDGenerator.getInstance());
 
 
         FiringProtocolFilter fireFilter = new FiringProtocolFilter()
-                .setActiveGames(ActiveGames.getInstance())
+                .setGameCache(GameCache.getInstance())
                 .setGameRuleValidationService(GameRuleValidationService.getInstance());
 
         FiringProtocolController fireController = new FiringProtocolController()
-                .setActiveGames(ActiveGames.getInstance())
+                .setGameCache(GameCache.getInstance())
                 .setFilter(fireFilter);
 
         UserController userController = new UserController()
                 .setUserService(UserService.getInstance())
-                .setActiveGames(ActiveGames.getInstance())
+                .setGameCache(GameCache.getInstance())
                 .setBattleshipClient(BattleshipClient.getInstance())
                 .setProtocolService(ProtocolService.getInstance());
 
@@ -86,7 +86,7 @@ class BattleshipGame {
                 .onUserEnablesAutoPilot(userController::auto)
                 .on400Error(ctx -> {
                     String gameId = ctx.param("gameId");
-                    ActiveGames.getInstance().onError(gameId);
+                    GameCache.getInstance().onError(gameId);
                     ctx.result("HTTP 400");
                 })
                 .start();

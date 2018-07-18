@@ -20,7 +20,7 @@ public class GameRuleValidationService {
     }
 
     public void onFiringProtocolRequestReceived(String gameId, FiringRequest firingRequest) {
-        Game game = ActiveGames.getInstance().getGame(gameId);
+        Game game = GameCache.getInstance().getGame(gameId);
         validateGameOwner(game);
         validateNumberOfShots(firingRequest, game);
     }
@@ -38,13 +38,13 @@ public class GameRuleValidationService {
     }
 
     public void onFiringProtocolResponseSent(String gameId, FiringResponse firingResponse) {
-        Game game = ActiveGames.getInstance().getGame(gameId);
+        Game game = GameCache.getInstance().getGame(gameId);
         gameRuleFactory.get(game.getGameRule())
                 .validateOutgoingResponse(firingResponse, game);
     }
 
     public void onNewGameProtocolRequestReceived(NewGame request, NewGame response) {
-        Game game = ActiveGames.getInstance().getGame(response.getGameId());
+        Game game = GameCache.getInstance().getGame(response.getGameId());
         gameRuleFactory.get(request.getRule())
                 .processIncomingGameRequest(request, response, game);
     }

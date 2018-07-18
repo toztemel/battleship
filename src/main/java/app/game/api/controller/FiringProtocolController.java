@@ -5,9 +5,9 @@ import app.game.api.dto.firing.FiringResponse;
 import app.game.api.dto.firing.FiringResults;
 import app.game.api.dto.status.GameStatus;
 import app.game.battlefield.Battlefield;
-import app.game.fire.HexToCoordinatesConverter;
+import app.game.fire.Coordinates;
 import app.game.fire.Shot;
-import app.game.service.ActiveGames;
+import app.game.service.GameCache;
 import app.game.service.Game;
 import io.javalin.Context;
 
@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
 
 public class FiringProtocolController {
 
-    private ActiveGames activeGames;
+    private GameCache gameCache;
     private FiringProtocolFilter fireFilter;
 
     public void onFire(Context ctx) {
@@ -27,9 +27,9 @@ public class FiringProtocolController {
             fireFilter.preFilter(gameId, firingRequest);
 
             List<Shot> shotList = extractShotList(firingRequest);
-            Battlefield battlefield = activeGames.getBattlefield(gameId);
+            Battlefield battlefield = gameCache.getBattlefield(gameId);
             FiringResults firingResults = battlefield.fireAt(shotList);
-            Game cachedGame = activeGames.getGame(gameId);
+            Game cachedGame = gameCache.getGame(gameId);
             GameStatus gameStatus = new GameStatus();
             if (battlefield.allShipsKilled()) {
                 gameStatus.setOwner(cachedGame.getOpponentId());
@@ -54,13 +54,13 @@ public class FiringProtocolController {
 
     private List<Shot> extractShotList(FiringRequest firingRequest) {
         return Arrays.stream(firingRequest.getShots())
-                .map(HexToCoordinatesConverter::fromProtocolString)
+                .map(Coordinates::fromProtocolString)
                 .map(Shot::new)
                 .collect(Collectors.toList());
     }
 
-    public FiringProtocolController setActiveGames(ActiveGames activeGames) {
-        this.activeGames = activeGames;
+    public FiringProtocolController setGameCache(GameCache gameCache) {
+        this.gameCache = gameCache;
         return this;
     }
 

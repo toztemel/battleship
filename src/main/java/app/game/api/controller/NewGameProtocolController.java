@@ -7,7 +7,7 @@ import io.javalin.Context;
 public class NewGameProtocolController {
 
     private UserService userService;
-    private ActiveGames activeGamesService;
+    private GameCache gameCacheService;
     private ProtocolService protocolService;
     private IDGenerator idGenerator;
     private GameRuleValidationService gameRuleValidationService = GameRuleValidationService.getInstance();
@@ -22,7 +22,7 @@ public class NewGameProtocolController {
             response.setFullName(userService.ownFullName());
             response.setProtocol(protocolService.getOwnProtocol());
             response.setGameId(idGenerator.generate());
-            activeGamesService.onIncomingNewGameRequest(request, response);
+            gameCacheService.onIncomingNewGameRequest(request, response);
             gameRuleValidationService.onNewGameProtocolRequestReceived(request, response);
             ctx.status(201).json(response);
         } catch (Exception e) {
@@ -35,8 +35,8 @@ public class NewGameProtocolController {
         return this;
     }
 
-    public NewGameProtocolController setActiveGamesService(ActiveGames activeGamesService) {
-        this.activeGamesService = activeGamesService;
+    public NewGameProtocolController setGameCacheService(GameCache gameCacheService) {
+        this.gameCacheService = gameCacheService;
         return this;
     }
 

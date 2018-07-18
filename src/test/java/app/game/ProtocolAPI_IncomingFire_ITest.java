@@ -5,7 +5,7 @@ import app.game.api.dto.firing.FiringResponse;
 import app.game.api.dto.game.NewGame;
 import app.game.api.dto.game.Rule;
 import app.game.fire.Coordinates;
-import app.game.service.ActiveGames;
+import app.game.service.GameCache;
 import app.game.ship.Angle;
 import app.game.ship.NullShipObject;
 import org.junit.After;
@@ -88,7 +88,7 @@ public class ProtocolAPI_IncomingFire_ITest {
         NewGame newGame = opponent.challengeOpponent(newGameRequest);
 
         Coordinates coordinates = Coordinates.of(0, 0);
-        ActiveGames.getInstance()
+        GameCache.getInstance()
                 .getBattlefield(newGame.getGameId())
                 .with(NullShipObject.instance()).at(coordinates);
 
@@ -103,7 +103,7 @@ public class ProtocolAPI_IncomingFire_ITest {
 
         NewGame newGame = opponent.challengeOpponent(newGameRequest());
 
-        ActiveGames.getInstance()
+        GameCache.getInstance()
                 .getBattlefield(newGame.getGameId())
                 .with(new Angle()).at(Coordinates.of(0, 0));
 
