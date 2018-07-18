@@ -12,6 +12,7 @@ import app.game.conf.BattlefieldConf;
 import app.game.conf.HTTPServerConf;
 import app.game.conf.UserConf;
 import app.game.service.*;
+import app.game.service.cache.GameCacheService;
 import app.game.service.rule.GameRuleFactory;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -42,7 +43,7 @@ class BattleshipGame {
         BattlefieldFactory.getInstance()
                 .configure(new BattlefieldConf());
 
-        GameCache.getInstance()
+        GameCacheService.getInstance()
                 .setBattlefieldFactory(BattlefieldFactory.getInstance())
                 .setProtocolService(ProtocolService.getInstance());
 
@@ -55,22 +56,22 @@ class BattleshipGame {
 
         NewGameProtocolController newGameController = new NewGameProtocolController()
                 .setUserService(UserService.getInstance())
-                .setGameCacheService(GameCache.getInstance())
+                .setGameCacheServiceService(GameCacheService.getInstance())
                 .setProtocolService(ProtocolService.getInstance())
                 .setIDGeneratorService(IDGenerator.getInstance());
 
 
         FiringProtocolFilter fireFilter = new FiringProtocolFilter()
-                .setGameCache(GameCache.getInstance())
+                .setGameCacheService(GameCacheService.getInstance())
                 .setGameRuleValidationService(GameRuleValidationService.getInstance());
 
         FiringProtocolController fireController = new FiringProtocolController()
-                .setGameCache(GameCache.getInstance())
+                .setGameCacheService(GameCacheService.getInstance())
                 .setFilter(fireFilter);
 
         UserController userController = new UserController()
                 .setUserService(UserService.getInstance())
-                .setGameCache(GameCache.getInstance())
+                .setGameCacheService(GameCacheService.getInstance())
                 .setBattleshipClient(BattleshipClient.getInstance())
                 .setProtocolService(ProtocolService.getInstance());
 
@@ -86,7 +87,7 @@ class BattleshipGame {
                 .onUserEnablesAutoPilot(userController::auto)
                 .on400Error(ctx -> {
                     String gameId = ctx.param("gameId");
-                    GameCache.getInstance().onError(gameId);
+                    GameCacheService.getInstance().onError(gameId);
                     ctx.result("HTTP 400");
                 })
                 .start();

@@ -7,7 +7,7 @@ import app.game.api.dto.status.GameStatus;
 import app.game.battlefield.Battlefield;
 import app.game.fire.Coordinates;
 import app.game.fire.Shot;
-import app.game.service.GameCache;
+import app.game.service.cache.GameCacheService;
 import app.game.service.Game;
 import io.javalin.Context;
 
@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
 
 public class FiringProtocolController {
 
-    private GameCache gameCache;
+    private GameCacheService gameCacheService;
     private FiringProtocolFilter fireFilter;
 
     public void onFire(Context ctx) {
@@ -27,9 +27,9 @@ public class FiringProtocolController {
             fireFilter.preFilter(gameId, firingRequest);
 
             List<Shot> shotList = extractShotList(firingRequest);
-            Battlefield battlefield = gameCache.getBattlefield(gameId);
+            Battlefield battlefield = gameCacheService.getBattlefield(gameId);
             FiringResults firingResults = battlefield.fireAt(shotList);
-            Game cachedGame = gameCache.getGame(gameId);
+            Game cachedGame = gameCacheService.getGame(gameId);
             GameStatus gameStatus = new GameStatus();
             if (battlefield.allShipsKilled()) {
                 gameStatus.setOwner(cachedGame.getOpponentId());
@@ -59,8 +59,8 @@ public class FiringProtocolController {
                 .collect(Collectors.toList());
     }
 
-    public FiringProtocolController setGameCache(GameCache gameCache) {
-        this.gameCache = gameCache;
+    public FiringProtocolController setGameCacheService(GameCacheService gameCacheService) {
+        this.gameCacheService = gameCacheService;
         return this;
     }
 

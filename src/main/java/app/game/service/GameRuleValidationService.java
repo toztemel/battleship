@@ -3,6 +3,7 @@ package app.game.service;
 import app.game.api.dto.firing.FiringRequest;
 import app.game.api.dto.firing.FiringResponse;
 import app.game.api.dto.game.NewGame;
+import app.game.service.cache.GameCacheService;
 import app.game.service.rule.GameRuleFactory;
 import app.game.service.rule.GameRuleViolationException;
 
@@ -20,7 +21,7 @@ public class GameRuleValidationService {
     }
 
     public void onFiringProtocolRequestReceived(String gameId, FiringRequest firingRequest) {
-        Game game = GameCache.getInstance().getGame(gameId);
+        Game game = GameCacheService.getInstance().getGame(gameId);
         validateGameOwner(game);
         validateNumberOfShots(firingRequest, game);
     }
@@ -38,13 +39,13 @@ public class GameRuleValidationService {
     }
 
     public void onFiringProtocolResponseSent(String gameId, FiringResponse firingResponse) {
-        Game game = GameCache.getInstance().getGame(gameId);
+        Game game = GameCacheService.getInstance().getGame(gameId);
         gameRuleFactory.get(game.getGameRule())
                 .validateOutgoingResponse(firingResponse, game);
     }
 
     public void onNewGameProtocolRequestReceived(NewGame request, NewGame response) {
-        Game game = GameCache.getInstance().getGame(response.getGameId());
+        Game game = GameCacheService.getInstance().getGame(response.getGameId());
         gameRuleFactory.get(request.getRule())
                 .processIncomingGameRequest(request, response, game);
     }

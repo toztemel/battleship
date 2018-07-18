@@ -2,12 +2,13 @@ package app.game.api.controller;
 
 import app.game.api.dto.game.NewGame;
 import app.game.service.*;
+import app.game.service.cache.GameCacheService;
 import io.javalin.Context;
 
 public class NewGameProtocolController {
 
     private UserService userService;
-    private GameCache gameCacheService;
+    private GameCacheService gameCacheServiceService;
     private ProtocolService protocolService;
     private IDGenerator idGenerator;
     private GameRuleValidationService gameRuleValidationService = GameRuleValidationService.getInstance();
@@ -22,7 +23,7 @@ public class NewGameProtocolController {
             response.setFullName(userService.ownFullName());
             response.setProtocol(protocolService.getOwnProtocol());
             response.setGameId(idGenerator.generate());
-            gameCacheService.onIncomingNewGameRequest(request, response);
+            gameCacheServiceService.onIncomingNewGameRequest(request, response);
             gameRuleValidationService.onNewGameProtocolRequestReceived(request, response);
             ctx.status(201).json(response);
         } catch (Exception e) {
@@ -35,8 +36,8 @@ public class NewGameProtocolController {
         return this;
     }
 
-    public NewGameProtocolController setGameCacheService(GameCache gameCacheService) {
-        this.gameCacheService = gameCacheService;
+    public NewGameProtocolController setGameCacheServiceService(GameCacheService gameCacheServiceService) {
+        this.gameCacheServiceService = gameCacheServiceService;
         return this;
     }
 

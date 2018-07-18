@@ -3,13 +3,13 @@ package app.game.api.controller;
 import app.game.api.dto.firing.FiringRequest;
 import app.game.api.dto.firing.FiringResponse;
 import app.game.api.dto.status.GameStatus;
-import app.game.service.GameCache;
+import app.game.service.cache.GameCacheService;
 import app.game.service.GameRuleValidationService;
 import app.game.service.rule.GameRuleViolationException;
 
 public class FiringProtocolFilter implements ProtocolFilter {
 
-    private GameCache gameCache;
+    private GameCacheService gameCacheService;
     private GameRuleValidationService gameRuleValidationService;
 
     void preFilter(String gameId, FiringRequest firingRequest) {
@@ -37,10 +37,10 @@ public class FiringProtocolFilter implements ProtocolFilter {
     }
 
     private void validateGame(String gameId) {
-        if (!gameCache.containsGame(gameId)) {
+        if (!gameCacheService.containsGame(gameId)) {
             throw new ProtocolApiException("Game does not exist");
         }
-        if (gameCache.getGame(gameId).getGameStatus() != GameStatus.Status.player_turn) {
+        if (gameCacheService.getGame(gameId).getGameStatus() != GameStatus.Status.player_turn) {
             throw new ProtocolApiException("Game has already finished");
         }
     }
@@ -53,8 +53,8 @@ public class FiringProtocolFilter implements ProtocolFilter {
         }
     }
 
-    public FiringProtocolFilter setGameCache(GameCache instance) {
-        gameCache = instance;
+    public FiringProtocolFilter setGameCacheService(GameCacheService instance) {
+        gameCacheService = instance;
         return this;
     }
 

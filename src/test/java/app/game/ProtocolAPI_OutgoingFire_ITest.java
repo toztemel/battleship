@@ -6,7 +6,7 @@ import app.game.api.dto.firing.FiringResponse;
 import app.game.api.dto.game.NewGame;
 import app.game.api.dto.status.GameStatus;
 import app.game.fire.Coordinates;
-import app.game.service.GameCache;
+import app.game.service.cache.GameCacheService;
 import app.game.ship.Angle;
 import app.game.ship.SWing;
 import app.game.ship.XWing;
@@ -80,7 +80,7 @@ public class ProtocolAPI_OutgoingFire_ITest {
     @Test
     public void server_returns_MISS_when_opponent_misses_single_shot() {
         NewGame newGame = opponent.challengeOpponent(newGameRequest());
-        GameCache.getInstance()
+        GameCacheService.getInstance()
                 .getBattlefield(newGame.getGameId())
                 .with(new XWing()).at(Coordinates.of(10, 10));
 
@@ -94,7 +94,7 @@ public class ProtocolAPI_OutgoingFire_ITest {
     public void server_returns_MISS_when_opponent_misses_multiple_shots() {
         NewGame newGame = opponent.challengeOpponent(newGameRequest());
 
-        GameCache.getInstance()
+        GameCacheService.getInstance()
                 .getBattlefield(newGame.getGameId())
                 .with(new XWing()).at(Coordinates.of(10, 10));
 
@@ -125,7 +125,7 @@ public class ProtocolAPI_OutgoingFire_ITest {
 
         NewGame newGame = opponent.challengeOpponent(newGameRequest());
 
-        GameCache.getInstance()
+        GameCacheService.getInstance()
                 .getBattlefield(newGame.getGameId())
                 .with(new Angle()).at(Coordinates.of(0, 0));
 
@@ -140,7 +140,7 @@ public class ProtocolAPI_OutgoingFire_ITest {
 
         NewGame newGame = opponent.challengeOpponent(newGameRequest());
 
-        GameCache.getInstance()
+        GameCacheService.getInstance()
                 .getBattlefield(newGame.getGameId())
                 .with(new Angle()).at(Coordinates.of(0, 0));
 
@@ -174,7 +174,7 @@ public class ProtocolAPI_OutgoingFire_ITest {
 
         NewGame newGame = opponent.challengeOpponent(newGameRequest());
 
-        GameCache.getInstance()
+        GameCacheService.getInstance()
                 .getBattlefield(newGame.getGameId())
                 .with(new Angle()).at(Coordinates.of(0, 0))
                 .with(new SWing()).at(Coordinates.of(10, 10));

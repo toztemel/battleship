@@ -5,7 +5,7 @@ import app.game.conf.HTTPServerConf;
 import app.game.util.api.UserTestClient;
 import app.game.api.dto.game.NewGame;
 import app.game.battlefield.Battlefield;
-import app.game.service.GameCache;
+import app.game.service.cache.GameCacheService;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Ignore;
@@ -56,7 +56,7 @@ public class UserAPI_NewGame_ITest {
         newGameRequest.setProtocol("localhost:7001");
         NewGame newGame = user.challangeOpponent(newGameRequest);
 
-        Battlefield ownBattlefield = GameCache.getInstance().getBattlefield(newGame.getGameId());
+        Battlefield ownBattlefield = GameCacheService.getInstance().getBattlefield(newGame.getGameId());
     }
 
     @Test
