@@ -24,8 +24,8 @@ public class BattlefieldFactory {
     public Battlefield createInstance() {
         return new Battlefield()
                 .setConf(conf)
-                .randomly()
-                .build();
+                .build()
+                .randomly();
     }
 
     public BattlefieldFactory configure(BattlefieldConf c) {

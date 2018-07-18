@@ -24,12 +24,6 @@ public class BattlefieldTest {
     }
 
     @Test
-    public void battlefield_size_is_16x16() {
-        assertEquals(16, battlefield.length());
-        assertEquals(16, battlefield.width());
-    }
-
-    @Test
     public void battlefield_holds_references_to_ships() {
 
         Ship sWing = new SWing();
@@ -38,27 +32,17 @@ public class BattlefieldTest {
         Ship bWing = new BWing();
         Ship aWing = new AWing();
 
-        battlefield.with(angle).at(Coordinates.of(0, 0));
-        battlefield.with(aWing).at(Coordinates.of(0, 7));
-        battlefield.with(bWing).at(Coordinates.of(7, 0));
-        battlefield.with(sWing).at(Coordinates.of(5, 5));
-        battlefield.with(xWing).at(Coordinates.of(10, 10));
+        battlefield.with(angle, Coordinates.of(0, 0));
+        battlefield.with(aWing, Coordinates.of(0, 7));
+        battlefield.with(bWing, Coordinates.of(7, 0));
+        battlefield.with(sWing, Coordinates.of(5, 5));
+        battlefield.with(xWing, Coordinates.of(10, 10));
 
         assertThat(battlefield, contains().referenceTo(angle).at(Coordinates.of(0, 0)));
         assertThat(battlefield, contains().referenceTo(aWing).at(Coordinates.of(0, 8)));
         assertThat(battlefield, contains().referenceTo(bWing).at(Coordinates.of(7, 0)));
         assertThat(battlefield, contains().referenceTo(sWing).at(Coordinates.of(6, 6)));
         assertThat(battlefield, contains().referenceTo(xWing).at(Coordinates.of(10, 10)));
-    }
-
-    @Test
-    public void length() {
-        assertEquals(16, battlefield.length());
-    }
-
-    @Test
-    public void width() {
-        assertEquals(16, battlefield.width());
     }
 
     @Ignore

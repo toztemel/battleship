@@ -6,6 +6,8 @@ import app.game.api.dto.status.GameStatus;
 import app.game.api.dto.status.OpponentStatus;
 import app.game.api.dto.status.SelfStatus;
 import app.game.api.dto.status.StatusResponse;
+import app.game.battlefield.Battlefield;
+import app.game.battlefield.BattlefieldTestDecorator;
 import app.game.fire.Coordinates;
 import app.game.service.cache.GameCacheService;
 import app.game.ship.Angle;
@@ -79,9 +81,10 @@ public class UserAPI_Status_ITest {
 
     @Test
     public void server_returns_game_status_including_a_ship() {
-        GameCacheService.getInstance()
-                .getBattlefield(newGame.getGameId())
-                .with(new Angle()).at(Coordinates.of(0, 0));
+        Battlefield battlefield = GameCacheService.getInstance()
+                .getBattlefield(newGame.getGameId());
+        BattlefieldTestDecorator.decorate(battlefield)
+                .with(new Angle(), Coordinates.of(0, 0));
 
         StatusResponse gameStatusResponse = ownUser.queryGameStatus(newGame);
 
@@ -98,10 +101,11 @@ public class UserAPI_Status_ITest {
 
     @Test
     public void server_returns_game_status_including_two_ships() {
-        GameCacheService.getInstance()
-                .getBattlefield(newGame.getGameId())
-                .with(new Angle()).at(Coordinates.of(0, 0))
-                .with(new SWing()).at(Coordinates.of(10, 10));
+        Battlefield battlefield = GameCacheService.getInstance()
+                .getBattlefield(newGame.getGameId());
+        BattlefieldTestDecorator.decorate(battlefield)
+                .with(new Angle(), Coordinates.of(0, 0))
+                .with(new SWing(), Coordinates.of(10, 10));
 
         StatusResponse gameStatusResponse = ownUser.queryGameStatus(newGame);
 

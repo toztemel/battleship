@@ -1,11 +1,11 @@
 package app.game.fire;
 
-public class InvalidCoordinatesException extends IllegalArgumentException {
+class InvalidCoordinatesException extends IllegalArgumentException {
 
-    public InvalidCoordinatesException(NumberFormatException e) {
+    InvalidCoordinatesException(NumberFormatException e) {
         super(e);
     }
 
-    public InvalidCoordinatesException() {
+    InvalidCoordinatesException() {
     }
 }

@@ -4,6 +4,7 @@ import app.game.api.client.BattleshipClient;
 import app.game.api.dto.firing.FiringResponse;
 import app.game.api.dto.game.NewGame;
 import app.game.api.dto.game.Rule;
+import app.game.battlefield.Battlefield;
 import app.game.fire.Coordinates;
 import app.game.service.cache.GameCacheService;
 import app.game.ship.Angle;
@@ -16,6 +17,7 @@ import org.junit.Test;
 import javax.ws.rs.BadRequestException;
 
 import static app.game.ShotDamageMatcher.at;
+import static app.game.battlefield.BattlefieldTestDecorator.decorate;
 import static app.game.fire.Shot.Damage.HIT;
 import static app.game.fire.Shot.Damage.MISS;
 import static app.game.util.TestUtil.*;
@@ -88,9 +90,10 @@ public class ProtocolAPI_IncomingFire_ITest {
         NewGame newGame = opponent.challengeOpponent(newGameRequest);
 
         Coordinates coordinates = Coordinates.of(0, 0);
-        GameCacheService.getInstance()
-                .getBattlefield(newGame.getGameId())
-                .with(NullShipObject.instance()).at(coordinates);
+        Battlefield battlefield = GameCacheService.getInstance()
+                .getBattlefield(newGame.getGameId());
+        decorate(battlefield)
+                .with(NullShipObject.instance(), coordinates);
 
         FiringResponse result = opponent.fire(newGame.getGameId(), aiming(coordinates));
 
@@ -102,10 +105,10 @@ public class ProtocolAPI_IncomingFire_ITest {
 
 
         NewGame newGame = opponent.challengeOpponent(newGameRequest());
-
-        GameCacheService.getInstance()
-                .getBattlefield(newGame.getGameId())
-                .with(new Angle()).at(Coordinates.of(0, 0));
+        Battlefield battlefield = GameCacheService.getInstance()
+                .getBattlefield(newGame.getGameId());
+        decorate(battlefield)
+                .with(new Angle(), Coordinates.of(0, 0));
 
         Coordinates coordinates = Coordinates.of(0, 0);
         FiringResponse result = opponent.fire(newGame.getGameId(), aiming(coordinates));

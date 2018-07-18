@@ -5,6 +5,7 @@ import app.game.api.dto.firing.FiringRequest;
 import app.game.api.dto.firing.FiringResponse;
 import app.game.api.dto.game.NewGame;
 import app.game.api.dto.status.GameStatus;
+import app.game.battlefield.Battlefield;
 import app.game.fire.Coordinates;
 import app.game.service.cache.GameCacheService;
 import app.game.ship.Angle;
@@ -16,6 +17,7 @@ import org.junit.Ignore;
 import org.junit.Test;
 
 import static app.game.ShotDamageMatcher.at;
+import static app.game.battlefield.BattlefieldTestDecorator.decorate;
 import static app.game.fire.Shot.Damage.*;
 import static app.game.util.TestUtil.*;
 import static org.junit.Assert.*;
@@ -80,9 +82,9 @@ public class ProtocolAPI_OutgoingFire_ITest {
     @Test
     public void server_returns_MISS_when_opponent_misses_single_shot() {
         NewGame newGame = opponent.challengeOpponent(newGameRequest());
-        GameCacheService.getInstance()
-                .getBattlefield(newGame.getGameId())
-                .with(new XWing()).at(Coordinates.of(10, 10));
+        Battlefield battlefield = GameCacheService.getInstance()
+                .getBattlefield(newGame.getGameId());
+        decorate(battlefield).with(new XWing(), Coordinates.of(10, 10));
 
         Coordinates coordinates = Coordinates.of(0, 0);
         FiringResponse result = opponent.fire(newGame.getGameId(), aiming(coordinates));
@@ -94,9 +96,9 @@ public class ProtocolAPI_OutgoingFire_ITest {
     public void server_returns_MISS_when_opponent_misses_multiple_shots() {
         NewGame newGame = opponent.challengeOpponent(newGameRequest());
 
-        GameCacheService.getInstance()
-                .getBattlefield(newGame.getGameId())
-                .with(new XWing()).at(Coordinates.of(10, 10));
+        Battlefield battlefield = GameCacheService.getInstance()
+                .getBattlefield(newGame.getGameId());
+        decorate(battlefield).with(new XWing(), Coordinates.of(10, 10));
 
         Coordinates[] coordinateList = new Coordinates[]
                 {
@@ -125,9 +127,9 @@ public class ProtocolAPI_OutgoingFire_ITest {
 
         NewGame newGame = opponent.challengeOpponent(newGameRequest());
 
-        GameCacheService.getInstance()
-                .getBattlefield(newGame.getGameId())
-                .with(new Angle()).at(Coordinates.of(0, 0));
+        Battlefield battlefield = GameCacheService.getInstance()
+                .getBattlefield(newGame.getGameId());
+        decorate(battlefield).with(new Angle(), Coordinates.of(0, 0));
 
         Coordinates coordinates = Coordinates.of(0, 0);
         FiringResponse result = opponent.fire(newGame.getGameId(), aiming(coordinates));
@@ -140,9 +142,9 @@ public class ProtocolAPI_OutgoingFire_ITest {
 
         NewGame newGame = opponent.challengeOpponent(newGameRequest());
 
-        GameCacheService.getInstance()
-                .getBattlefield(newGame.getGameId())
-                .with(new Angle()).at(Coordinates.of(0, 0));
+        Battlefield battlefield = GameCacheService.getInstance()
+                .getBattlefield(newGame.getGameId());
+        decorate(battlefield).with(new Angle(), Coordinates.of(0, 0));
 
         Coordinates coordinates = Coordinates.of(0, 0);
         FiringResponse result = opponent.fire(newGame.getGameId(), aiming(coordinates));
@@ -174,10 +176,10 @@ public class ProtocolAPI_OutgoingFire_ITest {
 
         NewGame newGame = opponent.challengeOpponent(newGameRequest());
 
-        GameCacheService.getInstance()
-                .getBattlefield(newGame.getGameId())
-                .with(new Angle()).at(Coordinates.of(0, 0))
-                .with(new SWing()).at(Coordinates.of(10, 10));
+        Battlefield battlefield = GameCacheService.getInstance()
+                .getBattlefield(newGame.getGameId());
+        decorate(battlefield).with(new Angle(), Coordinates.of(0, 0))
+                .with(new SWing(), Coordinates.of(10, 10));
 
 
         opponent.fire(newGame.getGameId(), aiming(Coordinates.of(0, 0)));
