@@ -3,19 +3,16 @@ package app.game.api.protocol.client;
 import app.game.api.dto.firing.FiringRequest;
 import app.game.api.dto.firing.FiringResponse;
 import app.game.api.dto.game.NewGame;
-import app.game.api.protocol.client.rest.RestClient;
 import app.game.api.dto.security.Login;
+import app.game.api.protocol.client.rest.RestClient;
 
 import javax.ws.rs.core.Response;
 
-import static app.game.api.ResourcePath.Protocol.BASE;
-import static app.game.api.ResourcePath.Protocol.LOGIN;
-import static app.game.api.ResourcePath.Protocol.NEW_GAME;
+import static app.game.api.ResourcePath.Protocol.*;
 
 public class ProtocolApiClient {
 
     private static final String HTTP = "http://";
-    private static final String HEADER_AUTHENTICATION = "Authentication";
     private static ProtocolApiClient instance = new ProtocolApiClient();
 
     private RestClient client;
@@ -23,7 +20,6 @@ public class ProtocolApiClient {
     private ProtocolApiClient() {
     }
 
-    // TODO there can be more than one opponent => multiple ProtocolApiClient is needed
     public static ProtocolApiClient getInstance() {
         return instance;
     }

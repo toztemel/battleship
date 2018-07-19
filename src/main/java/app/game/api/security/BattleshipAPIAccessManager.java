@@ -29,21 +29,27 @@ public class BattleshipAPIAccessManager {
     }
 
     private BattleshipAPIRoles getApiRole(Context context) {
-        if (context.headerMap().containsKey(HEADER_AUTHORIZATION)) {
-            return findUserRole(context);
-        } else if (context.uri().startsWith(ResourcePath.Protocol.BASE)) {
+        if (isAuthHeaderSet(context)) {
+            String token = getAuthHeader(context);
+            if (token != null) {
+                return userService.checkLogin(decodeAuthorization(token), context.param("gameId"));
+            }
+        } else if (isProtocolRequest(context)) {
             return BattleshipAPIRoles.PROTOCOL;
         }
         return BattleshipAPIRoles.ANYONE;
     }
 
-    private BattleshipAPIRoles findUserRole(Context context) {
-        if (context.headerMap().containsKey(HEADER_AUTHORIZATION)) {
-            String token = context.header(HEADER_AUTHORIZATION);
-            return userService.checkLogin(decodeAuthorization(token)
-                    , context.param("gameId"));
-        }
-        return BattleshipAPIRoles.ANYONE;
+    private String getAuthHeader(Context context) {
+        return context.header(HEADER_AUTHORIZATION);
+    }
+
+    private boolean isProtocolRequest(Context context) {
+        return context.uri().startsWith(ResourcePath.Protocol.BASE);
+    }
+
+    private boolean isAuthHeaderSet(Context context) {
+        return context.headerMap().containsKey(HEADER_AUTHORIZATION);
     }
 
     public BattleshipAPIAccessManager setUserService(UserService userService) {
