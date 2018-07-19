@@ -1,6 +1,7 @@
 package app.game;
 
 import app.game.api.BattleshipAPI;
+import app.game.api.security.BattleshipAPIAccessManager;
 import app.game.api.protocol.client.ProtocolApiClient;
 import app.game.api.user.*;
 import app.game.api.mapper.BattleshipObjectMapper;
@@ -87,16 +88,15 @@ class BattleshipGame {
         UserStatusController userStatusController = new UserStatusController()
                 .setGameCacheService(GameCacheService.getInstance());
 
-        UserLoginController userLoginController = new UserLoginController()
+        BattleshipAPIAccessManager battleshipAPIAccessManager = new BattleshipAPIAccessManager()
                 .setUserService(UserService.getInstance());
 
         api = BattleshipAPI.getInstance()
                 .listen(conf)
                 .withMapper(this::defaultObjectMapper)
-                .accessManager(userLoginController::manageAccess)
+                .accessManager(battleshipAPIAccessManager::manageAccess)
                 .onProtocolNewGame(newGameController::onNewGame)
                 .onProtocolFire(fireController::onFire)
-                .onUserLogin(userLoginController::onLogin)
                 .onUserStartNewGame(userNewGameController::onNewGame)
                 .onUserAsksStatus(userStatusController::onStatus)
                 .onUserFires(userFiringController::onFire)

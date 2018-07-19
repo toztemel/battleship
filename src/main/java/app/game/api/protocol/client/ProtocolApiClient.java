@@ -7,7 +7,7 @@ import app.game.api.protocol.client.rest.RestClient;
 
 import javax.ws.rs.core.Response;
 
-import static app.game.api.ResourcePath.Protocol.FIRE;
+import static app.game.api.ResourcePath.Protocol.BASE;
 import static app.game.api.ResourcePath.Protocol.NEW_GAME;
 
 public class ProtocolApiClient {
@@ -39,7 +39,7 @@ public class ProtocolApiClient {
     }
 
     public FiringResponse fire(String gameId, FiringRequest fire) {
-        Response response = client.put(FIRE + gameId, fire);
+        Response response = client.put(BASE + gameId, fire);
         if (!RestClient.isSuccessful(response)) {
             throw new ProtocolApiClientException(response.toString());
         }

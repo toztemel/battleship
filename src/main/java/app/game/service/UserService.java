@@ -1,6 +1,16 @@
 package app.game.service;
 
+import app.game.api.security.BattleshipAPIRoles;
 import app.game.conf.UserConf;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.impl.TextCodec;
+
+import java.sql.Date;
+import java.time.Instant;
+
+import static java.time.temporal.ChronoUnit.DAYS;
 
 public class UserService {
 
@@ -21,6 +31,40 @@ public class UserService {
 
     public String ownFullName() {
         return conf.defaultUserName();
+    }
+
+
+    public String sign(String userId, String gameId) {
+        return Jwts.builder()
+                .setIssuer("Lunatech")
+                .setSubject("Battleship")
+                .claim("role", BattleshipAPIRoles.USER.toString())
+                .claim("user", userId)
+                .claim("gameId", gameId)
+                .setIssuedAt(Date.from(Instant.now()))
+                .setExpiration(Date.from(Instant.now().plus(1, DAYS)))
+                .signWith(SignatureAlgorithm.HS256, TextCodec.BASE64.decode(conf.signature()))
+                .compact();
+    }
+
+    public BattleshipAPIRoles checkLogin(String compactJws, String gameId) {
+        try {
+            Claims claims = Jwts.parser()
+                    .requireSubject("Battleship")
+                    .requireIssuer("Lunatech")
+                    .setSigningKey(conf.signature())
+                    .parseClaimsJws(compactJws)
+                    .getBody();
+
+            if (claims.get("gameId").equals(gameId)) {
+                String scope = claims.get("role", String.class);
+                return BattleshipAPIRoles.valueOf(scope);
+            }
+
+        } catch (Exception ignored) {
+
+        }
+        return BattleshipAPIRoles.ANYONE;
     }
 
     public UserService setUserConf(UserConf conf) {

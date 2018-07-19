@@ -4,6 +4,7 @@ import app.game.api.ResourcePath.Protocol;
 import app.game.api.ResourcePath.User;
 import app.game.api.protocol.ProtocolApiException;
 import app.game.api.protocol.client.ProtocolApiClientException;
+import app.game.api.security.BattleshipAPIRoles;
 import app.game.api.user.UserApiException;
 import app.game.conf.HTTPServerConf;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -83,28 +84,23 @@ public class BattleshipAPI {
         return this;
     }
 
-    public BattleshipAPI onUserLogin(Handler loginHandler) {
-        app.post(User.LOGIN, loginHandler, roles(MyRole.ANYONE));
-        return this;
-    }
-
     public BattleshipAPI onUserStartNewGame(Handler newGame) {
-        app.post(User.NEW_GAME, newGame, roles(MyRole.USER));
+        app.post(User.NEW_GAME, newGame, roles(BattleshipAPIRoles.ANYONE));
         return this;
     }
 
     public BattleshipAPI onUserAsksStatus(Handler statusHandler) {
-        app.get(User.STATUS, statusHandler, roles(MyRole.USER));
+        app.get(User.STATUS, statusHandler, roles(BattleshipAPIRoles.USER));
         return this;
     }
 
     public BattleshipAPI onUserFires(Handler userFireHandler) {
-        app.put(User.FIRE, userFireHandler, roles(MyRole.USER));
+        app.put(User.FIRE, userFireHandler, roles(BattleshipAPIRoles.USER));
         return this;
     }
 
     public BattleshipAPI onUserEnablesAutoPilot(Handler autoHandler) {
-        app.put(User.AUTO, autoHandler, roles(MyRole.USER));
+        app.put(User.AUTO, autoHandler, roles(BattleshipAPIRoles.USER));
         return this;
     }
 
