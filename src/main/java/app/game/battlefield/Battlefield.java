@@ -1,7 +1,6 @@
 package app.game.battlefield;
 
 import app.game.api.dto.firing.FiringResults;
-import app.game.conf.BattlefieldConf;
 import app.game.fire.Coordinates;
 import app.game.fire.Shot;
 import app.game.ship.Battleship;

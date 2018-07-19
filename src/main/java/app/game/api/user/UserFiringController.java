@@ -3,7 +3,7 @@ package app.game.api.user;
 import app.game.api.protocol.client.ProtocolApiClient;
 import app.game.api.dto.firing.FiringRequest;
 import app.game.api.dto.firing.FiringResponse;
-import app.game.service.UserService;
+import app.game.service.user.UserService;
 import app.game.service.cache.GameCacheService;
 import io.javalin.Context;
 import org.slf4j.Logger;

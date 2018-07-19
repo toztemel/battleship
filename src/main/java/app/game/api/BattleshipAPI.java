@@ -6,7 +6,6 @@ import app.game.api.protocol.ProtocolApiException;
 import app.game.api.protocol.client.ProtocolApiClientException;
 import app.game.api.security.BattleshipAPIRoles;
 import app.game.api.user.UserApiException;
-import app.game.conf.HTTPServerConf;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.javalin.ErrorHandler;
 import io.javalin.Handler;
@@ -59,7 +58,7 @@ public class BattleshipAPI {
         app.stop();
     }
 
-    public BattleshipAPI listen(HTTPServerConf conf) {
+    public BattleshipAPI listen(BattlefieldAPIConf conf) {
         app = Javalin.create().port(conf.httpServerPort());
         return this;
     }

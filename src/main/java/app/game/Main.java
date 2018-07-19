@@ -1,21 +1,30 @@
 package app.game;
 
-import app.game.conf.HTTPServerConf;
+import app.game.api.BattlefieldAPIConf;
+import app.game.service.user.UserServiceConf;
 
 public class Main {
 
     public static void main(String... args) {
         configureLogger();
-        startGame(args[0]);
+        new BattleshipGame().start(apiConf(args), userConf(args));
     }
 
-    private static void startGame(String arg) {
-        HTTPServerConf conf = new HTTPServerConf();
-        if (null != arg) {
-            conf.httpServerPort(Integer.parseInt(arg));
+    private static UserServiceConf userConf(String[] args) {
+        UserServiceConf userConf = new UserServiceConf();
+        if (args.length == 3) {
+            userConf.defaultUserId(args[1]);
+            userConf.defaultUserName(args[2]);
         }
+        return userConf;
+    }
 
-        new BattleshipGame().start(conf);
+    private static BattlefieldAPIConf apiConf(String[] args) {
+        BattlefieldAPIConf apiConf = new BattlefieldAPIConf();
+        if (args != null) {
+            apiConf.httpServerPort(Integer.parseInt(args[0]));
+        }
+        return apiConf;
     }
 
     private static void configureLogger() {

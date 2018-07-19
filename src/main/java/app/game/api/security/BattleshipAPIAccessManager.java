@@ -1,7 +1,7 @@
 package app.game.api.security;
 
 import app.game.api.ResourcePath;
-import app.game.service.UserService;
+import app.game.service.user.UserService;
 import io.javalin.Context;
 import io.javalin.Handler;
 import io.javalin.security.Role;

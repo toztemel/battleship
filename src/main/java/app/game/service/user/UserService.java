@@ -1,7 +1,6 @@
-package app.game.service;
+package app.game.service.user;
 
 import app.game.api.security.BattleshipAPIRoles;
-import app.game.conf.UserConf;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -16,7 +15,7 @@ public class UserService {
 
     private static UserService instance = new UserService();
 
-    private UserConf conf;
+    private UserServiceConf conf;
 
     private UserService() {
     }
@@ -74,7 +73,7 @@ public class UserService {
         return BattleshipAPIRoles.ANYONE;
     }
 
-    public UserService setUserConf(UserConf conf) {
+    public UserService setUserConf(UserServiceConf conf) {
         this.conf = conf;
         return this;
     }

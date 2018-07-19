@@ -8,7 +8,7 @@ import app.game.battlefield.Battlefield;
 import app.game.service.cache.GameCacheService;
 import app.game.service.cache.Game;
 import app.game.service.ProtocolService;
-import app.game.service.UserService;
+import app.game.service.user.UserService;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;

@@ -1,7 +1,5 @@
 package app.game.battlefield;
 
-import app.game.conf.BattlefieldConf;
-
 public class BattlefieldFactory {
 
     private static BattlefieldFactory instance = new BattlefieldFactory();

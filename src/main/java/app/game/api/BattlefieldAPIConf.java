@@ -1,6 +1,6 @@
-package app.game.conf;
+package app.game.api;
 
-public final class HTTPServerConf {
+public final class BattlefieldAPIConf {
 
     private static final int HTTP_SERVER_PORT = 7000;
     private int port;
@@ -9,7 +9,7 @@ public final class HTTPServerConf {
         return port == 0 ? HTTP_SERVER_PORT : port;
     }
 
-    public HTTPServerConf httpServerPort(int p) {
+    public BattlefieldAPIConf httpServerPort(int p) {
         port = p;
         return this;
     }

@@ -1,7 +1,7 @@
 package app.game.api.protocol;
 
 import app.game.api.dto.security.Login;
-import app.game.service.UserService;
+import app.game.service.user.UserService;
 import io.javalin.Context;
 
 import static app.game.api.security.SecurityConstants.*;

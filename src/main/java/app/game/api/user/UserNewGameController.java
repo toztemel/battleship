@@ -3,7 +3,7 @@ package app.game.api.user;
 import app.game.api.dto.game.NewGame;
 import app.game.api.protocol.client.ProtocolApiClient;
 import app.game.service.ProtocolService;
-import app.game.service.UserService;
+import app.game.service.user.UserService;
 import app.game.service.cache.GameCacheService;
 import io.javalin.Context;
 import org.slf4j.Logger;

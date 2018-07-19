@@ -1,10 +1,10 @@
-package app.game.conf;
+package app.game.battlefield;
 
 public final class BattlefieldConf {
 
     private static final int DEFAULT_BATTLEFIELD_SIZE = 16;
 
-    public int size() {
+    int size() {
         return DEFAULT_BATTLEFIELD_SIZE;
     }
 

@@ -1,6 +1,6 @@
 package app.game.service;
 
-import app.game.conf.HTTPServerConf;
+import app.game.api.BattlefieldAPIConf;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
@@ -9,7 +9,7 @@ public class ProtocolService {
 
     private static final ProtocolService instance = new ProtocolService();
 
-    private HTTPServerConf conf;
+    private BattlefieldAPIConf conf;
     private String ownProtocol;
 
     private ProtocolService() {
@@ -31,7 +31,7 @@ public class ProtocolService {
         return ownProtocol;
     }
 
-    public ProtocolService setHttpConf(HTTPServerConf c) {
+    public ProtocolService setHttpConf(BattlefieldAPIConf c) {
         conf = c;
         ownProtocol = null;
         return this;

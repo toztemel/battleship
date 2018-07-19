@@ -1,7 +1,8 @@
 package app.game;
 
 import app.game.api.dto.game.Rule;
-import app.game.conf.HTTPServerConf;
+import app.game.api.BattlefieldAPIConf;
+import app.game.service.user.UserServiceConf;
 import app.game.util.api.UserTestClient;
 import app.game.api.dto.game.NewGame;
 import app.game.battlefield.Battlefield;
@@ -23,16 +24,24 @@ public class UserAPI_NewGame_ITest {
     private BattleshipGame opponentServer;
     private UserTestClient user;
     private UserTestClient opponent;
+    private UserServiceConf opponentConf;
+    private UserServiceConf userConf;
 
     @Before
     public void setUp() throws Exception {
         user = new UserTestClient(LOCALHOST_7000);
         ownServer = new BattleshipGame();
-        ownServer.start(new HTTPServerConf().httpServerPort(7000));
+        userConf = new UserServiceConf();
+        userConf.defaultUserName("challenger-X");
+        userConf.defaultUserName("Lunatech NL Champion");
+        ownServer.start(new BattlefieldAPIConf().httpServerPort(7000), userConf);
 
         opponent = new UserTestClient(LOCALHOST_7001);
         opponentServer = new BattleshipGame();
-        opponentServer.start(new HTTPServerConf().httpServerPort(7001));
+        opponentConf = new UserServiceConf();
+        opponentConf.defaultUserName("challenger-Y");
+        opponentConf.defaultUserName("Lunatech FR Champion");
+        opponentServer.start(new BattlefieldAPIConf().httpServerPort(7001), opponentConf);
     }
 
     @After
