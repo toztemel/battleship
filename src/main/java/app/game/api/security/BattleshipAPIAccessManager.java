@@ -1,5 +1,6 @@
 package app.game.api.security;
 
+import app.game.api.ResourcePath;
 import app.game.service.UserService;
 import io.javalin.Context;
 import io.javalin.Handler;
@@ -18,8 +19,8 @@ public class BattleshipAPIAccessManager {
     private UserService userService;
 
     public void manageAccess(Handler handler, Context ctx, List<Role> permittedRoles) throws Exception {
-        BattleshipAPIRoles userRole = getUserRole(ctx);
-        if (permittedRoles.contains(userRole)) {
+        BattleshipAPIRoles apiRole = getApiRole(ctx);
+        if (permittedRoles.contains(apiRole)) {
             handler.handle(ctx);
         } else {
             LOG.warn("Unauthorized request for ", ctx.param("gameId"));
@@ -27,9 +28,11 @@ public class BattleshipAPIAccessManager {
         }
     }
 
-    private BattleshipAPIRoles getUserRole(Context context) {
+    private BattleshipAPIRoles getApiRole(Context context) {
         if (context.headerMap().containsKey(HEADER_AUTHORIZATION)) {
             return findUserRole(context);
+        } else if (context.uri().startsWith(ResourcePath.Protocol.BASE)){
+            return BattleshipAPIRoles.PROTOCOL;
         }
         return BattleshipAPIRoles.ANYONE;
     }

@@ -32,9 +32,9 @@ public class UserNewGameController {
 
             gameCacheService.onOutgoingNewGameRequest(userRequest, opponentResponse);
 
-            String jws = userService.sign(userRequest.getUserId(), opponentResponse.getGameId());
+            String jws = userService.signUser(userRequest.getUserId(), opponentResponse.getGameId());
 
-            LOG.info("Created new game. Id=", opponentResponse.getGameId());
+            LOG.info("Created new game. Id=" + opponentResponse.getGameId());
             ctx.status(201)
                     .header(HEADER_AUTHORIZATION, "Bearer " + jws)
                     .json(opponentResponse);

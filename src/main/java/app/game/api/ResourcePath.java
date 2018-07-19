@@ -6,6 +6,7 @@ public class ResourcePath {
         public static final String BASE = "/protocol/game/";
         public static final String NEW_GAME = "/protocol/game/new";
         public static final String FIRE = "/protocol/game/:gameId";
+        public static final String LOGIN = "/protocol/game/login";
     }
 
     static class User {
@@ -13,5 +14,6 @@ public class ResourcePath {
         static final String STATUS = "/user/game/:gameId";
         static final String FIRE = "/user/game/:gameId/fire";
         static final String AUTO = "/user/game/:gameId/auto";
+        static final String LOGIN = "/user/game/login";
     }
 }

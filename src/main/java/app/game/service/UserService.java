@@ -33,12 +33,19 @@ public class UserService {
         return conf.defaultUserName();
     }
 
+    public String signUser(String userId, String gameId) {
+        return sign(userId, gameId, BattleshipAPIRoles.USER);
+    }
 
-    public String sign(String userId, String gameId) {
+    public String signProtocol(String userId, String gameId) {
+        return sign(userId, gameId, BattleshipAPIRoles.PROTOCOL_RESTRICTED);
+    }
+
+    private String sign(String userId, String gameId, BattleshipAPIRoles role) {
         return Jwts.builder()
                 .setIssuer("Lunatech")
                 .setSubject("Battleship")
-                .claim("role", BattleshipAPIRoles.USER.toString())
+                .claim("role", role)
                 .claim("user", userId)
                 .claim("gameId", gameId)
                 .setIssuedAt(Date.from(Instant.now()))

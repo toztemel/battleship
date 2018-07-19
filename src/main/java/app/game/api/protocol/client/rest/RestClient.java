@@ -22,6 +22,7 @@ public class RestClient {
         this.target = ClientBuilder.newClient()
                 .register(BattleshipObjectMapper.class)
                 .register(JacksonFeature.class)
+                .register(new BattleshipProtocolFilter())
                 .target(uri);
     }
 
@@ -33,21 +34,24 @@ public class RestClient {
         return response.getStatus() == SC_CREATED;
     }
 
-    public Response post(String resource, Object request) {
+    public Response post(String resource, Object request, String gameId) {
         return target.path(resource)
                 .request(JSON)
+                .property("gameId", gameId)
                 .post(Entity.entity(request, JSON));
     }
 
-    public Response get(String resource) {
+    public Response get(String resource, String gameId) {
         return target.path(resource)
                 .request(JSON)
+                .property("gameId", gameId)
                 .get();
     }
 
-    public Response put(String resource, Object request) {
+    public Response put(String resource, Object request, String gameId) {
         return target.path(resource)
                 .request(JSON)
+                .property("gameId", gameId)
                 .put(Entity.entity(request, JSON));
     }
 

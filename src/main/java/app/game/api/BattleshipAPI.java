@@ -75,12 +75,17 @@ public class BattleshipAPI {
     }
 
     public BattleshipAPI onProtocolNewGame(Handler handler) {
-        app.post(Protocol.NEW_GAME, handler);
+        app.post(Protocol.NEW_GAME, handler, roles(BattleshipAPIRoles.PROTOCOL));
         return this;
     }
 
     public BattleshipAPI onProtocolFire(Handler handler) {
-        app.put(Protocol.FIRE, handler);
+        app.put(Protocol.FIRE, handler, roles(BattleshipAPIRoles.PROTOCOL_RESTRICTED));
+        return this;
+    }
+
+    public BattleshipAPI onProtocolLogin(Handler handler) {
+        app.post(Protocol.LOGIN, handler, roles(BattleshipAPIRoles.PROTOCOL));
         return this;
     }
 
@@ -101,6 +106,11 @@ public class BattleshipAPI {
 
     public BattleshipAPI onUserEnablesAutoPilot(Handler autoHandler) {
         app.put(User.AUTO, autoHandler, roles(BattleshipAPIRoles.USER));
+        return this;
+    }
+
+    public BattleshipAPI onUserLogin(Handler autoHandler) {
+        app.post(User.LOGIN, autoHandler, roles(BattleshipAPIRoles.ANYONE));
         return this;
     }
 

@@ -26,7 +26,11 @@ public class ProtocolNewGameController {
             response.setGameId(idGenerator.generate());
             gameCacheServiceService.onIncomingNewGameRequest(request, response);
             gameRuleValidationService.onNewGameProtocolRequestReceived(request, response);
-            ctx.status(201).json(response);
+            String jwt = userService.signProtocol(request.getUserId(), response.getGameId());
+            ctx.status(201)
+                    .header("Authorization", "Bearer "+ jwt)
+                    .header("gameId", response.getGameId())
+                    .json(response);
         } catch (Exception e) {
             throw new ProtocolApiException(e);
         }

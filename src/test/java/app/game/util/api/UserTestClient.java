@@ -17,7 +17,7 @@ public class UserTestClient {
     }
 
     public StatusResponse queryGameStatus(NewGame game) {
-        Response response = client.get(USER_API.concat(game.getGameId()));
+        Response response = client.get(USER_API.concat(game.getGameId()), game.getGameId());
         if (!RestClient.isSuccessful(response)) {
             // TODO process error
         }
@@ -25,7 +25,7 @@ public class UserTestClient {
     }
 
     public NewGame challangeOpponent(NewGame newGameRequest) {
-        Response response = client.post(NEW_GAME, newGameRequest);
+        Response response = client.post(NEW_GAME, newGameRequest, newGameRequest.getGameId());
         if (!RestClient.isCreated(response)) {
             // TODO process game start error
         }
