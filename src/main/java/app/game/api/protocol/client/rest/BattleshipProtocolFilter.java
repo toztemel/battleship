@@ -8,6 +8,9 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
+import static app.game.api.security.SecurityConstants.HEADER_AUTHORIZATION;
+import static app.game.api.security.SecurityConstants.HEADER_GAME_ID;
+
 class BattleshipProtocolFilter implements ClientRequestFilter, ClientResponseFilter {
 
     private static final Map<String, String> idJwtMap = new HashMap<>();
@@ -15,18 +18,18 @@ class BattleshipProtocolFilter implements ClientRequestFilter, ClientResponseFil
     @Override
     public void filter(ClientRequestContext reqCtx) throws IOException {
         String gameId = (String) reqCtx.getProperty("gameId");
-        if (idJwtMap.containsKey(gameId)){
+        if (idJwtMap.containsKey(gameId)) {
             String jwt = idJwtMap.get(gameId);
-            reqCtx.getHeaders().add("Authorization", jwt);
+            reqCtx.getHeaders().add(HEADER_AUTHORIZATION, jwt);
         }
         reqCtx.removeProperty("gameId");
     }
 
     @Override
     public void filter(ClientRequestContext reqCtx, ClientResponseContext resCtx) throws IOException {
-        if (resCtx.getHeaders().containsKey("Authorization")) {
-            String jwt = resCtx.getHeaders().get("Authorization").get(0);
-            String gameId = resCtx.getHeaderString("gameId");
+        if (resCtx.getHeaders().containsKey(HEADER_AUTHORIZATION)) {
+            String jwt = resCtx.getHeaders().get(HEADER_AUTHORIZATION).get(0);
+            String gameId = resCtx.getHeaderString(HEADER_GAME_ID);
             idJwtMap.put(gameId, jwt);
         }
     }

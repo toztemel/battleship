@@ -12,7 +12,7 @@ public class ProtocolFiringFilter implements ProtocolFilter {
     private GameCacheService gameCacheService;
     private GameRuleValidationService gameRuleValidationService;
 
-    void preFilter(String gameId, FiringRequest firingRequest) {
+    public void preFilter(String gameId, FiringRequest firingRequest) {
         if (null == gameId) {
             throw new ProtocolApiException("gameId does not exist");
         }
@@ -21,7 +21,7 @@ public class ProtocolFiringFilter implements ProtocolFilter {
         validateGameRules(gameId, firingRequest);
     }
 
-    void postFilter(String gameId, FiringResponse firingResponse) {
+    public void postFilter(String gameId, FiringResponse firingResponse) {
         validateFiringResponse(gameId, firingResponse);
     }
 

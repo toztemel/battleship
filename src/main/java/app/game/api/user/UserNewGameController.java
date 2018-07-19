@@ -9,10 +9,12 @@ import io.javalin.Context;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import static app.game.api.security.SecurityConstants.HEADER_AUTHORIZATION;
+import static app.game.api.security.SecurityConstants.encodeAuthorization;
+
 public class UserNewGameController {
 
     private static final Logger LOG = LoggerFactory.getLogger(UserNewGameController.class);
-    private static final String HEADER_AUTHORIZATION = "Authorization";
 
     private ProtocolApiClient protocolApiClient;
     private GameCacheService gameCacheService;
@@ -36,7 +38,7 @@ public class UserNewGameController {
 
             LOG.info("Created new game. Id=" + opponentResponse.getGameId());
             ctx.status(201)
-                    .header(HEADER_AUTHORIZATION, "Bearer " + jws)
+                    .header(HEADER_AUTHORIZATION, encodeAuthorization(jws))
                     .json(opponentResponse);
 
         } catch (Exception e) {

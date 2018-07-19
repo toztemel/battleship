@@ -1,10 +1,14 @@
 package app.game.api.protocol;
 
 import app.game.api.dto.game.NewGame;
-import app.game.service.*;
+import app.game.service.IDGenerator;
+import app.game.service.ProtocolService;
+import app.game.service.UserService;
 import app.game.service.cache.GameCacheService;
 import app.game.service.rule.GameRuleValidationService;
 import io.javalin.Context;
+
+import static app.game.api.security.SecurityConstants.*;
 
 public class ProtocolNewGameController {
 
@@ -28,9 +32,10 @@ public class ProtocolNewGameController {
             gameRuleValidationService.onNewGameProtocolRequestReceived(request, response);
             String jwt = userService.signProtocol(request.getUserId(), response.getGameId());
             ctx.status(201)
-                    .header("Authorization", "Bearer "+ jwt)
-                    .header("gameId", response.getGameId())
+                    .header(HEADER_AUTHORIZATION, encodeAuthorization(jwt))
+                    .header(HEADER_GAME_ID, response.getGameId())
                     .json(response);
+
         } catch (Exception e) {
             throw new ProtocolApiException(e);
         }

@@ -6,9 +6,10 @@ import app.game.service.UserService;
 import app.game.service.cache.GameCacheService;
 import io.javalin.Context;
 
-public class UserLoginController {
+import static app.game.api.security.SecurityConstants.HEADER_AUTHORIZATION;
+import static app.game.api.security.SecurityConstants.encodeAuthorization;
 
-    private static final String HEADER_AUTORIZATION = "Authorization";
+public class UserLoginController {
 
     private UserService userService;
     private ProtocolApiClient protocolApiClient;
@@ -20,11 +21,13 @@ public class UserLoginController {
 
             String opponentProtocol = gameCacheService.getGame(login.getGameId())
                     .getOpponentProtocol();
+
             protocolApiClient.target(opponentProtocol).loginRequest(login);
 
             String jwt = userService.signUser(login.getUserId(), login.getGameId());
+
             ctx.status(201)
-                    .header(HEADER_AUTORIZATION, "Bearer " + jwt);
+                    .header(HEADER_AUTHORIZATION, encodeAuthorization(jwt));
         } catch (Exception e) {
             throw new UserApiException(e);
         }
