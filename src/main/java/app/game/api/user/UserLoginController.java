@@ -1,5 +1,6 @@
 package app.game.api.user;
 
+import app.game.api.dto.security.Login;
 import app.game.api.protocol.client.ProtocolApiClient;
 import app.game.service.UserService;
 import app.game.service.cache.GameCacheService;

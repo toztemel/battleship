@@ -26,31 +26,16 @@ public class CoordinatesTest {
     }
 
     @Test
-    public void of() {
-    }
+    public void decrementBy_returns_new_immutable_coordinates() {
+        Coordinates coordinates = Coordinates.of(10, 10)
+                .decrementBy(Coordinates.of(2, 1));
+        assertEquals(8, coordinates.row());
+        assertEquals(9, coordinates.column());
 
-    @Test
-    public void row() {
-    }
-
-    @Test
-    public void column() {
-    }
-
-    @Test
-    public void incrementBy() {
-    }
-
-    @Test
-    public void incrementBy1() {
-    }
-
-    @Test
-    public void decrementBy() {
-    }
-
-    @Test
-    public void decrementBy1() {
+        coordinates = Coordinates.of(10, 10)
+                .decrementBy(null);
+        assertEquals(10, coordinates.row());
+        assertEquals(10, coordinates.column());
     }
 
     @Test
@@ -87,7 +72,4 @@ public class CoordinatesTest {
         HexToCoordinatesConverter.fromProtocolString("00");
     }
 
-    @Test
-    public void toProtocolString() {
-    }
 }

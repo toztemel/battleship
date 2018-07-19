@@ -1,6 +1,6 @@
 package app.game.api.protocol;
 
-import app.game.api.user.Login;
+import app.game.api.dto.security.Login;
 import app.game.service.UserService;
 import io.javalin.Context;
 

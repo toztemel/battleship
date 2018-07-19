@@ -1,4 +1,4 @@
-package app.game.api.user;
+package app.game.api.dto.security;
 
 public class Login {
     private String userId;

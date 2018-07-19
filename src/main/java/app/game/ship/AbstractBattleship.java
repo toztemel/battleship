@@ -27,6 +27,7 @@ abstract class AbstractBattleship implements Battleship {
         return new Shot(byOffset(Coordinates.of(shot.row(), shot.col())));
     }
 
+    @Override
     public Battleship rotate() {
         frame.rotate();
         return this;

@@ -9,7 +9,7 @@ import static org.junit.Assert.assertEquals;
 
 public class AngleTest {
 
-    private AbstractBattleship ship;
+    private Battleship ship;
 
     @Before
     public void setup() {

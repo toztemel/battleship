@@ -9,4 +9,6 @@ public interface Battleship extends Ship {
     int length();
 
     int width();
+
+    Battleship rotate();
 }

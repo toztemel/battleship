@@ -4,7 +4,7 @@ import app.game.api.dto.firing.FiringRequest;
 import app.game.api.dto.firing.FiringResponse;
 import app.game.api.dto.game.NewGame;
 import app.game.api.protocol.client.rest.RestClient;
-import app.game.api.user.Login;
+import app.game.api.dto.security.Login;
 
 import javax.ws.rs.core.Response;
 
