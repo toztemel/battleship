@@ -3,6 +3,7 @@ package app.game.api.user;
 import app.game.api.dto.game.NewGame;
 import app.game.api.protocol.client.ProtocolApiClient;
 import app.game.service.ProtocolService;
+import app.game.service.rule.GameRuleValidationService;
 import app.game.service.user.UserService;
 import app.game.service.cache.GameCacheService;
 import io.javalin.Context;
@@ -20,6 +21,7 @@ public class UserNewGameController {
     private GameCacheService gameCacheService;
     private UserService userService;
     private ProtocolService protocolService;
+    private GameRuleValidationService gameRuleValidationService;
 
     public void onNewGame(Context ctx) {
         try {
@@ -33,7 +35,7 @@ public class UserNewGameController {
                     .challengeOpponent(serverRequest);
 
             gameCacheService.onOutgoingNewGameRequest(userRequest, opponentResponse);
-
+            gameRuleValidationService.onNewGameProtocolRequestSent(userRequest, opponentResponse);
             String jws = userService.signUser(userRequest.getUserId(), opponentResponse.getGameId());
 
             LOG.info("Created new game. Id=" + opponentResponse.getGameId());
@@ -64,6 +66,11 @@ public class UserNewGameController {
 
     public UserNewGameController setProtocolService(ProtocolService protocolService) {
         this.protocolService = protocolService;
+        return this;
+    }
+
+    public UserNewGameController setGameRulesValidationService(GameRuleValidationService gameRuleValidationService) {
+        this.gameRuleValidationService = gameRuleValidationService;
         return this;
     }
 }

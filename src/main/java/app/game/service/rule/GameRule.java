@@ -12,4 +12,6 @@ interface GameRule {
     void validateOutgoingResponse(FiringResponse firingResponse, Game game);
 
     void processIncomingGameRequest(NewGame request, NewGame response, Game game);
+
+    void processOutgoingGameRequest(NewGame request, NewGame response, Game game);
 }

@@ -87,7 +87,8 @@ class BattleshipGame {
                 .setUserService(UserService.getInstance())
                 .setGameCacheService(GameCacheService.getInstance())
                 .setProtocolApiClient(ProtocolApiClient.getInstance())
-                .setProtocolService(ProtocolService.getInstance());
+                .setProtocolService(ProtocolService.getInstance())
+                .setGameRulesValidationService(GameRuleValidationService.getInstance());
 
         UserStatusController userStatusController = new UserStatusController()
                 .setGameCacheService(GameCacheService.getInstance());

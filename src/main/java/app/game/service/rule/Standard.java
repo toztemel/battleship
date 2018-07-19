@@ -10,4 +10,10 @@ class Standard extends XShot {
         game.setUserShots(1);
         game.setOpponentShots(1);
     }
+
+    @Override
+    public void processOutgoingGameRequest(NewGame request, NewGame response, Game game) {
+        game.setUserShots(1);
+        game.setOpponentShots(1);
+    }
 }

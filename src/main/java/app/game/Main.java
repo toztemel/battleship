@@ -26,7 +26,7 @@ public class Main {
 
     private static BattlefieldAPIConf apiConf(String[] args) {
         BattlefieldAPIConf apiConf = new BattlefieldAPIConf();
-        if (args != null) {
+        if (args.length > 1) {
             apiConf.httpServerPort(Integer.parseInt(args[0]));
         }
         return apiConf;

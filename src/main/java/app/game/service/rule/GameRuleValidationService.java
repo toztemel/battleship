@@ -50,4 +50,9 @@ public class GameRuleValidationService {
                 .processIncomingGameRequest(request, response, game);
     }
 
+    public void onNewGameProtocolRequestSent(NewGame userRequest, NewGame opponentResponse) {
+        Game game = GameCacheService.getInstance().getGame(opponentResponse.getGameId());
+        gameRuleFactory.get(userRequest.getRule())
+                .processOutgoingGameRequest(userRequest, opponentResponse, game);
+    }
 }

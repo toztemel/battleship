@@ -27,4 +27,10 @@ class XShot implements GameRule {
         game.setUserShots(X_SHOT);
     }
 
+    @Override
+    public void processOutgoingGameRequest(NewGame request, NewGame response, Game game) {
+        game.setOpponentShots(X_SHOT);
+        game.setUserShots(X_SHOT);
+    }
+
 }
