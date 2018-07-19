@@ -14,12 +14,10 @@ public final class GameCacheService {
     private static GameCacheService instance = new GameCacheService();
 
     private GameCache gameCache;
-    private BattlefieldFactory battlefieldFactory;
     private ProtocolService protocolService;
 
     private GameCacheService() {
-        gameCache = new GameCache()
-                .setBattlefieldFactory(battlefieldFactory);
+
     }
 
     public static GameCacheService getInstance() {
@@ -114,7 +112,8 @@ public final class GameCacheService {
     }
 
     public GameCacheService setBattlefieldFactory(BattlefieldFactory battlefieldFactory) {
-        this.battlefieldFactory = battlefieldFactory;
+        gameCache = new GameCache()
+                .setBattlefieldFactory(battlefieldFactory);
         return this;
     }
 

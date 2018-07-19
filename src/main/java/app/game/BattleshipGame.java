@@ -48,7 +48,6 @@ class BattleshipGame {
         GameCacheService.getInstance()
                 .setBattlefieldFactory(BattlefieldFactory.getInstance())
                 .setProtocolService(ProtocolService.getInstance());
-
     }
 
     private void startApi(HTTPServerConf conf) {
@@ -88,12 +87,16 @@ class BattleshipGame {
         UserStatusController userStatusController = new UserStatusController()
                 .setGameCacheService(GameCacheService.getInstance());
 
+        UserLoginController userLoginController = new UserLoginController()
+                .setUserService(UserService.getInstance());
 
         api = BattleshipAPI.getInstance()
                 .listen(conf)
                 .withMapper(this::defaultObjectMapper)
+                .accessManager(userLoginController::manageAccess)
                 .onProtocolNewGame(newGameController::onNewGame)
                 .onProtocolFire(fireController::onFire)
+                .onUserLogin(userLoginController::onLogin)
                 .onUserStartNewGame(userNewGameController::onNewGame)
                 .onUserAsksStatus(userStatusController::onStatus)
                 .onUserFires(userFiringController::onFire)

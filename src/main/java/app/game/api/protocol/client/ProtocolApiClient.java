@@ -1,12 +1,14 @@
 package app.game.api.protocol.client;
 
-import app.game.api.ResourcePath.Protocol;
-import app.game.api.protocol.client.rest.RestClient;
 import app.game.api.dto.firing.FiringRequest;
 import app.game.api.dto.firing.FiringResponse;
 import app.game.api.dto.game.NewGame;
+import app.game.api.protocol.client.rest.RestClient;
 
 import javax.ws.rs.core.Response;
+
+import static app.game.api.ResourcePath.Protocol.FIRE;
+import static app.game.api.ResourcePath.Protocol.NEW_GAME;
 
 public class ProtocolApiClient {
 
@@ -29,7 +31,7 @@ public class ProtocolApiClient {
     }
 
     public NewGame challengeOpponent(NewGame newGame) {
-        Response response = client.post(Protocol.NEW_GAME, newGame);
+        Response response = client.post(NEW_GAME, newGame);
         if (!RestClient.isCreated(response)) {
             throw new ProtocolApiClientException(response.toString());
         }
@@ -37,7 +39,7 @@ public class ProtocolApiClient {
     }
 
     public FiringResponse fire(String gameId, FiringRequest fire) {
-        Response response = client.put("/protocol/game/" + gameId, fire);
+        Response response = client.put(FIRE + gameId, fire);
         if (!RestClient.isSuccessful(response)) {
             throw new ProtocolApiClientException(response.toString());
         }

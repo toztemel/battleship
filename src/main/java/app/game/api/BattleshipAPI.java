@@ -2,26 +2,30 @@ package app.game.api;
 
 import app.game.api.ResourcePath.Protocol;
 import app.game.api.ResourcePath.User;
-import app.game.api.protocol.client.ProtocolApiClientException;
 import app.game.api.protocol.ProtocolApiException;
+import app.game.api.protocol.client.ProtocolApiClientException;
 import app.game.api.user.UserApiException;
 import app.game.conf.HTTPServerConf;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.javalin.ErrorHandler;
 import io.javalin.Handler;
 import io.javalin.Javalin;
+import io.javalin.security.AccessManager;
 import io.javalin.translator.json.JavalinJacksonPlugin;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.function.Supplier;
 
+import static io.javalin.security.Role.roles;
+
 public class BattleshipAPI {
 
-    private static final Logger LOG = LoggerFactory.getLogger(BattleshipAPI.class);
     private static final BattleshipAPI instance = new BattleshipAPI();
+    private static final Logger LOG = LoggerFactory.getLogger(BattleshipAPI.class);
 
     private Javalin app;
+
 
     private BattleshipAPI() {
     }
@@ -64,6 +68,11 @@ public class BattleshipAPI {
         return this;
     }
 
+    public BattleshipAPI accessManager(AccessManager handler) {
+        app.accessManager(handler);
+        return this;
+    }
+
     public BattleshipAPI onProtocolNewGame(Handler handler) {
         app.post(Protocol.NEW_GAME, handler);
         return this;
@@ -74,23 +83,28 @@ public class BattleshipAPI {
         return this;
     }
 
+    public BattleshipAPI onUserLogin(Handler loginHandler) {
+        app.post(User.LOGIN, loginHandler, roles(MyRole.ANYONE));
+        return this;
+    }
+
     public BattleshipAPI onUserStartNewGame(Handler newGame) {
-        app.post(User.NEW_GAME, newGame);
+        app.post(User.NEW_GAME, newGame, roles(MyRole.USER));
         return this;
     }
 
     public BattleshipAPI onUserAsksStatus(Handler statusHandler) {
-        app.get(User.STATUS, statusHandler);
+        app.get(User.STATUS, statusHandler, roles(MyRole.USER));
         return this;
     }
 
     public BattleshipAPI onUserFires(Handler userFireHandler) {
-        app.put(User.FIRE, userFireHandler);
+        app.put(User.FIRE, userFireHandler, roles(MyRole.USER));
         return this;
     }
 
     public BattleshipAPI onUserEnablesAutoPilot(Handler autoHandler) {
-        app.put(User.AUTO, autoHandler);
+        app.put(User.AUTO, autoHandler, roles(MyRole.USER));
         return this;
     }
 
