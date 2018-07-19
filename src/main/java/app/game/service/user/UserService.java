@@ -78,4 +78,7 @@ public class UserService {
         return this;
     }
 
+    public boolean isSecurityDisabled() {
+        return !conf.securityEnabled();
+    }
 }

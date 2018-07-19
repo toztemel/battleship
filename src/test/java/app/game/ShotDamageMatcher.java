@@ -6,7 +6,7 @@ import app.game.fire.Shot;
 import org.hamcrest.Description;
 import org.hamcrest.TypeSafeMatcher;
 
-public class ShotDamageMatcher extends TypeSafeMatcher<FiringResponse> {
+class ShotDamageMatcher extends TypeSafeMatcher<FiringResponse> {
 
     private static ShotDamageMatcher instance = new ShotDamageMatcher();
 

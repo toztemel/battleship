@@ -19,6 +19,14 @@ public class BattleshipAPIAccessManager {
     private UserService userService;
 
     public void manageAccess(Handler handler, Context ctx, List<Role> permittedRoles) throws Exception {
+        if (userService.isSecurityDisabled()) {
+            handler.handle(ctx);
+        } else {
+            doFilterAccess(handler, ctx, permittedRoles);
+        }
+    }
+
+    private void doFilterAccess(Handler handler, Context ctx, List<Role> permittedRoles) throws Exception {
         BattleshipAPIRoles apiRole = getApiRole(ctx);
         if (permittedRoles.contains(apiRole)) {
             handler.handle(ctx);

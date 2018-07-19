@@ -8,6 +8,7 @@ public final class UserServiceConf {
 
     private String userId = DEFAULT_USER_ID;
     private String userName = DEFAULT_FULL_NAME;
+    private boolean securityEnabled = true;
 
     String signature() {
         return SIGNATURE;
@@ -21,6 +22,10 @@ public final class UserServiceConf {
         return userName;
     }
 
+    boolean securityEnabled() {
+        return securityEnabled;
+    }
+
     public void defaultUserId(String userId) {
         this.userId = userId;
     }
@@ -29,4 +34,7 @@ public final class UserServiceConf {
         this.userName = userName;
     }
 
+    public void securityEnabled(boolean b) {
+        securityEnabled = b;
+    }
 }

@@ -12,9 +12,14 @@ public class Main {
 
     private static UserServiceConf userConf(String[] args) {
         UserServiceConf userConf = new UserServiceConf();
-        if (args.length == 3) {
-            userConf.defaultUserId(args[1]);
-            userConf.defaultUserName(args[2]);
+        if (1 < args.length) {
+            userConf.securityEnabled(Boolean.parseBoolean(args[1]));
+        }
+        if (2 < args.length) {
+            userConf.defaultUserId(args[2]);
+        }
+        if (3 < args.length) {
+            userConf.defaultUserName(args[3]);
         }
         return userConf;
     }

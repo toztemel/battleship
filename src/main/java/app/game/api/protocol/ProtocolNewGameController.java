@@ -3,9 +3,9 @@ package app.game.api.protocol;
 import app.game.api.dto.game.NewGame;
 import app.game.service.IDGenerator;
 import app.game.service.ProtocolService;
-import app.game.service.user.UserService;
 import app.game.service.cache.GameCacheService;
 import app.game.service.rule.GameRuleValidationService;
+import app.game.service.user.UserService;
 import io.javalin.Context;
 
 import static app.game.api.security.SecurityConstants.*;
